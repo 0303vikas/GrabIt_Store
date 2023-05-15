@@ -5,6 +5,7 @@ import { darkMode, lightMode } from "./themes/mainTheme"
 import { fetchProductData } from "./redux/productReducer"
 import { useAppDispatch } from "./hooks/useAppDispatch"
 import { useAppSelector } from "./hooks/useAppSelector"
+import { Login } from "./pages/Home"
 
 const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
@@ -32,6 +33,7 @@ const App = () => {
     <ModeContext.Provider value={changeMode}>
       <ThemeProvider theme={lightMode}>
         <div>App Light</div>
+        <Login />
       </ThemeProvider>
     </ModeContext.Provider>
   )
