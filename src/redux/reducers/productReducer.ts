@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
 
 import { ProductType } from "../../types/Product"
@@ -33,20 +33,26 @@ export const fetchProductData = createAsyncThunk("getProduct", async () => {
   }
 })
 
+type CreateProductType = Omit<ProductType, "id">
+
 const productSlice = createSlice({
   name: "product",
   initialState: initilState,
   reducers: {
-    createProductReducer: (state, action) => {},
-    updateProductReducer: (state, action) => {},
-    deleteProductReducer: (state) => {
+    getAll: (state, action) => {
+      state.products
+    },
+    createProduct: (state, action: PayloadAction<CreateProductType>) => {},
+    updateOne: (state, action) => {},
+    deleteAll: (state) => {
       state.products = []
     },
-    sortAsc: (state) => {
-      state.products.sort((a, b) => a.title.localeCompare(b.title))
-    },
-    sortDesc: (state) => {
-      state.products.sort((a, b) => a.title.localeCompare(b.title))
+    sortAsc: (state, action) => {
+      if (action.payload === "asc") {
+        state.products.sort((a, b) => a.title.localeCompare(b.title))
+      } else {
+        state.products.sort((a, b) => b.title.localeCompare(a.title))
+      }
     },
   },
   extraReducers: (build) => {
@@ -68,10 +74,6 @@ const productSlice = createSlice({
 })
 
 const productReducer = productSlice.reducer
-export const {
-  createProductReducer,
-  updateProductReducer,
-  deleteProductReducer,
-} = productSlice.actions
+export const { getAll, updateOne, deleteAll } = productSlice.actions
 
 export default productReducer

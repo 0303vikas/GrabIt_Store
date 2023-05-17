@@ -33,14 +33,6 @@ const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
   const changeMode = () => setDarkTheme(!darkTheme)
   const ModeContext = createContext<typeof changeMode | null>(null)
-  const dispatch = useAppDispatch()
-  const data = useAppSelector((state) => state.product)
-
-  useEffect(() => {
-    dispatch(fetchProductData())
-  }, [])
-
-  console.log(data)
 
   if (darkTheme)
     return (

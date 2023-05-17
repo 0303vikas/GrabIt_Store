@@ -68,9 +68,12 @@ const SubmitBtn = styled(Button)(({ theme }) => ({
   borderRadius: "4rem",
   boxShadow: "0 1px 0 0 rgba(80,183,239,1), 0 0 6px 0 rgba(9,234,172,1)",
   "&:hover": {
-    transform: "rotate(-3deg)",
+    transform: "rotate(-5deg)",
+    boxShadow:
+      "2px 0 2px 2px rgba(9,234,172,0.4), 2px 0 2px 2px rgba(80,183,239,0.4) ",
+    textShadow:
+      "0px 3px 3px rgba(9,234,172,0.6),0px 3px 3px rgba(80,183,239,0.6)",
   },
-  "&:click": {},
 }))
 
 const HeadingContainer = styled("h2")({

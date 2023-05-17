@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 import { CategoryType } from "../../types/Category"
 import axios, { AxiosError } from "axios"
@@ -25,12 +25,33 @@ export const fetchCategoryData = createAsyncThunk("getCategory", async () => {
   }
 })
 
+type CreateCategoryType = Omit<CategoryType, "id">
+type UpdateCategoryType = {
+  id: number
+  update: { name: string; image: string }
+}
+
 const categorySlice = createSlice({
   name: "category",
   initialState: initialState,
   reducers: {
-    getAll: (state) => {},
+    createCategory: (state, action: PayloadAction<CreateCategoryType>) => {
+      state.category.push({ id: state.category.length + 1, ...action.payload })
+    },
+    updateCategory: (state, action: PayloadAction<UpdateCategoryType>) => {
+      const category = state.category.map((category) => {
+        if (category.id === action.payload.id) {
+          return { ...category, ...action.payload.update }
+        }
+        return category
+      })
+      return {
+        ...state,
+        category,
+      }
+    },
   },
+
   extraReducers: (build) => {
     build.addCase(fetchCategoryData.pending, (state) => {
       state.loading = true
@@ -50,6 +71,6 @@ const categorySlice = createSlice({
 })
 
 const categoryReducer = categorySlice.reducer
-export const { getAll } = categorySlice.actions
+export const { createCategory, updateCategory } = categorySlice.actions
 
 export default categoryReducer

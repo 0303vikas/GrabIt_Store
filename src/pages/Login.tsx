@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { Input } from "@mui/material"
 
@@ -9,14 +9,46 @@ import ContainerLoginRegister, {
   SubmitBtn,
 } from "../themes/formTheme"
 import darkLogo from "../icons/darkLogo.png"
+import { useAppDispatch } from "../hooks/useAppDispatch"
+import { useAppSelector } from "../hooks/useAppSelector"
+import {
+  createUser,
+  fetchAllUsers,
+  updateUser,
+} from "../redux/reducers/userReducer"
 
 interface LoginForm {
   userName: string
   password: string
 }
+
 const Login = () => {
   const { register, handleSubmit, control } = useForm<LoginForm>()
   const onSubmit: SubmitHandler<LoginForm> = (data) => console.log(data)
+  const dispatch = useAppDispatch()
+  const data = useAppSelector((state) => state.user)
+
+  useEffect(() => {
+    dispatch(fetchAllUsers())
+  }, [])
+
+  const updateuser = () => {
+    dispatch(
+      updateUser({
+        id: data.rootUser[2].id,
+        update: {
+          name: "random",
+          avatar: "",
+          password: "randow",
+          email: "email@email.com",
+          role: "customer",
+        },
+      })
+    )
+    console.log(data)
+  }
+
+  console.log(data)
   return (
     <ContainerLoginRegister>
       <ImageContainer src={darkLogo} />
@@ -63,7 +95,7 @@ const Login = () => {
             />
           )}
         />
-        <SubmitBtn>Log In</SubmitBtn>
+        <SubmitBtn onClick={updateuser}>Log In</SubmitBtn>
       </FormContainerLoginRegister>
     </ContainerLoginRegister>
   )
