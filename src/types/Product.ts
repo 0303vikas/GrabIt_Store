@@ -3,6 +3,8 @@ export interface ProductType {
   title: string
   price: number
   description: string
-  categoryId: number
+  category: number
   images: string[]
+  creationAt: string
+  updatedAt: string
 }
