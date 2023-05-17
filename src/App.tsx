@@ -1,11 +1,33 @@
 import React, { createContext, useEffect, useState } from "react"
 import { ThemeProvider } from "@mui/material"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"
-import { fetchProductData } from "./redux/productReducer"
+import { fetchProductData } from "./redux/reducers/productReducer"
 import { useAppDispatch } from "./hooks/useAppDispatch"
 import { useAppSelector } from "./hooks/useAppSelector"
-import { Login } from "./pages/Home"
+import Home from "./pages/Home"
+import Login from "./pages/Login"
+import Registration from "./pages/Registration"
+import "./styles/style.scss"
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+    errorElement: <div>Not Found</div>,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/registration",
+        element: <Registration />,
+      },
+    ],
+  },
+])
 
 const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
@@ -24,7 +46,7 @@ const App = () => {
     return (
       <ModeContext.Provider value={changeMode}>
         <ThemeProvider theme={darkMode}>
-          <div>App Dark</div>
+          <RouterProvider router={appRouter} />
         </ThemeProvider>
       </ModeContext.Provider>
     )
@@ -32,8 +54,7 @@ const App = () => {
   return (
     <ModeContext.Provider value={changeMode}>
       <ThemeProvider theme={lightMode}>
-        <div>App Light</div>
-        <Login />
+        <RouterProvider router={appRouter} />
       </ThemeProvider>
     </ModeContext.Provider>
   )

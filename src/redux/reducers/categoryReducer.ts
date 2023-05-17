@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-import { CategoryType } from "../types/Category"
+import { CategoryType } from "../../types/Category"
 import axios, { AxiosError } from "axios"
 
 const CATEGORYAPI = "https://api.escuelajs.co/api/v1/categories"

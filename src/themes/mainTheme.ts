@@ -35,6 +35,9 @@ const darkTheme = createTheme({
       light: "#81c784",
       dark: "#388e3c",
     },
+    common: {
+      black: "#182432",
+    },
   },
 })
 

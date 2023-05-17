@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
 
-import { ProductType } from "../types/Product"
+import { ProductType } from "../../types/Product"
 
 const initilState: {
   products: ProductType[]
@@ -41,6 +41,12 @@ const productSlice = createSlice({
     updateProductReducer: (state, action) => {},
     deleteProductReducer: (state) => {
       state.products = []
+    },
+    sortAsc: (state) => {
+      state.products.sort((a, b) => a.title.localeCompare(b.title))
+    },
+    sortDesc: (state) => {
+      state.products.sort((a, b) => a.title.localeCompare(b.title))
     },
   },
   extraReducers: (build) => {
