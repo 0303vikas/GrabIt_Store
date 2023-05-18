@@ -10,12 +10,12 @@ const initilState: {
   products: ProductType[]
   loading: boolean
   error: string
-  filterProducts: ProductType[]
+  filteredProducts: ProductType[]
 } = {
   products: [],
   loading: false,
   error: "",
-  filterProducts: [],
+  filteredProducts: [],
 }
 
 // {
@@ -89,7 +89,6 @@ export const filterProduct = createAsyncThunk(
     } catch (e) {
       console.log(e)
       const error = e as AxiosError
-
       return error
     }
   }
@@ -136,7 +135,7 @@ const productSlice = createSlice({
     //   state.products
     // },
     // updateOne: (state, action) => {},
-    deleteAll: (state) => {
+    clearProductStore: (state) => {
       return initilState
     },
     sortAsc: (state, action) => {
@@ -207,7 +206,7 @@ const productSlice = createSlice({
         if (action.payload instanceof AxiosError) {
           state.error = action.payload.message
         } else {
-          state.filterProducts = action.payload
+          state.filteredProducts = action.payload
         }
         state.loading = false
       })
@@ -218,6 +217,6 @@ const productSlice = createSlice({
 })
 
 const productReducer = productSlice.reducer
-export const { deleteAll } = productSlice.actions
+export const { clearProductStore } = productSlice.actions
 
 export default productReducer
