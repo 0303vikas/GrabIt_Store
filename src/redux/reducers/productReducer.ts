@@ -4,15 +4,18 @@ import axios, { AxiosError } from "axios"
 import { ProductType } from "../../types/Product"
 import { NewProductType } from "../../types/NewProduct"
 import { UpdateProductType } from "../../types/UpdateProduct"
+import { FilterProductType } from "../../types/FilterProduct"
 
 const initilState: {
   products: ProductType[]
   loading: boolean
   error: string
+  filterProducts: ProductType[]
 } = {
   products: [],
   loading: false,
   error: "",
+  filterProducts: [],
 }
 
 // {
@@ -24,22 +27,26 @@ const initilState: {
 //     images: []
 // }
 
-export const fetchProductData = createAsyncThunk("getProduct", async () => {
-  try {
-    const request = await axios.get<ProductType[]>(
-      "https://api.escuelajs.co/api/v1/products"
-    )
-    return request.data
-  } catch (e) {
-    const error = e as AxiosError
-    return error
+export const fetchProductData = createAsyncThunk(
+  "getProduct",
+  async (params) => {
+    try {
+      const request = await axios.get<ProductType[]>(
+        "https://api.escuelajs.co/api/v1/products"
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
   }
-})
+)
 
 export const createProduct = createAsyncThunk(
   "createProduct",
   async (product: NewProductType) => {
     try {
+      console.log(product)
       const request = await axios.post<ProductType>(
         "https://api.escuelajs.co/api/v1/products/",
         product
@@ -52,11 +59,48 @@ export const createProduct = createAsyncThunk(
   }
 )
 
+// Filter product reducer
+export const filterProduct = createAsyncThunk(
+  "filterProduct",
+  async (product: FilterProductType) => {
+    try {
+      let request
+      if (product.title) {
+        console.log(product.title)
+        request = await axios.get<ProductType[]>(
+          `https://api.escuelajs.co/api/v1/products/?title=${product.title}`
+        )
+      } else if (product.price) {
+        request = await axios.get<ProductType[]>(
+          `https://api.escuelajs.co/api/v1/products/?price=${product.price}`
+        )
+      } else if (product.categoryId) {
+        request = await axios.get<ProductType[]>(
+          `https://api.escuelajs.co/api/v1/products/?categoryId=${product.categoryId}`
+        )
+      } else {
+        request = await axios.get<ProductType[]>(
+          `https://api.escuelajs.co/api/v1/products/?price_min=${
+            product.range?.price_min || 1
+          }&price_max=${product.range?.price_max || 10000}`
+        )
+      }
+      return request.data
+    } catch (e) {
+      console.log(e)
+      const error = e as AxiosError
+
+      return error
+    }
+  }
+)
+
 export const updateProduct = createAsyncThunk(
   "updateProduct",
   async (product: UpdateProductType) => {
     try {
-      const request = await axios.post<ProductType>(
+      console.log(product)
+      const request = await axios.put<ProductType>(
         `https://api.escuelajs.co/api/v1/products/${product.id}`,
         product.update
       )
@@ -82,18 +126,16 @@ export const deleteProduct = createAsyncThunk(
     }
   }
 )
-
 // type CreateProductType = Omit<ProductType, "id">
 
 const productSlice = createSlice({
   name: "product",
   initialState: initilState,
   reducers: {
-    getAll: (state, action) => {
-      state.products
-    },
-
-    updateOne: (state, action) => {},
+    // getAll: (state, action) => {
+    //   state.products
+    // },
+    // updateOne: (state, action) => {},
     deleteAll: (state) => {
       return initilState
     },
@@ -158,10 +200,24 @@ const productSlice = createSlice({
         }
         state.loading = false
       })
+      .addCase(filterProduct.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(filterProduct.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.message
+        } else {
+          state.filterProducts = action.payload
+        }
+        state.loading = false
+      })
+      .addCase(filterProduct.rejected, (state, action) => {
+        state.error = "Cannot fetch data"
+      })
   },
 })
 
 const productReducer = productSlice.reducer
-export const { getAll, updateOne, deleteAll } = productSlice.actions
+export const { deleteAll } = productSlice.actions
 
 export default productReducer
