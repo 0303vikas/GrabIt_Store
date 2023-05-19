@@ -1,4 +1,6 @@
+import { NewProductType } from "../../types/NewProduct"
 import { ProductType } from "../../types/Product"
+import { UpdateProductType } from "../../types/UpdateProduct"
 import { category1, category2, category3 } from "./categories"
 
 const product1: ProductType = {
@@ -37,4 +39,36 @@ const product4: ProductType = {
   category: category1,
 }
 
-export { product1, product2, product3, product4 }
+const newProduct: NewProductType = {
+  title: "E product",
+  price: 500,
+  description: "new product",
+  images: ["https://placeimg.com/640/480/any"],
+  categoryId: 3,
+}
+
+const invalidProduct: NewProductType = {
+  title: "E product",
+  price: 0,
+  description: "new product",
+  images: [],
+  categoryId: 3,
+}
+
+const updatedProduct4: UpdateProductType = {
+  id: 4,
+  update: {
+    title: "Updated D product",
+    price: 10,
+  },
+}
+
+export {
+  product1,
+  product2,
+  product3,
+  product4,
+  updatedProduct4,
+  newProduct,
+  invalidProduct,
+}

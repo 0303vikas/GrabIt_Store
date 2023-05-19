@@ -45,16 +45,20 @@ export const fetchProductData = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   "createProduct",
   async (product: NewProductType) => {
+    console.log(product)
     try {
-      console.log(product)
       const request = await axios.post<ProductType>(
         "https://api.escuelajs.co/api/v1/products/",
         product
       )
       return request.data
     } catch (e) {
+      console.log(e)
       const error = e as AxiosError
-      return error
+      if (error.response) {
+        return JSON.stringify(error.message)
+      }
+      return error.message
     }
   }
 )
@@ -87,7 +91,6 @@ export const filterProduct = createAsyncThunk(
       }
       return request.data
     } catch (e) {
-      console.log(e)
       const error = e as AxiosError
       return error
     }
@@ -98,7 +101,6 @@ export const updateProduct = createAsyncThunk(
   "updateProduct",
   async (product: UpdateProductType) => {
     try {
-      console.log(product)
       const request = await axios.put<ProductType>(
         `https://api.escuelajs.co/api/v1/products/${product.id}`,
         product.update
@@ -163,8 +165,8 @@ const productSlice = createSlice({
         state.error = "Cannot fetch data"
       })
       .addCase(createProduct.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
+        if (typeof action.payload === "string") {
+          state.error = action.payload
         } else {
           state.products.push(action.payload)
         }
@@ -181,6 +183,7 @@ const productSlice = createSlice({
             }
             return product
           })
+
           return {
             ...state,
             products,
