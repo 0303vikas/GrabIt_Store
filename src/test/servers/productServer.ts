@@ -82,7 +82,6 @@ const productServer = setupServer(
       } else if (!Products.find((item) => item.id === Number(id))) {
         error = "Id doesn't match any product"
       }
-      console.log(error)
 
       if (error) {
         return res(
