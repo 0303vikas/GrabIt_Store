@@ -45,7 +45,6 @@ export const fetchProductData = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   "createProduct",
   async (product: NewProductType) => {
-    console.log(product)
     try {
       const request = await axios.post<ProductType>(
         "https://api.escuelajs.co/api/v1/products/",
@@ -53,10 +52,9 @@ export const createProduct = createAsyncThunk(
       )
       return request.data
     } catch (e) {
-      console.log(e)
       const error = e as AxiosError
       if (error.response) {
-        return JSON.stringify(error.message)
+        return JSON.stringify(error.response.data)
       }
       return error.message
     }
@@ -122,6 +120,7 @@ export const deleteProduct = createAsyncThunk(
       )
       return id
     } catch (e) {
+      console.log(e)
       const error = e as AxiosError
       return error
     }

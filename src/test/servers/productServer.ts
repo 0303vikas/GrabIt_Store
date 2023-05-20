@@ -2,7 +2,7 @@ import { rest } from "msw"
 import { setupServer } from "msw/lib/node"
 
 import { ProductType } from "../../types/Product"
-import {
+import Products, {
   product1,
   product2,
   product3,
@@ -22,19 +22,12 @@ const productServer = setupServer(
   rest.post(
     "https://api.escuelajs.co/api/v1/products/",
     async (req, res, ctx) => {
-      console.log("this is working")
-      console.log("newproduct server" + categories)
       const newProduct = (await req.json()) as NewProductType
-      console.log(newProduct)
-      const category = categories.find((item) => {
-        item.id === newProduct.categoryId
-      })
-      console.log(newProduct)
-
+      const category = categories.find(
+        (item) => item.id === newProduct.categoryId
+      )
       const error: string[] = []
       let product: ProductType | null = null
-      console.log(product)
-
       if (!newProduct.price || newProduct.price < 1) {
         error.push("Price should be greater than zero")
       }
@@ -57,9 +50,7 @@ const productServer = setupServer(
           id: 1,
         }
       }
-      console.log("errpr" + error)
       if (error.length > 0) {
-        console.log(error)
         return res(
           ctx.status(400),
           ctx.json({
@@ -78,6 +69,32 @@ const productServer = setupServer(
       const newProduct = await req.json()
       const updatedProduct = { ...product4, ...newProduct }
       return res(ctx.json(updatedProduct))
+    }
+  ),
+  rest.delete<boolean>(
+    "https://api.escuelajs.co/api/v1/products/1",
+    async (req, res, ctx) => {
+      const id = 1
+      let error: string = ""
+
+      if (!id) {
+        error = "Needs to provide Id"
+      } else if (!Products.find((item) => item.id === Number(id))) {
+        error = "Id doesn't match any product"
+      }
+      console.log(error)
+
+      if (error) {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            statusCode: 400,
+            message: error,
+            error: "Bad request",
+          })
+        )
+      }
+      return res(ctx.json(true))
     }
   )
 )

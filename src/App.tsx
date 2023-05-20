@@ -10,6 +10,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import "./styles/style.scss"
+import Category from "./components/Category"
 
 const appRouter = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/registration",
         element: <Registration />,
+      },
+      {
+        path: "/category",
+        element: <Category />,
       },
     ],
   },

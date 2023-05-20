@@ -52,7 +52,7 @@ const invalidProduct: NewProductType = {
   price: 0,
   description: "new product",
   images: [],
-  categoryId: 3,
+  categoryId: 5,
 }
 
 const updatedProduct4: UpdateProductType = {
@@ -72,3 +72,6 @@ export {
   newProduct,
   invalidProduct,
 }
+const Products = [product1, product2, product3, product4]
+
+export default Products
