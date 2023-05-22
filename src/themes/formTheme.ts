@@ -30,7 +30,7 @@ const ContainerLoginRegister = styled("section")({
 })
 
 const FormContainerLoginRegister = styled("form")(({ theme }) => ({
-  background: "#182432",
+  background: theme.palette.common.black,
   width: "25vw",
   height: "50vh",
   display: "flex",
@@ -60,7 +60,7 @@ const textAnimation = keyframes({
 })
 
 const SubmitBtn = styled(Button)(({ theme }) => ({
-  background: "#182432",
+  background: theme.palette.common.black,
   color: "white",
   //   borderImageSlice: "1",
   padding: "0.5rem 1rem",

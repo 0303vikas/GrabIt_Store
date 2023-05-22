@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react"
-import { ThemeProvider } from "@mui/material"
+import { ThemeProvider } from "@mui/material/styles"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"
@@ -38,6 +38,8 @@ const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
   const changeMode = () => setDarkTheme(!darkTheme)
   const ModeContext = createContext<typeof changeMode | null>(null)
+
+  console.log(lightMode)
 
   if (darkTheme)
     return (

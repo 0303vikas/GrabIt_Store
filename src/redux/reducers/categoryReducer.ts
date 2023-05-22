@@ -30,13 +30,16 @@ export const createCategory = createAsyncThunk(
   async (category: Omit<CategoryType, "id">) => {
     try {
       const request = await axios.post(
-        "https://api.escuelajs.co/api/v1/categories",
+        "https://api.escuelajs.co/api/v1/categories/",
         category
       )
       return request.data
     } catch (e) {
       const error = e as AxiosError
-      return error
+      if (error.response) {
+        return JSON.stringify(error.response.data)
+      }
+      return error.message
     }
   }
 )
@@ -52,7 +55,10 @@ export const updateCategory = createAsyncThunk(
       return request.data
     } catch (e) {
       const error = e as AxiosError
-      return error
+      if (error.response) {
+        return JSON.stringify(error.response.data)
+      }
+      return error.message
     }
   }
 )
@@ -61,12 +67,15 @@ export const deleteCategory = createAsyncThunk(
   "deleteCategory",
   async (id: number) => {
     try {
-      const request = await axios.put<CategoryType>(
+      const request = await axios.delete<boolean>(
         `https://api.escuelajs.co/api/v1/categories/${id}`
       )
-      return id
+      return { response: request.data, id: id }
     } catch (e) {
       const error = e as AxiosError
+      if (error.response) {
+        return JSON.stringify(error.response.data)
+      }
       return error
     }
   }
@@ -76,9 +85,9 @@ const categorySlice = createSlice({
   name: "category",
   initialState: initialState,
   reducers: {
-    // createCategory: (state, action: PayloadAction<CreateCategoryType>) => {
-    //   state.category.push({ id: state.category.length + 1, ...action.payload })
-    // },
+    clearAllCategory: (state) => {
+      return initialState
+    },
     // updateCategory: (state, action: PayloadAction<UpdateCategoryType>) => {
     //   const category = state.category.map((category) => {
     //     if (category.id === action.payload.id) {
@@ -124,19 +133,19 @@ const categorySlice = createSlice({
         state.error = "Cannot Fetch Data"
       })
       .addCase(createCategory.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
+        if (typeof action.payload === "string") {
+          state.error = action.payload
         } else {
           state.category.push(action.payload)
         }
         state.loading = false
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
+        if (typeof action.payload === "string") {
+          state.error = action.payload
         } else {
           const updatedItem = action.payload
-          const categoryUpdate = state.category.map((item) => {
+          const category = state.category.map((item) => {
             if (item.id === updatedItem.id) {
               return { ...item, ...updatedItem }
             }
@@ -144,25 +153,29 @@ const categorySlice = createSlice({
           })
           return {
             ...state,
-            categoryUpdate,
+            category,
           }
         }
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
+        if (typeof action.payload === "string") {
+          state.error = action.payload
         } else {
-          const deleteId = action.payload
-          const newCategoryList = state.category.filter(
-            (item) => item.id !== deleteId
-          )
-          state.category = newCategoryList
+          if (action.payload.response === true) {
+            const deleteId = action.payload.id
+            const newCategoryList = state.category.filter(
+              (item) => item.id !== deleteId
+            )
+            state.category = newCategoryList
+          } else {
+            state.error = "request returned false"
+          }
         }
       })
   },
 })
 
 const categoryReducer = categorySlice.reducer
-export const { sortCategory } = categorySlice.actions
+export const { sortCategory, clearAllCategory } = categorySlice.actions
 
 export default categoryReducer

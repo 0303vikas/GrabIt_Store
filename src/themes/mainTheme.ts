@@ -1,7 +1,6 @@
-import {
-  createTheme,
-  experimental_extendTheme as extendTheme,
-} from "@mui/material"
+import { createTheme } from "@mui/material/styles"
+
+import { deepmerge } from "@mui/utils"
 
 const darkTheme = createTheme({
   palette: {
@@ -45,7 +44,7 @@ const lightTheme = createTheme({
   palette: {
     primary: {
       main: "#90caf9",
-      light: "#e3f2fd",
+      light: "rgb(24,255,255, 0.25)",
       dark: "#42a5f5",
     },
     secondary: {
@@ -72,6 +71,10 @@ const lightTheme = createTheme({
       main: "#66bb6a",
       light: "#81c784",
       dark: "#388e3c",
+    },
+    common: {
+      black: "#182432",
+      white: "rgb(255,255,255)",
     },
   },
 })
@@ -118,7 +121,7 @@ const commonTheme = createTheme({
       fontSize: "1.2rem",
       fontWeight: 700,
       lineHeight: 1.7,
-      margin: "0.6rem 0",
+      margin: "0.3rem 0",
     },
     body1: {
       fontSize: "1rem",
@@ -134,6 +137,8 @@ const commonTheme = createTheme({
     },
   },
 })
+const darkMerge = { ...darkTheme, typography: { ...commonTheme.typography } }
+const lightMerge = { ...lightTheme, typography: { ...commonTheme.typography } }
 
-export const darkMode = extendTheme(darkTheme, commonTheme)
-export const lightMode = extendTheme(lightTheme, commonTheme)
+export const darkMode = createTheme(darkMerge)
+export const lightMode = createTheme(lightMerge)
