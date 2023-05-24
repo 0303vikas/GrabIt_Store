@@ -21,6 +21,8 @@ import ContainerProductCategory, {
   DisplayImage,
 } from "../themes/categoryTheme"
 import { ProductType } from "../types/Product"
+import { useAppDispatch } from "../hooks/useAppDispatch"
+import { addToCart } from "../redux/reducers/cartReducer"
 
 function filterProduct(
   products: ProductType[],
@@ -34,6 +36,8 @@ function filterProduct(
 const Product = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const { products, error, loading } = useAppSelector((state) => state.product)
+  const cart = useAppSelector((state) => state.cart)
+  const dispatch = useAppDispatch()
   const { id } = useParams()
   let filterList: ProductType[] = filterProduct(products, "id", id)
 
@@ -81,7 +85,9 @@ const Product = () => {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <IconButton aria-label="add to favorites">
+                  <IconButton aria-label="add to favorites"
+                    onClick={() => dispatch(addToCart({...item, quantity: 3}))}
+                    color={cart.some(pro => pro.id === item.id)? "success": "info"}>
                       <AddShoppingCart />
                     </IconButton>
                   </CardActions>
@@ -105,7 +111,9 @@ const Product = () => {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton aria-label="add to favorites"
+                    onClick={() => dispatch(addToCart({...item, quantity: 3}))}
+                    color={cart.some(pro => pro.id === item.id)? "success": "info"}>
                       <AddShoppingCart />
                     </IconButton>
                   </CardActions>

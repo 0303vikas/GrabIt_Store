@@ -12,6 +12,7 @@ import Registration from "./pages/Registration"
 import "./styles/style.scss"
 import Category from "./components/Category"
 import Product from "./components/Product"
+import Cart from "./components/Cart"
 
 const appRouter = createBrowserRouter([
   {
@@ -39,6 +40,12 @@ const appRouter = createBrowserRouter([
         path: "/category/:id/products",
         element: <Product />,
       },
+      {
+        path: "/product/cart",
+        element: <Cart />
+
+      }
+      
     ],
   },
 ])

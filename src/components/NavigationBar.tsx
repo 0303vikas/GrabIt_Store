@@ -169,7 +169,9 @@ const NavigationRight = () => {
           ) : null}
         </SearchResultList>
       </div>
-      <Badge badgeContent={4} color='secondary' sx={{margin: '0 1rem'}}>
+      
+      <Badge onClick={() => navigate('/product/cart')} badgeContent={reduxState.cart.length} color='secondary' sx={{margin: '0 1rem'}}>
+        
       <ShoppingCart sx={{color: theme.palette.common.white}}/>
       </Badge>
       <SettingContainer sx={{marginRight: '0.5rem'}}>
