@@ -1,68 +1,65 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
   CardActionArea,
-  CardActions,
-  CardContent,
   CardMedia,
-  IconButton,
   Pagination,
-  Typography,
   useTheme,
+  Typography,
+  CardContent,
+  IconButton,
+  CardActions,
 } from "@mui/material"
+import { useNavigate, useParams } from "react-router-dom"
 import { Favorite } from "@mui/icons-material"
-import { useNavigate } from "react-router-dom"
 
-import ContainerLoginRegister from "../themes/formTheme"
-import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import {
-  fetchCategoryData,
-  sortCategory,
-} from "../redux/reducers/categoryReducer"
+
 import ContainerProductCategory, {
+  DisplayCard,
   DisplayGrid,
   DisplayGridContainer,
   DisplayImage,
-  DisplayCard,
 } from "../themes/categoryTheme"
-import { CategoryType } from "../types/Category"
+import { ProductType } from "../types/Product"
 
-const Category = () => {
-  const dispatch = useAppDispatch()
+function filterProduct(
+  products: ProductType[],
+  type?: string,
+  id?: string
+): ProductType[] {
+  if (id) return products.filter((item) => item.category.id === Number(id))
+  return products
+}
+
+const Product = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const navigation = useNavigate()
-  const { category, error, loading } = useAppSelector(
-    (state) => state.categories
-  )
-  const [slicedArray, setSlicedArray] = useState<CategoryType[]>(
-    category.slice(0, 8)
-  )
+  const { products, error, loading } = useAppSelector((state) => state.product)
+  const { id } = useParams()
+  let filterList: ProductType[] = filterProduct(products, "id", id)
 
-  useEffect(() => {
-    if (!category.length) {
-      dispatch(fetchCategoryData())
-    }
-  }, [])
+  const navigation = useNavigate()
+  const [slicedArray, setSlicedArray] = useState<ProductType[]>(
+    filterList.slice(0, 8)
+  )
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setCurrentPage(value)
-    setSlicedArray(category.slice((value - 1) * 8, value * 8))
+    setSlicedArray(filterList.slice((value - 1) * 8, value * 8))
   }
 
-  const filterData = (sortType: "asc" | "desc") => {
-    dispatch(sortCategory(sortType))
-  }
-
+  //   const filterData = (sortType: "asc" | "desc") => {
+  //     dispatch(sortCategory(sortType))
+  //   }
   if (loading) return <p>Loading...</p>
 
   if (error) return <p>{error}</p>
 
   return (
     <ContainerProductCategory
-      id="category--container"
+      id="product--container"
       className="productCategory--container"
     >
       <DisplayGrid gap={1} gridTemplateColumns={"repeat(4,1fr)"}>
@@ -71,43 +68,53 @@ const Category = () => {
               return (
                 <DisplayCard key={item.id}>
                   <CardActionArea
-                    onClick={() => navigation(`/category/${item.id}/products`)}
+                  // onClick={() => navigation(`/category/${item.id}/products`)}
                   >
                     <CardMedia
                       component="img"
                       height="140"
-                      image={item.image}
-                      alt={item.name + " image."}
+                      image={item.images[1]}
+                      alt={item.title + " image."}
                     />
                     <CardContent>
-                      <Typography>{item.name}</Typography>
+                      <Typography>{item.title}</Typography>
                     </CardContent>
                   </CardActionArea>
+                  <CardActions>
+                    <IconButton aria-label="add to favorites">
+                      <Favorite />
+                    </IconButton>
+                  </CardActions>
                 </DisplayCard>
               )
             })
-          : category.slice(0, 8).map((item, index) => {
+          : filterList.slice(0, 8).map((item, index) => {
               return (
                 <DisplayCard key={item.id}>
                   <CardActionArea
-                    onClick={() => navigation(`/category/${item.id}/products`)}
+                  // onClick={() => navigation(`/category/${item.id}/products`)}
                   >
                     <CardMedia
                       component="img"
                       height="140"
-                      image={item.image}
-                      alt={item.name + " image."}
+                      image={item.images[1]}
+                      alt={item.title + " image."}
                     />
                     <CardContent>
-                      <Typography>{item.name}</Typography>
+                      <Typography>{item.title}</Typography>
                     </CardContent>
                   </CardActionArea>
+                  <CardActions>
+                    <IconButton aria-label="add to favorites">
+                      <Favorite />
+                    </IconButton>
+                  </CardActions>
                 </DisplayCard>
               )
             })}
       </DisplayGrid>
       <Pagination
-        count={Math.ceil(category.length / 8)}
+        count={Math.ceil(filterList.length / 8)}
         page={currentPage}
         onChange={handlePageChange}
         variant="outlined"
@@ -127,4 +134,4 @@ const Category = () => {
   )
 }
 
-export default Category
+export default Product

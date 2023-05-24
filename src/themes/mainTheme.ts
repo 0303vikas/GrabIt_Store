@@ -5,14 +5,14 @@ import { deepmerge } from "@mui/utils"
 const darkTheme = createTheme({
   palette: {
     primary: {
-      main: "#90caf9",
+      main: "rgba(80, 183, 239)",
       light: "#e3f2fd",
-      dark: "#42a5f5",
+      dark: "rgb(33,150,243)",
     },
     secondary: {
-      main: "#008080",
-      light: "#f3e5f5",
-      dark: "#ab47bc",
+      main: "rgba(9, 234, 172)",
+      light: "rgb(29,233,182)",
+      dark: "rgb(100,255,218)",
     },
     error: {
       main: "#f44336",
@@ -45,12 +45,12 @@ const lightTheme = createTheme({
     primary: {
       main: "#90caf9",
       light: "rgb(24,255,255, 0.25)",
-      dark: "#42a5f5",
+      dark: "rgb(33,150,243)",
     },
     secondary: {
-      main: "#008080",
-      light: "#f3e5f5",
-      dark: "#ab47bc",
+      main: "rgba(9, 234, 172)",
+      light: "rgb(29,233,182)",
+      dark: "rgb(100,255,218)",
     },
     error: {
       main: "#f44336",
@@ -73,7 +73,7 @@ const lightTheme = createTheme({
       dark: "#388e3c",
     },
     common: {
-      black: "#182432",
+      black: "rgb(24,36,50)",
       white: "rgb(255,255,255)",
     },
   },

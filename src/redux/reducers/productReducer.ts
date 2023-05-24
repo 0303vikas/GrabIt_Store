@@ -10,12 +10,10 @@ const initilState: {
   products: ProductType[]
   loading: boolean
   error: string
-  filteredProducts: ProductType[]
 } = {
   products: [],
   loading: false,
   error: "",
-  filteredProducts: [],
 }
 
 // {
@@ -208,7 +206,7 @@ const productSlice = createSlice({
         if (action.payload instanceof AxiosError) {
           state.error = action.payload.message
         } else {
-          state.filteredProducts = action.payload
+          state.products = action.payload
         }
         state.loading = false
       })

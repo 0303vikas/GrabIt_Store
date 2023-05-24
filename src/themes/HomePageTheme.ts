@@ -1,20 +1,10 @@
-import {
-  styled,
-  ListItem,
-  TextField,
-  MenuItem,
-  Select,
-  InputBase,
-  alpha,
-} from "@mui/material"
-import Grid from "@mui/material/Grid"
+import { styled, ListItem, Select, InputBase, alpha } from "@mui/material"
 import { Box } from "@mui/system"
 
-// export const HeaderContainer = styled("header")(({ theme }) => ({}))
 // Navigation Bar Elements
 export const HeaderContainer = styled("header")(({ theme }) => ({
   height: "13vh",
-  width: "98.8vw",
+  width: "98.85vw",
   background: theme.palette.common.black,
   display: "flex",
   alignItems: "center",
@@ -26,7 +16,6 @@ export const IconContainer = styled("img")(({ theme }) => ({
   width: "5vw",
   borderRight: "1px solid white",
   padding: "0 10px",
-  borderColor: "",
 }))
 
 export const NavigationList = styled("ul")(({ theme }) => ({
@@ -75,7 +64,7 @@ export const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  height: "4vh",
+  height: "6vh",
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
@@ -88,7 +77,6 @@ export const Search = styled("div")(({ theme }) => ({
 
 export const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-
   height: "100%",
   pointerEvents: "none",
   display: "flex",
@@ -98,7 +86,6 @@ export const SearchIconWrapper = styled("div")(({ theme }) => ({
 
 export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
-
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -116,18 +103,23 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const SearchResultList = styled("div")(({ theme }) => ({
   position: "absolute",
-  width: "18rem",
+  width: "16rem",
   marginLeft: theme.spacing(1),
   background: theme.palette.common.white,
-  marginTop: "2px",
+  marginTop: ".5rem",
   overflow: "hidden",
-  maxHeight: "20rem",
+  maxHeight: "10rem",
+  overflowY: "scroll",
+  OverflowX: "hidden",
+  borderRadius: "1rem",
+  boxShadow: "0 0 2px 2px rgb(255,255,255,0.5)",
 }))
 
 export const ThemeChangingButton = styled("button")(({ theme }) => ({}))
 
 export const SettingContainer = styled(Box)(({ theme }) => ({
   flexGrow: 0,
+  marginLeft: theme.spacing(1),
 }))
 
 //Main Page Elements
@@ -136,8 +128,8 @@ export const MainContainer = styled("main")(({ theme }) => ({
   background: theme.palette.secondary.main,
 }))
 
-export const NavigatioinBar = styled("nav")(({ theme }) => ({
-  background: theme.palette.primary.main,
-}))
+// export const NavigatioinBar = styled("nav")(({ theme }) => ({
+//   background: theme.palette.primary.main,
+// }))
 
-export const NavigationBarGrid = styled("div")(({ theme }) => ({}))
+// export const NavigationBarGrid = styled("div")(({ theme }) => ({}))

@@ -88,19 +88,19 @@ const HeadingContainer = styled("h2")({
 
 const logoAnimation = keyframes({
   from: {
-    transform: "rotate(0deg)",
+    opacity: 0,
     borderRadius: "0 4rem",
     boxShadow: "0 4px 0 0 rgba(80,183,239,1), 0 0 4px 0 rgba(9,234,172,1)",
   },
   to: {
-    transform: "rotate(360deg)",
+    opacity: "100%",
   },
 })
 
 const ImageContainer = styled("img")({
   width: "25vw",
   height: "50vh",
-  animation: `${logoAnimation} 3s linear `,
+  animation: `${logoAnimation} 6s ease `,
 })
 
 export {
@@ -108,6 +108,7 @@ export {
   SubmitBtn,
   HeadingContainer,
   ImageContainer,
+  borderAnimation,
 }
 
 export default ContainerLoginRegister

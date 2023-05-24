@@ -11,13 +11,19 @@ import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import "./styles/style.scss"
 import Category from "./components/Category"
+import Product from "./components/Product"
+import ProductsOneCategory from "./components/ProductsOneCategory"
 
 const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-    errorElement: <div>Not Found</div>,
+    errorElement: <div>Page Not Found</div>,
     children: [
+      {
+        index: true,
+        element: <Product />,
+      },
       {
         path: "/login",
         element: <Login />,
@@ -27,8 +33,12 @@ const appRouter = createBrowserRouter([
         element: <Registration />,
       },
       {
-        path: "/category",
+        path: "/categories",
         element: <Category />,
+      },
+      {
+        path: "/category/:id/products",
+        element: <Product />,
       },
     ],
   },
@@ -38,8 +48,6 @@ const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
   const changeMode = () => setDarkTheme(!darkTheme)
   const ModeContext = createContext<typeof changeMode | null>(null)
-
-  console.log(lightMode)
 
   if (darkTheme)
     return (
