@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import {
   Avatar,
+  Badge,
   FormControl,
   IconButton,
   Menu,
@@ -14,6 +15,7 @@ import {
 } from "@mui/material"
 
 import SearchIcon from "@mui/icons-material/Search"
+import { ShoppingCart} from '@mui/icons-material'
 
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
@@ -167,7 +169,10 @@ const NavigationRight = () => {
           ) : null}
         </SearchResultList>
       </div>
-      <SettingContainer>
+      <Badge badgeContent={4} color='secondary' sx={{margin: '0 1rem'}}>
+      <ShoppingCart sx={{color: theme.palette.common.white}}/>
+      </Badge>
+      <SettingContainer sx={{marginRight: '0.5rem'}}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="Profile Pic" src="/static/images/avatar/2.jpg" />
