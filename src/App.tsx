@@ -12,7 +12,6 @@ import Registration from "./pages/Registration"
 import "./styles/style.scss"
 import Category from "./components/Category"
 import Product from "./components/Product"
-import ProductsOneCategory from "./components/ProductsOneCategory"
 
 const appRouter = createBrowserRouter([
   {

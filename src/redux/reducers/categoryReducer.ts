@@ -88,21 +88,6 @@ const categorySlice = createSlice({
     clearAllCategory: (state) => {
       return initialState
     },
-    // updateCategory: (state, action: PayloadAction<UpdateCategoryType>) => {
-    //   const category = state.category.map((category) => {
-    //     if (category.id === action.payload.id) {
-    //       return { ...category, ...action.payload.update }
-    //     }
-    //     return category
-    //   })
-    //   return {
-    //     ...state,
-    //     category,
-    //   }
-    // },
-    // deleteCategory: (state, action) => {
-    //   state.category = []
-    // },
     sortCategory: (state, action: PayloadAction<"asc" | "desc">) => {
       if (action.payload === "asc") {
         state.category.sort((a, b) =>

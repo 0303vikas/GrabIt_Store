@@ -10,7 +10,7 @@ import {
   CardActions,
 } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
-import { Favorite } from "@mui/icons-material"
+import { AddShoppingCart } from "@mui/icons-material"
 
 import { useAppSelector } from "../hooks/useAppSelector"
 
@@ -82,7 +82,7 @@ const Product = () => {
                   </CardActionArea>
                   <CardActions>
                     <IconButton aria-label="add to favorites">
-                      <Favorite />
+                      <AddShoppingCart />
                     </IconButton>
                   </CardActions>
                 </DisplayCard>
@@ -106,7 +106,7 @@ const Product = () => {
                   </CardActionArea>
                   <CardActions>
                     <IconButton aria-label="add to favorites">
-                      <Favorite />
+                      <AddShoppingCart />
                     </IconButton>
                   </CardActions>
                 </DisplayCard>

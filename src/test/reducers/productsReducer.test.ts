@@ -28,7 +28,6 @@ describe("Testing Redux Store Product Reducer", () => {
       products: [],
       loading: false,
       error: "",
-      filteredProducts: [],
     })
   })
   test("Fetch all products", async () => {

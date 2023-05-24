@@ -58,7 +58,7 @@ const NavigationLeft = () => {
 }
 
 const NavigationRight = () => {
-  const settings = ["Profile", "Account", "Dashboard", "Logout"]
+  const settings = ["Profile", "registration", "login", "Logout"]
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
@@ -155,7 +155,11 @@ const NavigationRight = () => {
               <div>{category.error}</div>
             ) : (
               category.category.map((item, index) => (
-                <List sx={{ color: "black" }} key={item.id}>
+                <List
+                  sx={{ color: "black" }}
+                  key={item.id}
+                  onClick={() => navigate(`/category/${item.id}/products`)}
+                >
                   {item.name}
                 </List>
               ))
@@ -187,7 +191,12 @@ const NavigationRight = () => {
         >
           {settings.map((setting) => (
             <MenuItem key={setting} onClick={handleCloseUserMenu}>
-              <Typography textAlign="center">{setting}</Typography>
+              <Typography
+                textAlign="center"
+                onClick={() => navigate(`/${setting}`)}
+              >
+                {setting}
+              </Typography>
             </MenuItem>
           ))}
         </Menu>

@@ -4,7 +4,7 @@ import { borderAnimation } from "./formTheme"
 import { Box } from "@mui/system"
 
 const ContainerProductCategory = styled("section")(({ theme }) => ({
-  background: alpha(theme.palette.common.black, 1),
+  background: alpha(theme.palette.common.white, 1),
   width: "98.7vw",
   height: "120vh",
   border: "0.3vh solid",
