@@ -13,7 +13,9 @@ import Categories, {
   updateCat,
 } from "../data/categories"
 
-
+test('hello', () => {
+  expect(3).toBe(3)
+})
 beforeAll(() => {
   CategoryServer.listen()
 })

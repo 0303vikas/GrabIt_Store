@@ -11,3 +11,9 @@ export const userServer = setupServer(
     return res(ctx.status(200), ctx.json(users))
   })
 )
+
+export const userServer = setupServer(
+    rest.get("https://api.escuelajs.co/api/v1/users", async (req,res,ctx) => {
+    return res(ctx.status(200), ctx.json(users))
+    })
+)

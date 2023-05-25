@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
 
-import { UserLoginType, UserType } from "../../types/User"
+import { UserType } from "../../types/User"
 import { NewUserType } from "../../types/NewUser"
 
 const initialState: {
