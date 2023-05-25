@@ -11,7 +11,7 @@ const initialState: {
 } = {
   users: [],
   loading: false,
-  error: "",    
+  error: "",
 }
 
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
@@ -63,37 +63,46 @@ export const updateUser = createAsyncThunk(
     }
   }
 )
-export const authenticateUser = createAsyncThunk('authentication', async(token: string) => {
-  try{
-    const request = await axios.get<UserType>("https://api.escuelajs.co/api/v1/auth/profile", {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-    return request.data
-  } catch (e) {
-    const error = e as AxiosError
-    return error
+export const authenticateUser = createAsyncThunk(
+  "authentication",
+  async (token: string) => {
+    try {
+      const request = await axios.get<UserType>(
+        "https://api.escuelajs.co/api/v1/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
   }
-  
+)
 
-})
-
-export const loginUser = createAsyncThunk('login', async ({email, password}: UserLoginType, {dispatch}) => {
-
-  try{
-    const request = await axios.post<{access_token: string; refresh_token: string}>("https://api.escuelajs.co/api/v1/auth/login", {email, password})
-    localStorage.setItem("userToken", request.data.access_token)
-    localStorage.setItem('userRefreshToken', request.data.refresh_token)
-    const authentication = await dispatch(authenticateUser(request.data.access_token))
-    return (authentication.payload as UserType)
-
-  } catch (e) {
-    const error = e as AxiosError
-    return error
-
+export const loginUser = createAsyncThunk(
+  "login",
+  async ({ email, password }: UserLoginType, { dispatch }) => {
+    try {
+      const request = await axios.post<{
+        access_token: string
+        refresh_token: string
+      }>("https://api.escuelajs.co/api/v1/auth/login", { email, password })
+      localStorage.setItem("userToken", request.data.access_token)
+      localStorage.setItem("userRefreshToken", request.data.refresh_token)
+      const authentication = await dispatch(
+        authenticateUser(request.data.access_token)
+      )
+      return authentication.payload as UserType
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
   }
-})
+)
 
 type CreateUserAction = Omit<UserType, "id">
 
@@ -101,11 +110,9 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    // createUser: (state, action: PayloadAction<CreateUserAction>) => {
-    //   let newUserId = state.users.length
-    //   let newUser = { id: newUserId, ...action.payload }
-    //   state.users.push(newUser)
-    // },
+    createUserLocally: (state, action: PayloadAction<UserType>) => {
+      state.users.push(action.payload)
+    },
     // updateUser: (state, action) => {
     //   console.log(action.payload)
     //   const users = state.users.map((user) => {
@@ -177,17 +184,16 @@ const userSlice = createSlice({
           }
         }
       })
-      .addCase(loginUser.fulfilled, (state,action) => {
-        if(action.payload instanceof AxiosError) {
+      .addCase(loginUser.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
           state.error = action.payload.message
         } else {
-          state.currentUser = action.payload          
+          state.currentUser = action.payload
         }
         state.loading = false
-
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
-        if(action.payload instanceof AxiosError) {
+        if (action.payload instanceof AxiosError) {
           state.error = action.payload.message
         } else {
           state.currentUser = action.payload
@@ -198,5 +204,5 @@ const userSlice = createSlice({
 })
 
 const userReducer = userSlice.reducer
-export const { sortUserByEmail, clearAllUsers } = userSlice.actions
+export const { sortUserByEmail, clearAllUsers, createUserLocally } = userSlice.actions
 export default userReducer

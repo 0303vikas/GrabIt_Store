@@ -46,7 +46,7 @@ export const createCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
   "updateCategory",
-  async (category: UpdateCategoryType) => {
+  async (category: Partial<UpdateCategoryType>) => {
     try {
       const request = await axios.put<CategoryType>(
         `https://api.escuelajs.co/api/v1/categories/${category.id}`,
