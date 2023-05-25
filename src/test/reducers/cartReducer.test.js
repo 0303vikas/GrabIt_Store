@@ -8,6 +8,10 @@ afterEach(() => {
 
 })
 
+test('hello', () => {
+    expect(3).toBe(3)
+  })
+
 describe('Cart State Testing', () => {
     test('Checking initial State', () => {
         expect(store.getState().cart).toEqual([])

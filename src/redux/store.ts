@@ -31,32 +31,9 @@ const store = configureStore({
       users: [],
       loading: false,
       error: "",
-      rootUser: [
-        {
-          id: 182828373,
-          name: "testroot",
-          role: "root",
-          email: "root@email.com",
-          password: "root",
-          avatar: "",
-        },
-        {
-          id: 182828374,
-          name: "testadmin",
-          role: "admin",
-          email: "testadmin@email.com",
-          password: "testadmin",
-          avatar: "",
-        },
-        {
-          id: 182828375,
-          name: "testcustomer",
-          role: "customer",
-          email: "testcustomer@email.com",
-          password: "testcustomer",
-          avatar: "",
-        },
-      ],
+      currentUser: [],
+      
+      
     }
 
   }

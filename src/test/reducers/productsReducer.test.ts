@@ -10,6 +10,7 @@ import {
 import productServer from "../servers/productServer"
 import { invalidProduct, newProduct, updatedProduct4 } from "../data/products"
 
+
 beforeEach(() => {
   store.dispatch(clearProductStore())
 })
