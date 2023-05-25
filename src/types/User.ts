@@ -6,3 +6,8 @@ export interface UserType {
   password: string
   avatar: string
 }
+
+export interface UserLoginType {
+  email: string
+  password: string
+}

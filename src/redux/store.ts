@@ -30,9 +30,8 @@ const store = configureStore({
     user: {
       users: [],
       loading: false,
-      error: "",
-      currentUser: [],
-      
+      error: ""
+     
       
     }
 

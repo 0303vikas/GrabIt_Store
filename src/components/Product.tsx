@@ -2,8 +2,7 @@ import React, { useState } from "react"
 import {
   CardActionArea,
   CardMedia,
-  Pagination,
-  useTheme,
+  Pagination, 
   Typography,
   CardContent,
   IconButton,
@@ -13,12 +12,9 @@ import { useNavigate, useParams } from "react-router-dom"
 import { AddShoppingCart } from "@mui/icons-material"
 
 import { useAppSelector } from "../hooks/useAppSelector"
-
 import ContainerProductCategory, {
   DisplayCard,
-  DisplayGrid,
-  DisplayGridContainer,
-  DisplayImage,
+  DisplayGrid,  
 } from "../themes/categoryTheme"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
@@ -85,9 +81,17 @@ const Product = () => {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                  <IconButton aria-label="add to favorites"
-                    onClick={() => dispatch(addToCart({...item, quantity: 3}))}
-                    color={cart.some(pro => pro.id === item.id)? "success": "info"}>
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={() =>
+                        dispatch(addToCart({ ...item, quantity: 3 }))
+                      }
+                      color={
+                        cart.some((pro) => pro.id === item.id)
+                          ? "success"
+                          : "info"
+                      }
+                    >
                       <AddShoppingCart />
                     </IconButton>
                   </CardActions>
@@ -111,9 +115,17 @@ const Product = () => {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <IconButton aria-label="add to favorites"
-                    onClick={() => dispatch(addToCart({...item, quantity: 3}))}
-                    color={cart.some(pro => pro.id === item.id)? "success": "info"}>
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={() =>
+                        dispatch(addToCart({ ...item, quantity: 3 }))
+                      }
+                      color={
+                        cart.some((pro) => pro.id === item.id)
+                          ? "success"
+                          : "info"
+                      }
+                    >
                       <AddShoppingCart />
                     </IconButton>
                   </CardActions>

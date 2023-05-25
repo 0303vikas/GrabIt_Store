@@ -1,21 +1,17 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
 
-import { UserType } from "../../types/User"
-
+import { UserLoginType, UserType } from "../../types/User"
 
 const initialState: {
   users: UserType[]
   loading: boolean
   error: string
-  currentUser?: UserType[]
-  
+  currentUser?: UserType
 } = {
   users: [],
   loading: false,
-  error: "",
-  currentUser: [],
-  
+  error: "",    
 }
 
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
@@ -30,36 +26,72 @@ export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
   }
 })
 
-export const createUser = createAsyncThunk('createUser', async (user: Partial<UserType>) => {
-  try{
-    const request = await axios.post<UserType>(
-      "https://api.escuelajs.co/api/v1/users/", user
-    )
-    return request.data
+export const createUser = createAsyncThunk(
+  "createUser",
+  async (user: Partial<UserType>) => {
+    try {
+      const request = await axios.post<UserType>(
+        "https://api.escuelajs.co/api/v1/users/",
+        user
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      if (error.response) {
+        return JSON.stringify(error.response.data)
+      }
+      return error.message
+    }
+  }
+)
 
+export const updateUser = createAsyncThunk(
+  "updateUser",
+  async (user: { id: number; updateData: Partial<UserType> }) => {
+    try {
+      const request = await axios.put<UserType>(
+        `https://api.escuelajs.co/api/v1/users/${user.id}`,
+        user.updateData
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      if (error.response) {
+        return JSON.stringify(error.response.data)
+      }
+      return error.message
+    }
+  }
+)
+export const authenticateUser = createAsyncThunk('authentication', async(token: string) => {
+  try{
+    const request = await axios.get<UserType>("https://api.escuelajs.co/api/v1/auth/profile", {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
+    return request.data
   } catch (e) {
     const error = e as AxiosError
-    if (error.response) {
-      return JSON.stringify(error.response.data)
-    }
-    return error.message
+    return error
   }
+  
+
 })
 
-export const updateUser = createAsyncThunk('updateUser', async (user: {id: number; updateData:Partial<UserType>}) => {
+export const loginUser = createAsyncThunk('login', async ({email, password}: UserLoginType, {dispatch}) => {
+
   try{
-    
-    const request = await axios.put<UserType>(
-      `https://api.escuelajs.co/api/v1/users/${user.id}`, user.updateData
-    )
-    return request.data
+    const request = await axios.post<{access_token: string; refresh_token: string}>("https://api.escuelajs.co/api/v1/auth/login", {email, password})
+    localStorage.setItem("userToken", request.data.access_token)
+    localStorage.setItem('userRefreshToken', request.data.refresh_token)
+    const authentication = await dispatch(authenticateUser(request.data.access_token))
+    return (authentication.payload as UserType)
 
   } catch (e) {
     const error = e as AxiosError
-    if (error.response) {
-      return JSON.stringify(error.response.data)
-    }
-    return error.message
+    return error
+
   }
 })
 
@@ -119,7 +151,7 @@ const userSlice = createSlice({
       .addCase(fetchAllUsers.rejected, (state, action) => {
         state.error = "Cannot fetch data"
       })
-      .addCase(createUser.fulfilled, (state,action) => {
+      .addCase(createUser.fulfilled, (state, action) => {
         if (typeof action.payload === "string") {
           state.error = action.payload
         } else {
@@ -127,11 +159,11 @@ const userSlice = createSlice({
         }
         state.loading = false
       })
-      .addCase(updateUser.fulfilled, (state,action) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
         if (typeof action.payload === "string") {
           state.error = action.payload
         } else {
-          const newdata= action.payload
+          const newdata = action.payload
           const updatedUsers = state.users.map((user) => {
             if (newdata.id === user.id) {
               return { ...user, ...newdata }
@@ -145,9 +177,23 @@ const userSlice = createSlice({
           }
         }
       })
-     
+      .addCase(loginUser.fulfilled, (state,action) => {
+        if(action.payload instanceof AxiosError) {
+          state.error = action.payload.message
+        } else {
+          state.currentUser = action.payload          
+        }
+        state.loading = false
 
-      
+      })
+      .addCase(authenticateUser.fulfilled, (state, action) => {
+        if(action.payload instanceof AxiosError) {
+          state.error = action.payload.message
+        } else {
+          state.currentUser = action.payload
+        }
+        state.loading = false
+      })
   },
 })
 
