@@ -13,15 +13,8 @@ import darkLogo from "../icons/darkLogo.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { createUser } from "../redux/reducers/userReducer"
-
-import { checkEmailAvailable } from "../hooks/checkEmailAvailibility"
-
-interface RegistrationForm {
-  userName: string
-  userEmail: string
-  password: string
-  retryPassword: string
-}
+import { NewUserType, RegistrationType } from "../types/NewUser"
+import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
 
 const Registration = () => {
   const dispatch = useAppDispatch()
@@ -29,16 +22,16 @@ const Registration = () => {
   const navigate = useNavigate()
   const userStore = useAppSelector((store) => store.user)
   const {
-    
     handleSubmit,
     setError,
     control,
     formState: { errors },
     watch,
-  } = useForm<RegistrationForm>()
-  const onSubmit: SubmitHandler<RegistrationForm> = (data, e) => {
-    const isEmailAvailable = checkEmailAvailable(userStore.users, data.userName)
-    console.log(isEmailAvailable)
+    register,
+  } = useForm<RegistrationType>()
+  const onSubmit: SubmitHandler<RegistrationType> = (data, e) => {
+    e?.preventDefault()
+    const isEmailAvailable = checkEmailAvailableHook(userStore.users, data.userName)
     if (isEmailAvailable) {
       setError("userName", {
         type: "manual",
@@ -46,20 +39,29 @@ const Registration = () => {
       })
       return false
     }
+
     const userData = {
-      name: data.userName,
-      email: data.userEmail,
-      password: data.password,
-      avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
+      file: data.imageFile,
+      user: {
+        name: data.userName,
+        email: data.userEmail,
+        password: data.password,
+        avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
+      },
     }
     dispatch(createUser(userData))
-    if (userStore.error) {
-      return false
-    } else {
-      alert("Registration Successful")
 
-      navigate("/login")
-    }
+    setTimeout(() => {
+      if (userStore.error) {
+        return false
+      } else {
+        alert("Registration Successful")
+  
+        navigate("/login")
+      }
+    },2000)
+    
+    
   }
   const password = watch("password")
   const retryPassword = watch("retryPassword")
@@ -232,6 +234,12 @@ const Registration = () => {
               )}
             </div>
           )}
+        />
+        <input
+          type="file"
+          accept="image/*"
+          {...register("imageFile" as const)}
+          required
         />
         {userStore.error && (
           <p

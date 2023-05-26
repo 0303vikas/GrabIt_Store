@@ -13,6 +13,10 @@ import "./styles/style.scss"
 import Category from "./components/Category"
 import Product from "./components/Product"
 import Cart from "./components/Cart"
+import { Protected } from "./components/Protected"
+import { UserEdit } from "./components/UserEdit"
+import { authenticateUser } from "./redux/reducers/userReducer"
+import { UserType } from "./types/User"
 
 const appRouter = createBrowserRouter([
   {
@@ -42,33 +46,50 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/product/cart",
-        element: <Cart />
-
-      }
-      
+        element: <Cart />,
+      },
+      {
+        path: "/user/edit",
+        element: (
+          <Protected>
+            <UserEdit />
+          </Protected>
+        ),
+      },
     ],
   },
 ])
+
+export const LoggedInUserContext = createContext<UserType | null | false>(null)
 
 const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
   const changeMode = () => setDarkTheme(!darkTheme)
   const ModeContext = createContext<typeof changeMode | null>(null)
+  const { currentUser } = useAppSelector((state) => state.user)
 
-  if (darkTheme)
-    return (
-      <ModeContext.Provider value={changeMode}>
-        <ThemeProvider theme={darkMode}>
-          <RouterProvider router={appRouter} />
-        </ThemeProvider>
-      </ModeContext.Provider>
-    )
+  const accessToken = localStorage.getItem("userToken")
+  const dispatch = useAppDispatch()
+  // const loggedIn = useAppSelector( state => state.)
+
+  useEffect(() => {
+    if (accessToken && !currentUser) {
+      console.log('this is running')
+      dispatch(authenticateUser(accessToken))
+    }
+  }, [])
 
   return (
     <ModeContext.Provider value={changeMode}>
-      <ThemeProvider theme={lightMode}>
-        <RouterProvider router={appRouter} />
-      </ThemeProvider>
+      {darkTheme ? (
+        <ThemeProvider theme={darkMode}>
+          <RouterProvider router={appRouter} />
+        </ThemeProvider>
+      ) : (
+        <ThemeProvider theme={lightMode}>
+          <RouterProvider router={appRouter} />
+        </ThemeProvider>
+      )}
     </ModeContext.Provider>
   )
 }

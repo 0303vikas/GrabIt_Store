@@ -2,16 +2,20 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
 
 import { UserLoginType, UserType } from "../../types/User"
+import { NewUserType } from "../../types/NewUser"
 
 const initialState: {
   users: UserType[]
   loading: boolean
+  authloading: boolean
   error: string
   currentUser?: UserType
+  imageString?: string
 } = {
   users: [],
   loading: false,
-  error: "",
+  error: "",  
+  authloading: true
 }
 
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
@@ -28,20 +32,24 @@ export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
 
 export const createUser = createAsyncThunk(
   "createUser",
-  async (user: Partial<UserType>) => {
-    try {
-      const request = await axios.post<UserType>(
-        "https://api.escuelajs.co/api/v1/users/",
-        user
-      )
-      return request.data
-    } catch (e) {
-      const error = e as AxiosError
-      if (error.response) {
-        return JSON.stringify(error.response.data)
-      }
-      return error.message
-    }
+  async ({ file, user }: { file: File; user: Omit<NewUserType, "imageFile"> },{ dispatch }  ) => {
+    const imageString = dispatch(imageUpload(file))
+      .then((data) => {
+        return axios.post<UserType>("https://api.escuelajs.co/api/v1/users/", {
+          ...user,
+          avatar: data,
+        })
+      })
+      .then((newUser) => newUser.data)
+      .catch((e) => {
+        const error = e as AxiosError
+        if (error.response) {
+          return JSON.stringify(error.response.data)
+        }
+        return error.message
+      })
+
+    return imageString
   }
 )
 
@@ -67,6 +75,7 @@ export const authenticateUser = createAsyncThunk(
   "authentication",
   async (token: string) => {
     try {
+      console.log('pendingworking')
       const request = await axios.get<UserType>(
         "https://api.escuelajs.co/api/v1/auth/profile",
         {
@@ -104,6 +113,24 @@ export const loginUser = createAsyncThunk(
   }
 )
 
+export const imageUpload = createAsyncThunk(
+  "ImageUpload",
+  async (file: File) => {
+    try {
+      const request = await axios.post(
+        "https://api.escuelajs.co/api/v1/files/upload",
+        { file }
+      )
+      
+      return request.data
+    } catch (e) {
+      console.log(e)
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
 type CreateUserAction = Omit<UserType, "id">
 
 const userSlice = createSlice({
@@ -112,6 +139,10 @@ const userSlice = createSlice({
   reducers: {
     createUserLocally: (state, action: PayloadAction<UserType>) => {
       state.users.push(action.payload)
+    },
+    clearUserLogin: (state) => {
+      state.currentUser = initialState.currentUser
+      state.authloading = false
     },
     // updateUser: (state, action) => {
     //   console.log(action.payload)
@@ -191,6 +222,8 @@ const userSlice = createSlice({
           state.currentUser = action.payload
         }
         state.loading = false
+        state.authloading = true
+
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
@@ -198,11 +231,26 @@ const userSlice = createSlice({
         } else {
           state.currentUser = action.payload
         }
+        state.authloading = false
+      })
+      .addCase(authenticateUser.pending, (state) => {
+        state.authloading = true
+        console.log('pendingworking')
+        
+      })
+      .addCase(imageUpload.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.message
+        } else {
+          state.imageString = action.payload
+        }
         state.loading = false
       })
+      
   },
 })
 
 const userReducer = userSlice.reducer
-export const { sortUserByEmail, clearAllUsers, createUserLocally } = userSlice.actions
+export const { sortUserByEmail, clearAllUsers, createUserLocally,clearUserLogin } =
+  userSlice.actions
 export default userReducer

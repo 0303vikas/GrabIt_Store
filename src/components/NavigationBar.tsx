@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import {
   Avatar,
   Badge,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   FormControl,
   IconButton,
   Menu,
@@ -15,22 +18,14 @@ import {
 } from "@mui/material"
 
 import SearchIcon from "@mui/icons-material/Search"
-import { ShoppingCart} from '@mui/icons-material'
+import { ShoppingCart } from "@mui/icons-material"
 
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import {
-  createProduct,
-  deleteProduct,
-  fetchProductData,
-  filterProduct,
-  updateProduct,
-} from "../redux/reducers/productReducer"
+
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 import {
-  HeaderContainer,
   IconContainer,
-  MainContainer,
   List,
   NavigationList,
   NavigationContainer,
@@ -41,7 +36,7 @@ import {
   SettingContainer,
   SearchResultList,
 } from "../themes/HomePageTheme"
-
+import { clearUserLogin } from "../redux/reducers/userReducer"
 import darkLogo from "../icons/darkLogo.png"
 
 const NavigationLeft = () => {
@@ -60,13 +55,14 @@ const NavigationLeft = () => {
 }
 
 const NavigationRight = () => {
-  const settings = ["Profile", "registration", "login", "Logout"]
+  const settings = ["Profile", "Registration", "Login", "Logout"]
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
   const reduxState = useAppSelector((state) => state) // get state of redux store
   const product = reduxState.product
   const category = reduxState.categories
+  const [openLogoutConfirm, setopenLogoutConfirm] = useState(false)
 
   const [searchType, setSearchType] = useState("Product")
   const [mode, setMode] = useState<boolean>(true)
@@ -85,6 +81,14 @@ const NavigationRight = () => {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
   }
+
+  const logout = () => {
+    setopenLogoutConfirm(false)
+    dispatch(clearUserLogin())
+    localStorage.clear()
+    navigate("/")
+  }
+
   return (
     <NavigationContainer id="navigtionContent--right">
       <NavigationList>
@@ -169,12 +173,16 @@ const NavigationRight = () => {
           ) : null}
         </SearchResultList>
       </div>
-      
-      <Badge onClick={() => navigate('/product/cart')} badgeContent={reduxState.cart.length} color='secondary' sx={{margin: '0 1rem'}}>
-        
-      <ShoppingCart sx={{color: theme.palette.common.white}}/>
+
+      <Badge
+        onClick={() => navigate("/product/cart")}
+        badgeContent={reduxState.cart.length}
+        color="secondary"
+        sx={{ margin: "0 1rem" }}
+      >
+        <ShoppingCart sx={{ color: theme.palette.common.white }} />
       </Badge>
-      <SettingContainer sx={{marginRight: '0.5rem'}}>
+      <SettingContainer sx={{ marginRight: "0.5rem" }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="Profile Pic" src="/static/images/avatar/2.jpg" />
@@ -200,7 +208,11 @@ const NavigationRight = () => {
             <MenuItem key={setting} onClick={handleCloseUserMenu}>
               <Typography
                 textAlign="center"
-                onClick={() => navigate(`/${setting}`)}
+                onClick={
+                  setting === "Logout"
+                    ? () => setopenLogoutConfirm(true)
+                    : () => navigate(`/${setting.toLowerCase()}`)
+                }
               >
                 {setting}
               </Typography>
@@ -208,6 +220,20 @@ const NavigationRight = () => {
           ))}
         </Menu>
       </SettingContainer>
+      <Dialog
+        open={openLogoutConfirm}
+        keepMounted
+        onClose={() => setopenLogoutConfirm(false)}
+        aria-describedby="logut-confimation"
+      >
+        <DialogTitle>{"Confirm Logout?"}</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setopenLogoutConfirm(false)}>Cancel</Button>
+          <Button color="error" onClick={logout}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
       {/* <ThemeChangingButton>ThemeChaning button</ThemeChangingButton> */}
     </NavigationContainer>
   )

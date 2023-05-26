@@ -5,8 +5,8 @@ import categoryReducer from "./reducers/categoryReducer"
 import cartReducer from "./reducers/cartReducer"
 import userReducer from "./reducers/userReducer"
 
-const storedCart = localStorage.getItem('ProductCart')
-const cartData= storedCart !==null?JSON.parse(storedCart): []
+const storedCart = localStorage.getItem("ProductCart")
+const cartData = storedCart !== null ? JSON.parse(storedCart) : []
 
 const store = configureStore({
   reducer: {
@@ -30,12 +30,10 @@ const store = configureStore({
     user: {
       users: [],
       loading: false,
-      error: ""
-     
-      
-    }
-
-  }
+      error: "",
+      authloading: true,
+    },
+  },
 })
 
 store.subscribe(() => {
