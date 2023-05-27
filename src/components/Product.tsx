@@ -27,6 +27,9 @@ const Product = () => {
     maxValueRange: number
   } = filterProduct(products, "id", id)
 
+
+  
+
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number

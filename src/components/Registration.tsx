@@ -46,7 +46,7 @@ const Registration = () => {
         message: "Email is not available",
       })
       return false
-    }
+    }   
 
     const reader = new FileReader()
     reader.onload = function (event) {
