@@ -11,11 +11,14 @@ const initialState: {
   error: string
   currentUser?: UserType
   imageString?: string
+  registered: boolean
 } = {
   users: [],
   loading: false,
   error: "",  
-  authloading: true
+  authloading: true,
+  registered: false
+
 }
 
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
@@ -32,11 +35,13 @@ export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
 
 export const createUser = createAsyncThunk(
   "createUser",
-  async ({ file, user }: { file: File; user: Omit<NewUserType, "imageFile"> },{ dispatch }  ) => {
-    const imageString = dispatch(imageUpload(file))
+  async (userData: { file: string | ArrayBuffer | null | undefined; user: Omit<NewUserType, "imageFile"> },{ dispatch }  ) => {
+    console.log(userData.file)
+    
+    const imageString = dispatch(imageUpload(userData.file))
       .then((data) => {
         return axios.post<UserType>("https://api.escuelajs.co/api/v1/users/", {
-          ...user,
+          ...userData.user,
           avatar: data,
         })
       })
@@ -115,11 +120,19 @@ export const loginUser = createAsyncThunk(
 
 export const imageUpload = createAsyncThunk(
   "ImageUpload",
-  async (file: File) => {
+  async (file: string | ArrayBuffer | null | undefined) => {
+   
+
     try {
       const request = await axios.post(
         "https://api.escuelajs.co/api/v1/files/upload",
-        { file }
+        { body: {
+          'file': `${file as string}`,
+        },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+         }
       )
       
       return request.data
@@ -190,12 +203,13 @@ const userSlice = createSlice({
         state.error = "Cannot fetch data"
       })
       .addCase(createUser.fulfilled, (state, action) => {
+        state.registered = true
         if (typeof action.payload === "string") {
           state.error = action.payload
         } else {
           state.users.push(action.payload)
         }
-        state.loading = false
+        state.registered = true
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         if (typeof action.payload === "string") {

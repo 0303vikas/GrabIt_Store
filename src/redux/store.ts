@@ -32,6 +32,7 @@ const store = configureStore({
       loading: false,
       error: "",
       authloading: true,
+      registered: false,
     },
   },
 })

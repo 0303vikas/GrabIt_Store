@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   CardActionArea,
   CardMedia,
@@ -19,6 +19,7 @@ import ContainerProductCategory, {
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { addToCart } from "../redux/reducers/cartReducer"
+import { fetchProductData } from "../redux/reducers/productReducer"
 
 function filterProduct(
   products: ProductType[],
@@ -36,11 +37,13 @@ const Product = () => {
   const dispatch = useAppDispatch()
   const { id } = useParams()
   let filterList: ProductType[] = filterProduct(products, "id", id)
-
   const navigation = useNavigate()
   const [slicedArray, setSlicedArray] = useState<ProductType[]>(
     filterList.slice(0, 8)
   )
+
+
+  
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,

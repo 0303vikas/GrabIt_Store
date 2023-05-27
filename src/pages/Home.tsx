@@ -39,6 +39,7 @@ import {
   SearchResultList,
 } from "../themes/HomePageTheme"
 import { NavigationLeft, NavigationRight } from "../components/NavigationBar"
+import { fetchAllUsers } from "../redux/reducers/userReducer"
 // const getFilteredProduct = () => {
 //   return
 // }
@@ -49,74 +50,76 @@ const Home = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
-  const reduxState = useAppSelector((state) => state) // get state of redux store
-  const product = reduxState.product
-  const category = reduxState.categories
+  // const reduxState = useAppSelector((state) => state) // get state of redux store
+  // const product = reduxState.product
+  // const category = reduxState.categories
 
-  const [searchType, setSearchType] = useState("Product")
-  const [mode, setMode] = useState<boolean>(true)
-  const [search, setSearch] = useState("abs")
+  // const [searchType, setSearchType] = useState("Product")
+  // const [mode, setMode] = useState<boolean>(true)
+  // const [search, setSearch] = useState("abs")
 
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  )
-  const [showSearchList, setShowSearchList] = useState<"hidden" | "visible">(
-    "hidden"
-  )
+  // const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+  //   null
+  // )
+  // const [showSearchList, setShowSearchList] = useState<"hidden" | "visible">(
+  //   "hidden"
+  // )
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
-  }
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null)
+  // }
+  // const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  //   setAnchorElUser(event.currentTarget)
+  // }
 
   useEffect(() => {
     dispatch(fetchProductData())
+    dispatch(fetchAllUsers())
+    dispatch(fetchCategoryData())
   }, [])
 
   console.log("this is rendering again and again")
 
-  const create = () => {
-    let newPro = {
-      title: "testTitle",
-      price: 10,
-      description: "TestCase",
-      categoryId: 1,
-      images: ["https://placeimg.com/640/480/any"],
-    }
-    dispatch(createProduct(newPro))
-  }
+  // const create = () => {
+  //   let newPro = {
+  //     title: "testTitle",
+  //     price: 10,
+  //     description: "TestCase",
+  //     categoryId: 1,
+  //     images: ["https://placeimg.com/640/480/any"],
+  //   }
+  //   dispatch(createProduct(newPro))
+  // }
 
-  const update = () => {
-    let newPro = {
-      id: 214,
-      update: {
-        title: "testTitleUpdate",
-        price: 100,
-      },
-    }
-    dispatch(updateProduct(newPro))
-  }
+  // const update = () => {
+  //   let newPro = {
+  //     id: 214,
+  //     update: {
+  //       title: "testTitleUpdate",
+  //       price: 100,
+  //     },
+  //   }
+  //   dispatch(updateProduct(newPro))
+  // }
 
-  const deletepro = () => {
-    dispatch(deleteProduct(214))
-  }
-  const filtertit = () => {
-    dispatch(filterProduct({ title: "Generic" }))
-  }
+  // const deletepro = () => {
+  //   dispatch(deleteProduct(214))
+  // }
+  // const filtertit = () => {
+  //   dispatch(filterProduct({ title: "Generic" }))
+  // }
 
-  const filterPrice = () => {
-    dispatch(filterProduct({ price: 10 }))
-  }
+  // const filterPrice = () => {
+  //   dispatch(filterProduct({ price: 10 }))
+  // }
 
-  const filterRange = () => {
-    dispatch(filterProduct({ range: { price_max: 30 } }))
-  }
+  // const filterRange = () => {
+  //   dispatch(filterProduct({ range: { price_max: 30 } }))
+  // }
 
-  const filterCat = () => {
-    dispatch(filterProduct({ categoryId: 1 }))
-  }
+  // const filterCat = () => {
+  //   dispatch(filterProduct({ categoryId: 1 }))
+  // }
 
   return (
     <>

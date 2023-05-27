@@ -3,7 +3,7 @@ export interface RegistrationType {
     userEmail: string
     password: string
     retryPassword: string
-    imageFile: File
+    imageFile: FileList
   }
 export interface NewUserType {
     name: string

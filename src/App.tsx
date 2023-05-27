@@ -56,6 +56,14 @@ const appRouter = createBrowserRouter([
           </Protected>
         ),
       },
+      {
+        path: "/product/edit",
+        element: (<Protected><UserEdit /></Protected>)
+      },
+      {
+        path: "/product/create",
+        element: (<Protected><UserEdit /></Protected>)
+      }
     ],
   },
 ])
@@ -66,18 +74,19 @@ const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
   const changeMode = () => setDarkTheme(!darkTheme)
   const ModeContext = createContext<typeof changeMode | null>(null)
-  const { currentUser } = useAppSelector((state) => state.user)
+  // const { currentUser } = useAppSelector((state) => state.user)
 
   const accessToken = localStorage.getItem("userToken")
   const dispatch = useAppDispatch()
   // const loggedIn = useAppSelector( state => state.)
 
   useEffect(() => {
-    if (accessToken && !currentUser) {
+    if (accessToken) {
       console.log('this is running')
       dispatch(authenticateUser(accessToken))
     }
-  }, [])
+  }, [accessToken])
+  console.log('app.js re-rendering')
 
   return (
     <ModeContext.Provider value={changeMode}>

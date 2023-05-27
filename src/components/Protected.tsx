@@ -20,12 +20,11 @@ export const Protected = ({ children }: {children: ReactNode}) => {
   }
   if(authloading) return <div>Loading...</div>
 
-  if (!currentUser){
-    console.log('this ', currentUser)
+  if (!currentUser){    
     return <Navigate to="/login" replace />  
   } else {
-    if(currentUser.role === "admin"){
-        console.log('this Nabi')
+    if(currentUser.role !== "admin"){
+        
     return <Navigate to="/login" replace />  
     }
     return <Fragment> {children}</Fragment>

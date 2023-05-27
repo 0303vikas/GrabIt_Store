@@ -38,28 +38,34 @@ const Registration = () => {
         message: "Email is not available",
       })
       return false
-    }
+    }   
 
-    const userData = {
-      file: data.imageFile,
-      user: {
-        name: data.userName,
-        email: data.userEmail,
-        password: data.password,
-        avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
-      },
-    }
-    dispatch(createUser(userData))
-
-    setTimeout(() => {
-      if (userStore.error) {
-        return false
-      } else {
-        alert("Registration Successful")
-  
-        navigate("/login")
+    const reader = new FileReader()
+    reader.onload = function (event){
+      const binaryFile = event.target?.result
+      const userData = {
+        file: binaryFile,
+        user: {
+          name: data.userName,
+          email: data.userEmail,
+          password: data.password,
+          avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
+        },
       }
-    },2000)
+      dispatch(createUser(userData))
+    }
+
+    reader.readAsBinaryString(data.imageFile[0])    
+
+    // setTimeout(() => {
+    //   if (userStore.error) {
+    //     return false
+    //   } else {
+    //     alert("Registration Successful")
+  
+    //     navigate("/login")
+    //   }
+    // },2000)
     
     
   }
@@ -238,7 +244,8 @@ const Registration = () => {
         <input
           type="file"
           accept="image/*"
-          {...register("imageFile" as const)}
+          {...register("imageFile")}
+          name="imageFile"
           required
         />
         {userStore.error && (

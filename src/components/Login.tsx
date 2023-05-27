@@ -44,11 +44,7 @@ const Login = () => {
  
   const { users } = useAppSelector((state) => state.user)
   const theme = useTheme()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    dispatch(fetchAllUsers())
-  }, [])
+  const navigate = useNavigate() 
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()

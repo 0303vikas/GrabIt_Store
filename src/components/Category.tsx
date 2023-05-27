@@ -38,11 +38,7 @@ const Category = () => {
     category.slice(0, 8)
   )
 
-  useEffect(() => {
-    if (!category.length) {
-      dispatch(fetchCategoryData())
-    }
-  }, [])
+
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
