@@ -1,0 +1,13 @@
+.displayCard{
+  perspective: 20rem;
+  .displayCard--action {
+    position: relative;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    &:hover{
+      transform: rotateY('180deg');
+
+    }
+  }
+
+}
