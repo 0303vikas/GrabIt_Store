@@ -57,11 +57,11 @@ const appRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/product/edit",
+        path: "/createproduct",
         element: (<Protected><UserEdit /></Protected>)
       },
       {
-        path: "/product/create",
+        path: "/updateproduct",
         element: (<Protected><UserEdit /></Protected>)
       }
     ],

@@ -7,19 +7,21 @@ import {
   CardContent,
   IconButton,
   CardActions,
+  Button,
 } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
-import { AddShoppingCart } from "@mui/icons-material"
+import { AddShoppingCart, ArrowBackIos, ArrowForwardIos} from "@mui/icons-material"
 
 import { useAppSelector } from "../hooks/useAppSelector"
 import ContainerProductCategory, {
-  DisplayCard,
+ 
   DisplayGrid,  
 } from "../themes/categoryTheme"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { addToCart } from "../redux/reducers/cartReducer"
 import { fetchProductData } from "../redux/reducers/productReducer"
+import { Card } from "./Card"
 
 function filterProduct(
   products: ProductType[],
@@ -66,75 +68,9 @@ const Product = () => {
       className="productCategory--container"
     >
       <DisplayGrid gap={1} gridTemplateColumns={"repeat(4,1fr)"}>
-        {slicedArray.length > 0
-          ? slicedArray.map((item, index) => {
-              return (
-                <DisplayCard key={item.id}>
-                  <CardActionArea
-                  // onClick={() => navigation(`/category/${item.id}/products`)}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={item.images[1]}
-                      alt={item.title + " image."}
-                    />
-                    <CardContent>
-                      <Typography>{item.title}</Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <IconButton
-                      aria-label="add to favorites"
-                      onClick={() =>
-                        dispatch(addToCart({ ...item, quantity: 3 }))
-                      }
-                      color={
-                        cart.some((pro) => pro.id === item.id)
-                          ? "success"
-                          : "info"
-                      }
-                    >
-                      <AddShoppingCart />
-                    </IconButton>
-                  </CardActions>
-                </DisplayCard>
-              )
-            })
-          : filterList.slice(0, 8).map((item, index) => {
-              return (
-                <DisplayCard key={item.id}>
-                  <CardActionArea
-                  // onClick={() => navigation(`/category/${item.id}/products`)}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={item.images[1]}
-                      alt={item.title + " image."}
-                    />
-                    <CardContent>
-                      <Typography>{item.title}</Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <IconButton
-                      aria-label="add to favorites"
-                      onClick={() =>
-                        dispatch(addToCart({ ...item, quantity: 3 }))
-                      }
-                      color={
-                        cart.some((pro) => pro.id === item.id)
-                          ? "success"
-                          : "info"
-                      }
-                    >
-                      <AddShoppingCart />
-                    </IconButton>
-                  </CardActions>
-                </DisplayCard>
-              )
-            })}
+        {(slicedArray.length > 0
+          ? slicedArray: filterList.slice(0, 8)).map((item, index) => <Card key={item.id} item={item} imagesNo={item.images.length}/>)
+          }
       </DisplayGrid>
       <Pagination
         count={Math.ceil(filterList.length / 8)}

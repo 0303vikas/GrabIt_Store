@@ -52,16 +52,19 @@ const NavigationLeft = () => {
       </NavigationList>
     </NavigationContainer>
   )
-}
+}  
 
 const NavigationRight = () => {
-  const settings = ["Profile", "Registration", "Login", "Logout"]
+  const settingOptions = ["Registration", "Login"]
+  const addCustomerOptions = ["Profile","Logout"]
+  const addAdminOptions = ["CreateProduct", "UpdateProduct"]
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
   const reduxState = useAppSelector((state) => state) // get state of redux store
   const product = reduxState.product
   const category = reduxState.categories
+  const {currentUser} = reduxState.user
   const [openLogoutConfirm, setopenLogoutConfirm] = useState(false)
 
   const [searchType, setSearchType] = useState("Product")
@@ -204,7 +207,7 @@ const NavigationRight = () => {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {settings.map((setting) => (
+          {(currentUser?(currentUser.role === 'admin'?([...settingOptions,...addCustomerOptions, ...addAdminOptions]): ([...settingOptions,...addCustomerOptions])):(settingOptions)).map((setting) => (
             <MenuItem key={setting} onClick={handleCloseUserMenu}>
               <Typography
                 textAlign="center"

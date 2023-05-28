@@ -21,8 +21,7 @@ import {
 } from "../redux/reducers/categoryReducer"
 import ContainerProductCategory, {
   DisplayGrid,
-  DisplayGridContainer,
-  DisplayImage,
+  
   DisplayCard,
 } from "../themes/categoryTheme"
 import { CategoryType } from "../types/Category"

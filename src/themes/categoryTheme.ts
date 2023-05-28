@@ -34,32 +34,19 @@ const DisplayGrid = styled(Box)(({ theme }) => ({
   marginTop: "3rem",
 }))
 
-const DisplayGridContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: alpha(theme.palette.common.black, 0.5),
-  boxShadow: `inset  5px 0 30px ${theme.palette.common.black}`,
-  backdropFilter: "blur(10px)",
-  padding: "1rem",
-  display: "flex",
-  flexDirection: "column",
-  "&:hover": {
-    boxShadow: `5px 0 30px ${theme.palette.common.black}`,
-  },
-}))
+
 
 const DisplayCard = styled(Card)(({ theme }) => ({
   maxWidth: "345",
 }))
 
-const DisplayImage = styled("img")(({ theme }) => ({
-  width: "inherit",
-  height: "16vh",
-}))
+
 
 export {
   ContainerProductCategory,
   DisplayGrid,
-  DisplayGridContainer,
-  DisplayImage,
+  
+  
   DisplayCard,
 }
 
