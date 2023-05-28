@@ -51,7 +51,7 @@ const NavigationLeft = () => {
       </NavigationList>
     </NavigationContainer>
   )
-}  
+}
 
 const NavigationRight = () => {
   const settingOptions = ["Registration", "Login"]
