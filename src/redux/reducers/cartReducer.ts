@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
-import { CartType } from "../../themes/CartType"
+import { CartType } from "../../types/CartType"
 
 
 

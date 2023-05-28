@@ -2,7 +2,7 @@ import { removeFromCart, updateCart} from "../redux/reducers/cartReducer"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useState } from "react"
-import { CartType } from "../themes/CartType"
+import { CartType } from "../types/CartType"
 
 const CartKingItem = ({item} : {item: CartType}) => {
     const [numberOfItem, setNumberOfItem] = useState(item.quantity)

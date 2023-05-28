@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Avatar,
@@ -19,10 +19,8 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search"
 import { ShoppingCart } from "@mui/icons-material"
-
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 import {
   IconContainer,
@@ -38,6 +36,7 @@ import {
 } from "../themes/HomePageTheme"
 import { clearUserLogin } from "../redux/reducers/userReducer"
 import darkLogo from "../icons/darkLogo.png"
+import { useDebounce } from "../hooks/useDebounceHook"
 
 const NavigationLeft = () => {
   const navigate = useNavigate()
@@ -52,11 +51,11 @@ const NavigationLeft = () => {
       </NavigationList>
     </NavigationContainer>
   )
-}  
+}
 
 const NavigationRight = () => {
   const settingOptions = ["Registration", "Login"]
-  const addCustomerOptions = ["Profile","Logout"]
+  const addCustomerOptions = ["Profile", "Logout"]
   const addAdminOptions = ["CreateProduct", "UpdateProduct"]
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -64,23 +63,22 @@ const NavigationRight = () => {
   const reduxState = useAppSelector((state) => state) // get state of redux store
   const product = reduxState.product
   const category = reduxState.categories
-  const {currentUser} = reduxState.user
+  const { currentUser } = reduxState.user
   const [openLogoutConfirm, setopenLogoutConfirm] = useState(false)
-
   const [searchType, setSearchType] = useState("Product")
-  const [mode, setMode] = useState<boolean>(true)
-  const [search, setSearch] = useState("abs")
-
+  const [search, setSearch] = useState("")
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
   const [showSearchList, setShowSearchList] = useState<"hidden" | "visible">(
     "hidden"
   )
+  const debounceSearch = useDebounce(search, 1000)
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
   }
@@ -90,6 +88,10 @@ const NavigationRight = () => {
     dispatch(clearUserLogin())
     localStorage.clear()
     navigate("/")
+  }
+
+  const filterSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
   }
 
   return (
@@ -134,6 +136,7 @@ const NavigationRight = () => {
             inputProps={{ "aria-label": "search" }}
             style={{ color: "white" }}
             onFocus={() => setShowSearchList("visible")}
+            onChange={filterSearch}
           />
         </Search>
         <SearchResultList style={{ visibility: showSearchList }}>
@@ -144,26 +147,29 @@ const NavigationRight = () => {
           >
             Hide X
           </button>
-          {searchType === "Product" ? (
-            product.loading === true ? (
-              <div>Loading...</div>
-            ) : product.error ? (
-              <div>{product.error}</div>
-            ) : (
-              product.products.map((item, index) => (
+          {searchType === "Product"
+            ? (debounceSearch === ""
+                ? product.products
+                : product.products.filter((item) =>
+                    item.title
+                      .toLowerCase()
+                      .includes(debounceSearch.toLowerCase())
+                  )
+              ).map((item, index) => (
                 <List sx={{ color: "black" }} key={item.id}>
                   {item.title}
                 </List>
               ))
-            )
-          ) : null}
-          {searchType === "Category" ? (
-            category.loading === true ? (
-              <div>Loading...</div>
-            ) : category.error ? (
-              <div>{category.error}</div>
-            ) : (
-              category.category.map((item, index) => (
+            : null}
+          {searchType === "Category"
+            ? (debounceSearch === ""
+                ? category.category
+                : category.category.filter((item) =>
+                    item.name
+                      .toLowerCase()
+                      .includes(debounceSearch.toLowerCase())
+                  )
+              ).map((item, index) => (
                 <List
                   sx={{ color: "black" }}
                   key={item.id}
@@ -172,8 +178,7 @@ const NavigationRight = () => {
                   {item.name}
                 </List>
               ))
-            )
-          ) : null}
+            : null}
         </SearchResultList>
       </div>
 
@@ -207,7 +212,12 @@ const NavigationRight = () => {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {(currentUser?(currentUser.role === 'admin'?([...settingOptions,...addCustomerOptions, ...addAdminOptions]): ([...settingOptions,...addCustomerOptions])):(settingOptions)).map((setting) => (
+          {(currentUser
+            ? currentUser.role === "admin"
+              ? [...settingOptions, ...addCustomerOptions, ...addAdminOptions]
+              : [...settingOptions, ...addCustomerOptions]
+            : settingOptions
+          ).map((setting) => (
             <MenuItem key={setting} onClick={handleCloseUserMenu}>
               <Typography
                 textAlign="center"
