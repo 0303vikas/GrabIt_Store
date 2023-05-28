@@ -10,6 +10,7 @@ import { ascDescFunction } from "../hooks/sortProduct"
 import { Card } from "./Card"
 import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
 import { ProductType } from "../types/Product"
+import "../style.css"
 
 const Product = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -49,20 +50,20 @@ const Product = () => {
       id="product--container"
       className="productCategory--container"
     >
-      <h1 style={{ ...theme.typography.h1 }}>Products</h1>
+      
+      <h1 id='page-heading' style={{ ...theme.typography.h2, textTransform: 'uppercase', fontSize: '4rem'}}><span id="page-heading--firstLetter" style={{fontSize: '100px'}}>P</span>roducts</h1>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           style={{ display: "flex", flexDirection: "column", margin: "10px" }}
         >
-          <p>Sort</p>
           <IconButton onClick={() => ascDescFunction(dispatch, sort, setSort)}>
             <SortByAlphaOutlined />
           </IconButton>
         </div>
         <div
-          style={{ display: "flex", flexDirection: "column", margin: "10px" }}
+          style={{ display: "flex", flexDirection: "row", margin: "10px" }}
         >
-          <p>FilterValue: {filterPrice}</p>
+          
           <input
             type="range"
             min={filterList.minValueRange}
@@ -70,6 +71,7 @@ const Product = () => {
             max={filterList.maxValueRange}
             onChange={(e) => setfilterPice(Number(e.target.value))}
           />
+          <p>€ {filterPrice}</p>
         </div>
       </div>
 

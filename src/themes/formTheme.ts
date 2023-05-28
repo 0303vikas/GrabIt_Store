@@ -16,7 +16,7 @@ const borderAnimation = keyframes({
 
 const ContainerLoginRegister = styled("section")({
   background:
-    "linear-gradient(135deg, rgba(9,234,172,1) 0%, rgba(24,36,50,1) 10%,rgba(24,36,50,1) 90%, rgba(80,183,239,1) 100%)",
+    "linear-gradient(135deg, rgba(9,234,172,1) 0%, rgba(231, 222, 204, 1) 10%,rgba(231, 222, 204, 1) 90%, rgba(80,183,239,1) 100%)",
   width: "98.7vw",
   height: "98.7vh",
   border: "0.3vh solid",
@@ -39,13 +39,9 @@ const FormContainerLoginRegister = styled("form")(({ theme }) => ({
   alignItems: "center",
 
   boxShadow:
-    "0 2px 2px 0 rgba(80,183,239,1), 0 0 6px 0 rgba(9,234,172,1), 0 0 6px 0 rgba(9,234,172,1) ,0 0 6px 0 rgba(9,234,172,1)  ",
+    "0 2px 2px 0 rgba(80,183,239,1), 0 0 6px 0 rgba(9,234,172,1), 0 0 6px 0 rgba(9,234,172,1) ,0 0 6px 0 rgba(9,234,172,1), 0 0 80px 20px rgba(231, 222, 204, 1)",
   borderRadius: "0 4rem",
-  //   border: "2px solid",
-  //   borderImageSlice: "1",
-  //   borderImageSource:
-  //     "linear-gradient(90deg, rgba(9, 234, 172, 1) 50%, rgba(80, 183, 239, 1) 100%)",
-  //   animation: `${borderAnimation} 2s ease infinite`,
+  
 }))
 
 const textAnimation = keyframes({
@@ -100,6 +96,8 @@ const logoAnimation = keyframes({
 const ImageContainer = styled("img")({
   width: "25vw",
   height: "50vh",
+  borderRadius: '4rem 0',
+  
   animation: `${logoAnimation} 6s ease `,
 })
 

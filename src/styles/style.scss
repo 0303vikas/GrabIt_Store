@@ -1,5 +1,4 @@
 // input bottom === background: linear-gradient(90deg, rgba(9,234,172,1) 30%, rgba(80,183,239,1) 70%);
-@use "./card";
 
 // Extra Gradient
 // background: linear-gradient(32deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
@@ -10,4 +9,67 @@ body {
   // border-top: ;
   // border-left: ;
   // border
+}
+
+
+#page-heading{
+  font-family: 'Catamaran', sans-serif;
+  letter-spacing: 1rem;
+  font-weight: 900;
+  max-width: 800px;
+  display: block;
+  font-size: 250px;
+  color: rgba(95, 192, 254, 0.6);
+  text-shadow:
+  -10px 10px 0 rgba(50, 153, 240, 0.4),		
+  -1px 1px 0 #0372b8,
+  -2px 2px 0 #0372b8,
+  -3px 3px 0 #0372b8,
+  -4px 4px 0 #0372b8,
+  -5px 5px 0 #0372b8,
+  -6px 6px 0 #0372b8,
+  -7px 7px 0 #0372b8,
+  
+ 
+  -10px 5px 25px rgba(0, 0, 0, 0.2),
+  -25px 15px 10px rgba(0, 0, 0, 0.1);
+  transition: all .1s ;
+  line-height: 240px;
+  
+}
+
+#page-heading--firstLetter{
+  // animation:  rotation 2s  linear;
+  color: rgb(24,255,255, 0.25);
+  // transform: rotateY(180deg);  
+  display: inline-block;
+  text-shadow:
+  -14px 14px 0 rgba(50, 153, 240, 0.1),		
+  -1px 1px 0 rgb(24,255,255, 0.25),
+  -2px 2px 0 rgb(24,255,255, 0.25),
+  -3px 3px 0 rgb(24,255,255, 0.25),
+  -4px 4px 0 rgb(24,255,255, 0.25),
+  -5px 5px 0 rgb(24,255,255, 0.25),
+  -6px 6px 0 rgb(24,255,255, 0.25),
+  -7px 7px 0 rgb(24,255,255, 0.25),
+  -8px 8px 0 rgb(24,255,255, 0.25),
+  -9px 9px 0 #0372b8,
+  -10px 10px 0 #0372b8,
+  -11px 11px 0 #0372b8,
+  -12px 12px 0 #0372b8,
+  -13px 13px 0 #0372b8,
+  -14px 14px 0 #0372b8,
+  -15px 15px 35px rgba(0, 0, 0, 0.2),
+  -35px 15px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+@keyframes rotation{
+  0%{
+    transform: rotateY(0deg);
+  }
+  100%{
+    transform: rotateY(180deg);
+
+  }
 }

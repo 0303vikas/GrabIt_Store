@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material"
-import { Favorite } from "@mui/icons-material"
+
 import { useNavigate } from "react-router-dom"
 
 import ContainerLoginRegister from "../themes/formTheme"
@@ -28,6 +28,7 @@ import { CategoryType } from "../types/Category"
 
 const Category = () => {
   const dispatch = useAppDispatch()
+  const theme = useTheme()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const navigation = useNavigate()
   const { category, error, loading } = useAppSelector(
@@ -60,6 +61,7 @@ const Category = () => {
       id="category--container"
       className="productCategory--container"
     >
+      <h1 id='page-heading' style={{ ...theme.typography.h2, textTransform: 'uppercase', fontSize: '4rem'}}><span id="page-heading--firstLetter" style={{fontSize: '100px'}}>C</span>ategories</h1>
       <DisplayGrid gap={1} gridTemplateColumns={"repeat(4,1fr)"}>
         {slicedArray.length > 0
           ? slicedArray.map((item, index) => {
@@ -107,6 +109,7 @@ const Category = () => {
         onChange={handlePageChange}
         variant="outlined"
         color="primary"
+        sx={{ padding: "3rem 0rem" }}
       />
 
       {/* <button onClick={() => filterData("asc")}>Sort Asc</button>
