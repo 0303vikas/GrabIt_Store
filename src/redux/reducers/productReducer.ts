@@ -217,6 +217,6 @@ const productSlice = createSlice({
 })
 
 const productReducer = productSlice.reducer
-export const { clearProductStore } = productSlice.actions
+export const { clearProductStore, sortAsc } = productSlice.actions
 
 export default productReducer

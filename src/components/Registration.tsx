@@ -1,4 +1,3 @@
-import React from "react"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { Input, useTheme } from "@mui/material"
 import { useNavigate } from "react-router-dom"
@@ -9,12 +8,12 @@ import ContainerLoginRegister, {
   ImageContainer,
   SubmitBtn,
 } from "../themes/formTheme"
-import darkLogo from "../icons/darkLogo.png"
+import { RegistrationType } from "../types/NewUser"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { createUser } from "../redux/reducers/userReducer"
-import { NewUserType, RegistrationType } from "../types/NewUser"
 import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
+import darkLogo from "../icons/darkLogo.png"
+import { createUser } from "../redux/reducers/userReducer"
 
 const Registration = () => {
   const dispatch = useAppDispatch()
@@ -31,17 +30,20 @@ const Registration = () => {
   } = useForm<RegistrationType>()
   const onSubmit: SubmitHandler<RegistrationType> = (data, e) => {
     e?.preventDefault()
-    const isEmailAvailable = checkEmailAvailableHook(userStore.users, data.userName)
+    const isEmailAvailable = checkEmailAvailableHook(
+      userStore.users,
+      data.userName
+    )
     if (isEmailAvailable) {
       setError("userName", {
         type: "manual",
         message: "Email is not available",
       })
       return false
-    }   
+    }
 
     const reader = new FileReader()
-    reader.onload = function (event){
+    reader.onload = function (event) {
       const binaryFile = event.target?.result
       const userData = {
         file: binaryFile,
@@ -55,19 +57,17 @@ const Registration = () => {
       dispatch(createUser(userData))
     }
 
-    reader.readAsBinaryString(data.imageFile[0])    
+    reader.readAsBinaryString(data.imageFile[0])
 
     // setTimeout(() => {
     //   if (userStore.error) {
     //     return false
     //   } else {
     //     alert("Registration Successful")
-  
+
     //     navigate("/login")
     //   }
     // },2000)
-    
-    
   }
   const password = watch("password")
   const retryPassword = watch("retryPassword")

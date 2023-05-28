@@ -1,63 +1,45 @@
-import React, { useEffect, useState } from "react"
-import {
-  CardActionArea,
-  CardMedia,
-  Pagination, 
-  Typography,
-  CardContent,
-  IconButton,
-  CardActions,
-  Button,
-} from "@mui/material"
-import { useNavigate, useParams } from "react-router-dom"
-import { AddShoppingCart, ArrowBackIos, ArrowForwardIos} from "@mui/icons-material"
+import React, { useState } from "react"
+import { Pagination, IconButton, useTheme } from "@mui/material"
+import { useParams } from "react-router-dom"
+import { SortByAlphaOutlined } from "@mui/icons-material"
 
 import { useAppSelector } from "../hooks/useAppSelector"
-import ContainerProductCategory, {
- 
-  DisplayGrid,  
-} from "../themes/categoryTheme"
-import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
-import { addToCart } from "../redux/reducers/cartReducer"
-import { fetchProductData } from "../redux/reducers/productReducer"
+import { filterProduct } from "../hooks/filterProduct"
+import { ascDescFunction } from "../hooks/sortProduct"
 import { Card } from "./Card"
-
-function filterProduct(
-  products: ProductType[],
-  type?: string,
-  id?: string
-): ProductType[] {
-  if (id) return products.filter((item) => item.category.id === Number(id))
-  return products
-}
+import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
+import { ProductType } from "../types/Product"
 
 const Product = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const theme = useTheme()
   const { products, error, loading } = useAppSelector((state) => state.product)
-  const cart = useAppSelector((state) => state.cart)
   const dispatch = useAppDispatch()
+  const [filterPrice, setfilterPice] = useState(100)
   const { id } = useParams()
-  let filterList: ProductType[] = filterProduct(products, "id", id)
-  const navigation = useNavigate()
-  const [slicedArray, setSlicedArray] = useState<ProductType[]>(
-    filterList.slice(0, 8)
-  )
+  const [sort, setSort] = useState("asc")
 
-
-  
+  let filterList: {
+    filterItem: ProductType[]
+    minValueRange: number
+    maxValueRange: number
+  } = filterProduct(products, "id", id)
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setCurrentPage(value)
-    setSlicedArray(filterList.slice((value - 1) * 8, value * 8))
   }
 
-  //   const filterData = (sortType: "asc" | "desc") => {
-  //     dispatch(sortCategory(sortType))
-  //   }
+  const paginationHandler = Math.ceil(
+    filterList.filterItem.filter(
+      (item) =>
+        item.price > filterList.minValueRange && item.price < filterPrice
+    ).length / 9
+  )
+
   if (loading) return <p>Loading...</p>
 
   if (error) return <p>{error}</p>
@@ -67,28 +49,51 @@ const Product = () => {
       id="product--container"
       className="productCategory--container"
     >
-      <DisplayGrid gap={1} gridTemplateColumns={"repeat(4,1fr)"}>
-        {(slicedArray.length > 0
-          ? slicedArray: filterList.slice(0, 8)).map((item, index) => <Card key={item.id} item={item} imagesNo={item.images.length}/>)
-          }
+      <h1 style={{ ...theme.typography.h1 }}>Products</h1>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", margin: "10px" }}
+        >
+          <p>Sort</p>
+          <IconButton onClick={() => ascDescFunction(dispatch, sort, setSort)}>
+            <SortByAlphaOutlined />
+          </IconButton>
+        </div>
+        <div
+          style={{ display: "flex", flexDirection: "column", margin: "10px" }}
+        >
+          <p>FilterValue: {filterPrice}</p>
+          <input
+            type="range"
+            min={filterList.minValueRange}
+            step="5"
+            max={filterList.maxValueRange}
+            onChange={(e) => setfilterPice(Number(e.target.value))}
+          />
+        </div>
+      </div>
+
+      <DisplayGrid gap={2} gridTemplateColumns={"repeat(3,1fr)"}>
+        {filterList.filterItem &&
+          filterList.filterItem
+            .filter(
+              (item) =>
+                item.price > filterList.minValueRange &&
+                item.price < filterPrice
+            )
+            .slice(currentPage * 9 - 9, currentPage * 9)
+            .map((item, index) => (
+              <Card key={item.id} item={item} imagesNo={item.images.length} />
+            ))}
       </DisplayGrid>
       <Pagination
-        count={Math.ceil(filterList.length / 8)}
+        count={paginationHandler}
         page={currentPage}
         onChange={handlePageChange}
         variant="outlined"
         color="primary"
+        sx={{ padding: "3rem 0rem" }}
       />
-
-      {/* <button onClick={() => filterData("asc")}>Sort Asc</button>
-
-      <button onClick={() => filterData("desc")}>Sort Desc</button> */}
-
-      {/* {filterCategory
-        ? filterCategory.map((item, index) => {
-            return <p key={item.id}>{item.name}</p>
-          })
-        : null} */}
     </ContainerProductCategory>
   )
 }

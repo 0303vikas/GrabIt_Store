@@ -6,7 +6,7 @@ import { Box } from "@mui/system"
 const ContainerProductCategory = styled("section")(({ theme }) => ({
   background: alpha(theme.palette.common.white, 1),
   width: "98.7vw",
-  height: "120vh",
+  height: "120%",
   border: "0.3vh solid",
   display: "flex",
   flexDirection: "column",
@@ -23,7 +23,7 @@ const ContainerProductCategory = styled("section")(({ theme }) => ({
 const DisplayGrid = styled(Box)(({ theme }) => ({
   background: alpha(theme.palette.secondary.light, 0.5),
   width: "60vw",
-  height: "80vh",
+  height: "120%",
   boxShadow: ` inset 20px 0 80px ${theme.palette.secondary.dark},
    20px 20px 60px 10px ${alpha(theme.palette.primary.dark, 0.5)},
    -20px -20px 60px 10px ${alpha(theme.palette.primary.dark, 0.5)} `,
@@ -34,11 +34,13 @@ const DisplayGrid = styled(Box)(({ theme }) => ({
   marginTop: "3rem",
 }))
 
-
-
 const DisplayCard = styled(Card)(({ theme }) => ({
   maxWidth: "345",
+  height: '100%',
+ 
 }))
+
+
 
 
 

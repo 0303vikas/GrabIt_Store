@@ -37,7 +37,7 @@ export const Card = ({
   const moveImageLeft = () =>
     currentImage < imagesNo ? setCurrentImage(currentImage + 1) : null
 
-  console.log(imagesNo)
+ 
 
   return (
     <DisplayCard
@@ -47,12 +47,12 @@ export const Card = ({
     >
       <CardActionArea
         id="displayCard--action"
-        sx={{ ":hover": { transform: "roateY(180deg)" } }}
+        sx={{ ":hover": { transform: "roateY(180deg)" }, height: '70%' }}
         // onClick={() => navigation(`/category/${item.id}/products`)}
       >
         <CardContent
           id="displayCard--action"
-          sx={{ padding: "0px", position: "relative" }}
+          sx={{ padding: "0px" }}
         >
           <CardMedia
             component="img"
@@ -72,7 +72,7 @@ export const Card = ({
         </CardContent>
       </CardActionArea>
 
-      <CardActions sx={{ position: "absolute", bottom: "0px" }}>
+      <CardActions sx={{ bottom: "0px", minHeight: '30%' }}>
         <IconButton
           aria-label="add to favorites"
           onClick={() => dispatch(addToCart({ ...item, quantity: 1 }))}
