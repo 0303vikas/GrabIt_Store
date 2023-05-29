@@ -1,28 +1,64 @@
-import { removeFromCart, updateCart} from "../redux/reducers/cartReducer"
-import { ProductType } from "../types/Product"
-import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useState } from "react"
+import { Box, CardMedia, useTheme, Button } from "@mui/material"
+
+import { removeFromCart, updateCart } from "../redux/reducers/cartReducer"
+import { useAppDispatch } from "../hooks/useAppDispatch"
 import { CartType } from "../types/CartType"
+import {
+  DisplayCardHorizontal,
+  HorizontalCardBox,
+} from "../themes/horizontalCardTheme"
 
-const CartKingItem = ({item} : {item: CartType}) => {
-    const [numberOfItem, setNumberOfItem] = useState(item.quantity)
-   
-    const dispatch = useAppDispatch()
-   
-    return (
-        <div>{item.title}
-        <div>{item.description}</div>
-        <button onClick={() => setNumberOfItem(numberOfItem + 1)}>+</button>
-        <div>{numberOfItem}</div>
-        <button onClick={() => numberOfItem===1?null: setNumberOfItem(numberOfItem-1)}>-</button>
-       
-        <button onClick={() => dispatch(removeFromCart(item.id))}>Remove</button>
-        <button onClick={() => dispatch(updateCart({id: item.id,quantity: numberOfItem}))}>Update</button>
+const CartKingItem = ({ item }: { item: CartType }) => {
+  const [numberOfItem, setNumberOfItem] = useState(item.quantity)
+  const theme = useTheme()
 
+  const dispatch = useAppDispatch()
 
-        </div>
-        
-    )
+  return (
+    <DisplayCardHorizontal>
+      <CardMedia
+        component="img"
+        height="150"
+        image={item.images[1]}
+        alt={item.title + "image."}
+      />
+      <HorizontalCardBox>
+        <Box>
+          <Box sx={{ ...theme.typography.h2 }}>{item.title}</Box>
+          <Box sx={{ ...theme.typography.body1 }}>{item.description}</Box>
+          <Box sx={{ display: "flex" }}>
+            <Button onClick={() => setNumberOfItem(numberOfItem + 1)}>+</Button>
+            <div>{numberOfItem}</div>
+            <Button
+              onClick={() =>
+                numberOfItem === 1 ? null : setNumberOfItem(numberOfItem - 1)
+              }
+            >
+              -
+            </Button>
+          </Box>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              dispatch(updateCart({ id: item.id, quantity: numberOfItem }))
+            }
+          >
+            Update
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => dispatch(removeFromCart(item.id))}
+          >
+            Remove
+          </Button>
+        </Box>
+      </HorizontalCardBox>
+    </DisplayCardHorizontal>
+  )
 }
 
 export default CartKingItem
