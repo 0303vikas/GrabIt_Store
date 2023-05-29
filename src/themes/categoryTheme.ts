@@ -1,5 +1,4 @@
-import { Card, Grid, alpha, styled } from "@mui/material"
-
+import { Card, alpha, styled } from "@mui/material"
 import { borderAnimation } from "./formTheme"
 import { Box } from "@mui/system"
 
@@ -36,20 +35,10 @@ const DisplayGrid = styled(Box)(({ theme }) => ({
 
 const DisplayCard = styled(Card)(({ theme }) => ({
   maxWidth: "345",
-  height: '100%',
- 
+  height: "100%",
+  boxShadow: "5px 5px  15px  black",
 }))
 
-
-
-
-
-export {
-  ContainerProductCategory,
-  DisplayGrid,
-  
-  
-  DisplayCard,
-}
+export { ContainerProductCategory, DisplayGrid, DisplayCard }
 
 export default ContainerProductCategory

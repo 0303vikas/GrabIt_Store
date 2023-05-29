@@ -3,9 +3,7 @@ import { ThemeProvider } from "@mui/material/styles"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"
-import { fetchProductData } from "./redux/reducers/productReducer"
 import { useAppDispatch } from "./hooks/useAppDispatch"
-import { useAppSelector } from "./hooks/useAppSelector"
 import Home from "./pages/Home"
 import Login from "./components/Login"
 import Registration from "./components/Registration"
@@ -13,9 +11,10 @@ import Category from "./components/Category"
 import Product from "./components/Product"
 import Cart from "./components/Cart"
 import { Protected } from "./components/Protected"
-import { UserEdit } from "./components/UserEdit"
+import { UpdateProduct } from "./components/UpdateProduct"
 import { authenticateUser } from "./redux/reducers/userReducer"
 import { UserType } from "./types/User"
+import {SingleProduct} from "./components/SingleProduct"
 
 const appRouter = createBrowserRouter([
   {
@@ -51,17 +50,29 @@ const appRouter = createBrowserRouter([
         path: "/user/edit",
         element: (
           <Protected>
-            <UserEdit />
+            <UpdateProduct />
           </Protected>
         ),
       },
       {
         path: "/createproduct",
-        element: (<Protected><UserEdit /></Protected>)
+        element: (
+          <Protected>
+            <UpdateProduct />
+          </Protected>
+        ),
       },
       {
         path: "/updateproduct",
-        element: (<Protected><UserEdit /></Protected>)
+        element: (
+          <Protected>
+            <UpdateProduct />
+          </Protected>
+        ),
+      },
+      {
+        path: '/single/product/:id',
+        element: <SingleProduct />
       }
     ],
   },
@@ -73,19 +84,14 @@ const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
   const changeMode = () => setDarkTheme(!darkTheme)
   const ModeContext = createContext<typeof changeMode | null>(null)
-  // const { currentUser } = useAppSelector((state) => state.user)
-
   const accessToken = localStorage.getItem("userToken")
   const dispatch = useAppDispatch()
-  // const loggedIn = useAppSelector( state => state.)
 
   useEffect(() => {
     if (accessToken) {
-      console.log('this is running')
       dispatch(authenticateUser(accessToken))
     }
   }, [accessToken])
-  console.log('app.js re-rendering')
 
   return (
     <ModeContext.Provider value={changeMode}>

@@ -1,8 +1,6 @@
 import { styled } from "@mui/material"
 import { keyframes, Button } from "@mui/material"
 
-import darkLogo from "../icons/darkLogo.png"
-
 const borderAnimation = keyframes({
   from: {
     borderImageSource:
@@ -41,7 +39,6 @@ const FormContainerLoginRegister = styled("form")(({ theme }) => ({
   boxShadow:
     "0 2px 2px 0 rgba(80,183,239,1), 0 0 6px 0 rgba(9,234,172,1), 0 0 6px 0 rgba(9,234,172,1) ,0 0 6px 0 rgba(9,234,172,1), 0 0 80px 20px rgba(231, 222, 204, 1)",
   borderRadius: "0 4rem",
-  
 }))
 
 const textAnimation = keyframes({
@@ -96,8 +93,7 @@ const logoAnimation = keyframes({
 const ImageContainer = styled("img")({
   width: "25vw",
   height: "50vh",
-  borderRadius: '4rem 0',
-  
+  borderRadius: "4rem 0",
   animation: `${logoAnimation} 6s ease `,
 })
 

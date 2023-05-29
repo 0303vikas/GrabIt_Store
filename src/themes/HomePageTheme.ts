@@ -128,8 +128,4 @@ export const MainContainer = styled("main")(({ theme }) => ({
   background: theme.palette.secondary.main,
 }))
 
-// export const NavigatioinBar = styled("nav")(({ theme }) => ({
-//   background: theme.palette.primary.main,
-// }))
 
-// export const NavigationBarGrid = styled("div")(({ theme }) => ({}))

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, {  useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Avatar,
@@ -47,7 +47,7 @@ const NavigationLeft = () => {
       <NavigationList>
         <List onClick={() => navigate("/")}>Products</List>
         <List onClick={() => navigate("/categories")}>Categories</List>
-        <List>Users</List>
+        
       </NavigationList>
     </NavigationContainer>
   )
@@ -156,7 +156,7 @@ const NavigationRight = () => {
                       .includes(debounceSearch.toLowerCase())
                   )
               ).map((item, index) => (
-                <List sx={{ color: "black" }} key={item.id}>
+                <List sx={{ color: "black" }} key={item.id} onClick={() => navigate(`/single/product/${item.id}`)}>
                   {item.title}
                 </List>
               ))

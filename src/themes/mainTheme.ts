@@ -1,7 +1,5 @@
 import { createTheme } from "@mui/material/styles"
 
-import { deepmerge } from "@mui/utils"
-
 const darkTheme = createTheme({
   palette: {
     primary: {
