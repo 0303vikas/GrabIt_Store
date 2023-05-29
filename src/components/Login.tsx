@@ -33,7 +33,7 @@ const Login = () => {
 
   const { users } = useAppSelector((state) => state.user)
   const theme = useTheme()
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
