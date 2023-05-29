@@ -2,8 +2,8 @@ import { Card, styled, Box, CardMedia } from "@mui/material"
 
 const DisplayCardHorizontal = styled(Card)(({ theme }) => ({
   display: "flex",
-  justifyContent: 'space-around', 
-  alignContent: 'center'
+  justifyContent: "space-around",
+  alignContent: "center",
 }))
 
 const HorizontalCardBox = styled(Box)(({ theme }) => ({
@@ -11,8 +11,6 @@ const HorizontalCardBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
 }))
 
-const HorizontalCardMedia = styled(CardMedia)(({ theme }) => ({
-  
-}))
+const HorizontalCardMedia = styled(CardMedia)(({ theme }) => ({}))
 
 export { DisplayCardHorizontal, HorizontalCardMedia, HorizontalCardBox }

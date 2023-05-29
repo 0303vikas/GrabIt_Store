@@ -7,7 +7,7 @@ import { Card } from "./Card"
 
 export const SingleProduct = () => {
   const theme = useTheme()
-  const { products, error, loading } = useAppSelector((state) => state.product)
+  const { products } = useAppSelector((state) => state.product)
   const { id } = useParams()
 
   const item = products.find((product) => product.id === Number(id))

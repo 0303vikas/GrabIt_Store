@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
-  IconButton,
   Pagination,
   Typography,
   useTheme,
 } from "@mui/material"
-
 import { useNavigate } from "react-router-dom"
 
-import ContainerLoginRegister from "../themes/formTheme"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import {
-  fetchCategoryData,
-  sortCategory,
-} from "../redux/reducers/categoryReducer"
+import { sortCategory } from "../redux/reducers/categoryReducer"
 import ContainerProductCategory, {
   DisplayGrid,
-  
   DisplayCard,
 } from "../themes/categoryTheme"
 import { CategoryType } from "../types/Category"
@@ -37,8 +29,6 @@ const Category = () => {
   const [slicedArray, setSlicedArray] = useState<CategoryType[]>(
     category.slice(0, 8)
   )
-
-
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -61,7 +51,19 @@ const Category = () => {
       id="category--container"
       className="productCategory--container"
     >
-      <h1 id='page-heading' style={{ ...theme.typography.h2, textTransform: 'uppercase', fontSize: '4rem'}}><span id="page-heading--firstLetter" style={{fontSize: '100px'}}>C</span>ategories</h1>
+      <h1
+        id="page-heading"
+        style={{
+          ...theme.typography.h2,
+          textTransform: "uppercase",
+          fontSize: "4rem",
+        }}
+      >
+        <span id="page-heading--firstLetter" style={{ fontSize: "100px" }}>
+          C
+        </span>
+        ategories
+      </h1>
       <DisplayGrid gap={1} gridTemplateColumns={"repeat(4,1fr)"}>
         {slicedArray.length > 0
           ? slicedArray.map((item, index) => {
@@ -111,16 +113,6 @@ const Category = () => {
         color="primary"
         sx={{ padding: "3rem 0rem" }}
       />
-
-      {/* <button onClick={() => filterData("asc")}>Sort Asc</button>
-
-      <button onClick={() => filterData("desc")}>Sort Desc</button> */}
-
-      {/* {filterCategory
-        ? filterCategory.map((item, index) => {
-            return <p key={item.id}>{item.name}</p>
-          })
-        : null} */}
     </ContainerProductCategory>
   )
 }

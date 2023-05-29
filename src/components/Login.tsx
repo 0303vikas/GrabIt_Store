@@ -1,12 +1,6 @@
-import React, {
-  ChangeEvent,
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  useContext,
-  useEffect,
-} from "react"
+import React, { useEffect } from "react"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { Input, TextField, useTheme } from "@mui/material"
+import { Input, useTheme } from "@mui/material"
 
 import ContainerLoginRegister, {
   FormContainerLoginRegister,
@@ -17,12 +11,7 @@ import ContainerLoginRegister, {
 import darkLogo from "../icons/darkLogo.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import {
-  createUser,
-  fetchAllUsers,
-  loginUser,
-  updateUser,
-} from "../redux/reducers/userReducer"
+import { fetchAllUsers, loginUser } from "../redux/reducers/userReducer"
 import { findOneUserHook } from "../hooks/findOneUser"
 import { useNavigate } from "react-router-dom"
 
@@ -33,7 +22,7 @@ interface LoginForm {
 
 const Login = () => {
   const {
-    register,
+    
     handleSubmit,
     setError,
     control,
@@ -45,6 +34,10 @@ const Login = () => {
   const { users } = useAppSelector((state) => state.user)
   const theme = useTheme()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    dispatch(fetchAllUsers())
+  }, [])
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
@@ -164,24 +157,3 @@ const Login = () => {
 
 export default Login
 
-{
-  /* <TextField sx={{
-                fontWeight: "bolder",
-                color: "white",
-              }}>
-        <Controller
-          name="imageFile"
-          control={control}
-          render={({ field: { onChange, value, ...field} }) => (
-            <input
-              className="input--file"
-              type="file"
-              placeholder="Upload"              
-              required              
-              {...field}
-              
-            />
-          )}
-          />
-          </TextField> */
-}

@@ -8,6 +8,7 @@ import {
   CardActions,
   useTheme,
 } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 
 import { DisplayCard } from "../themes/categoryTheme"
 import { AddShoppingCart, Settings } from "@mui/icons-material"
@@ -16,7 +17,6 @@ import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { addToCart } from "../redux/reducers/cartReducer"
 import { ImageChangeButtons } from "./ImageChangeButtons"
-import { useNavigate } from "react-router-dom"
 
 export const Card = ({
   item,
@@ -30,7 +30,7 @@ export const Card = ({
   const dispatch = useAppDispatch()
   const [currentImage, setCurrentImage] = useState(1)
   const navigate = useNavigate()
-  const {currentUser} = useAppSelector(state => state.user)
+  const { currentUser } = useAppSelector((state) => state.user)
 
   return (
     <DisplayCard
@@ -70,14 +70,17 @@ export const Card = ({
         >
           <AddShoppingCart />
         </IconButton>
-        {currentUser?(currentUser.role==='admin'?(<IconButton
-          aria-label="Edit Product"
-          onClick={() => navigate(`/product/edit/${item.id}`)}
-          >
+        {currentUser ? (
+          currentUser.role === "admin" ? (
+            <IconButton
+              aria-label="Edit Product"
+              onClick={() => navigate(`/product/edit/${item.id}`)}
+            >
               <Settings color="info" />
-        </IconButton>) : null): null 
-        }
-        
+            </IconButton>
+          ) : null
+        ) : null}
+
         <ImageChangeButtons
           imagesNo={imagesNo}
           currentImage={currentImage}

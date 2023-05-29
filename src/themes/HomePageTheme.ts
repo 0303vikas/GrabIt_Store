@@ -127,5 +127,3 @@ export const SettingContainer = styled(Box)(({ theme }) => ({
 export const MainContainer = styled("main")(({ theme }) => ({
   background: theme.palette.secondary.main,
 }))
-
-
