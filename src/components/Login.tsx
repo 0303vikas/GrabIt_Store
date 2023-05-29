@@ -41,10 +41,10 @@ const Login = () => {
   } = useForm<LoginForm>()
 
   const dispatch = useAppDispatch()
- 
+
   const { users } = useAppSelector((state) => state.user)
   const theme = useTheme()
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
@@ -67,12 +67,11 @@ const Login = () => {
     }
     const loginData = {
       email: data.userEmail,
-      password: data.password
+      password: data.password,
     }
 
     dispatch(loginUser(loginData))
-    navigate('/')
-
+    navigate("/")
   }
 
   return (
@@ -95,19 +94,19 @@ const Login = () => {
           }}
           render={({ field }) => (
             <div>
-            <Input
-              className="input--userEmail"
-              type="string"
-              placeholder="Email"
-              style={{
-                fontWeight: "bolder",
-                color: "white",
-              }}
-              color={errors.userEmail ? "error" : "secondary"}
-              required
-              {...field}
-            />
-            {errors.userEmail && (
+              <Input
+                className="input--userEmail"
+                type="string"
+                placeholder="Email"
+                style={{
+                  fontWeight: "bolder",
+                  color: "white",
+                }}
+                color={errors.userEmail ? "error" : "secondary"}
+                required
+                {...field}
+              />
+              {errors.userEmail && (
                 <p
                   style={{
                     color: theme.palette.error.main,
@@ -130,19 +129,19 @@ const Login = () => {
           }}
           render={({ field }) => (
             <div>
-            <Input
-              className="input--password"
-              type="password"
-              placeholder="Password"
-              sx={{
-                fontWeight: "bolder",
-                color: "white",
-              }}
-              color={errors.password ? "error" : "secondary"}
-              required
-              {...field}
-            />
-            {errors.password && (
+              <Input
+                className="input--password"
+                type="password"
+                placeholder="Password"
+                sx={{
+                  fontWeight: "bolder",
+                  color: "white",
+                }}
+                color={errors.password ? "error" : "secondary"}
+                required
+                {...field}
+              />
+              {errors.password && (
                 <p
                   style={{
                     color: theme.palette.error.main,

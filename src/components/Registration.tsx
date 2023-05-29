@@ -13,7 +13,8 @@ import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
 import darkLogo from "../icons/darkLogo.png"
-import { createUser } from "../redux/reducers/userReducer"
+import { createUser, fetchAllUsers} from "../redux/reducers/userReducer"
+import { useEffect } from "react"
 
 const Registration = () => {
   const dispatch = useAppDispatch()
@@ -28,6 +29,11 @@ const Registration = () => {
     watch,
     register,
   } = useForm<RegistrationType>()
+
+  useEffect(() => {
+    dispatch(fetchAllUsers())
+  }, [])
+  
   const onSubmit: SubmitHandler<RegistrationType> = (data, e) => {
     e?.preventDefault()
     const isEmailAvailable = checkEmailAvailableHook(

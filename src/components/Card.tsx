@@ -11,14 +11,15 @@ import {
 
 import { DisplayCard } from "../themes/categoryTheme"
 import {
-  AddShoppingCart,
-  ArrowBackIos,
-  ArrowForwardIos,
+  AddShoppingCart, 
+  Settings 
 } from "@mui/icons-material"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { addToCart } from "../redux/reducers/cartReducer"
+import { ImageChangeButtons } from "./ImageChangeButtons"
+import { useNavigate } from "react-router-dom"
 
 export const Card = ({
   item,
@@ -31,12 +32,9 @@ export const Card = ({
   const cart = useAppSelector((state) => state.cart)
   const dispatch = useAppDispatch()
   const [currentImage, setCurrentImage] = useState(1)
+  const navigate = useNavigate()
 
-  const moveImageRight = () =>
-    currentImage > 1 ? setCurrentImage(currentImage - 1) : null
-  const moveImageLeft = () =>
-    currentImage < imagesNo ? setCurrentImage(currentImage + 1) : null
-
+  
  
 
   return (
@@ -80,38 +78,15 @@ export const Card = ({
         >
           <AddShoppingCart />
         </IconButton>
-        {imagesNo > 1 && (
-          <Typography
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "normal",
-              width: "inherit",
-            }}
-          >
-            <IconButton
-              onClick={moveImageRight}
-              style={
-                currentImage === 1
-                  ? { cursor: "not-allowed", opacity: "0.4" }
-                  : {}
-              }
-            >
-              <ArrowBackIos />
-            </IconButton>
-            <div style={{ paddingTop: "0.7rem" }}>Change Image</div>
-            <IconButton
-              onClick={moveImageLeft}
-              style={
-                currentImage === imagesNo
-                  ? { cursor: "not-allowed", opacity: "0.4" }
-                  : {}
-              }
-            >
-              <ArrowForwardIos />
-            </IconButton>
-          </Typography>
-        )}
+        <IconButton
+          aria-label="add to favorites"
+          onClick={() => navigate(`/product/edit/${item.id}`)}
+        
+        >
+          <Settings color='info' />
+        </IconButton>
+        <ImageChangeButtons  imagesNo={imagesNo} currentImage={currentImage} setCurrentImage={setCurrentImage}   />
+        
       </CardActions>
     </DisplayCard>
   )

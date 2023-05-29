@@ -28,7 +28,7 @@ export const SingleProduct = () => {
         <span id="page-heading--firstLetter" style={{ fontSize: "100px" }}>
           P
         </span>
-        roducts
+        roduct
       </h1>
 
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(3,1fr)"}>

@@ -47,7 +47,7 @@ const appRouter = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path: "/user/edit",
+        path: "/product/edit/:id",
         element: (
           <Protected>
             <UpdateProduct />
