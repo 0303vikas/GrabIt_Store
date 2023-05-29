@@ -161,6 +161,9 @@ const productSlice = createSlice({
       .addCase(fetchProductData.rejected, (state, action) => {
         state.error = "Cannot fetch data"
       })
+      .addCase(createProduct.pending, (state, actioin) => {
+        state.loading = true
+      })
       .addCase(createProduct.fulfilled, (state, action) => {
         if (typeof action.payload === "string") {
           state.error = action.payload
@@ -168,6 +171,9 @@ const productSlice = createSlice({
           state.products.push(action.payload)
         }
         state.loading = false
+      })
+      .addCase(updateProduct.pending, (state, actioin) => {
+        state.loading = true
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {

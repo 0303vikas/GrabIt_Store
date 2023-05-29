@@ -10,10 +10,7 @@ import {
 } from "@mui/material"
 
 import { DisplayCard } from "../themes/categoryTheme"
-import {
-  AddShoppingCart, 
-  Settings 
-} from "@mui/icons-material"
+import { AddShoppingCart, Settings } from "@mui/icons-material"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
@@ -33,9 +30,7 @@ export const Card = ({
   const dispatch = useAppDispatch()
   const [currentImage, setCurrentImage] = useState(1)
   const navigate = useNavigate()
-
-  
- 
+  const {currentUser} = useAppSelector(state => state.user)
 
   return (
     <DisplayCard
@@ -45,13 +40,10 @@ export const Card = ({
     >
       <CardActionArea
         id="displayCard--action"
-        sx={{ ":hover": { transform: "roateY(180deg)" }, height: '70%' }}
+        sx={{ ":hover": { transform: "roateY(180deg)" }, height: "70%" }}
         // onClick={() => navigation(`/category/${item.id}/products`)}
       >
-        <CardContent
-          id="displayCard--action"
-          sx={{ padding: "0px" }}
-        >
+        <CardContent id="displayCard--action" sx={{ padding: "0px" }}>
           <CardMedia
             component="img"
             height="140"
@@ -70,7 +62,7 @@ export const Card = ({
         </CardContent>
       </CardActionArea>
 
-      <CardActions sx={{ bottom: "0px", minHeight: '30%' }}>
+      <CardActions sx={{ bottom: "0px", minHeight: "30%" }}>
         <IconButton
           aria-label="add to favorites"
           onClick={() => dispatch(addToCart({ ...item, quantity: 1 }))}
@@ -78,15 +70,19 @@ export const Card = ({
         >
           <AddShoppingCart />
         </IconButton>
-        <IconButton
-          aria-label="add to favorites"
+        {currentUser?(currentUser.role==='admin'?(<IconButton
+          aria-label="Edit Product"
           onClick={() => navigate(`/product/edit/${item.id}`)}
+          >
+              <Settings color="info" />
+        </IconButton>) : null): null 
+        }
         
-        >
-          <Settings color='info' />
-        </IconButton>
-        <ImageChangeButtons  imagesNo={imagesNo} currentImage={currentImage} setCurrentImage={setCurrentImage}   />
-        
+        <ImageChangeButtons
+          imagesNo={imagesNo}
+          currentImage={currentImage}
+          setCurrentImage={setCurrentImage}
+        />
       </CardActions>
     </DisplayCard>
   )

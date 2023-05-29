@@ -56,7 +56,7 @@ const NavigationLeft = () => {
 const NavigationRight = () => {
   const settingOptions = ["Registration", "Login"]
   const addCustomerOptions = ["Profile", "Logout"]
-  const addAdminOptions = ["CreateProduct", "UpdateProduct"]
+  const addAdminOptions = ["CreateProduct"]
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
@@ -74,6 +74,7 @@ const NavigationRight = () => {
     "hidden"
   )
   const debounceSearch = useDebounce(search, 1000)
+  
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)

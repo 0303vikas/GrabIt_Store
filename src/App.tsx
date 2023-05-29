@@ -15,6 +15,7 @@ import { UpdateProduct } from "./components/UpdateProduct"
 import { authenticateUser } from "./redux/reducers/userReducer"
 import { UserType } from "./types/User"
 import {SingleProduct} from "./components/SingleProduct"
+import { CreateProduct } from "./components/CreateProduct"
 
 const appRouter = createBrowserRouter([
   {
@@ -58,18 +59,10 @@ const appRouter = createBrowserRouter([
         path: "/createproduct",
         element: (
           <Protected>
-            <UpdateProduct />
+            <CreateProduct />
           </Protected>
         ),
-      },
-      {
-        path: "/updateproduct",
-        element: (
-          <Protected>
-            <UpdateProduct />
-          </Protected>
-        ),
-      },
+      },      
       {
         path: '/single/product/:id',
         element: <SingleProduct />
