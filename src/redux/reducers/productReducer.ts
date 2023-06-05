@@ -4,7 +4,6 @@ import axios, { AxiosError } from "axios"
 import { ProductType } from "../../types/Product"
 import { NewProductType } from "../../types/NewProduct"
 import { UpdateProductType } from "../../types/UpdateProduct"
-import { FilterProductType } from "../../types/FilterProduct"
 
 const initilState: {
   products: ProductType[]
@@ -15,15 +14,6 @@ const initilState: {
   loading: false,
   error: "",
 }
-
-// {
-//     id: 0,
-//     title: "",
-//     price: 0,
-//     description: "",
-//     category: 0,
-//     images: []
-// }
 
 export const fetchProductData = createAsyncThunk(
   "getProduct",
@@ -55,40 +45,6 @@ export const createProduct = createAsyncThunk(
         return JSON.stringify(error.response.data)
       }
       return error.message
-    }
-  }
-)
-
-// Filter product reducer
-export const filterProduct = createAsyncThunk(
-  "filterProduct",
-  async (product: FilterProductType) => {
-    try {
-      let request
-      if (product.title) {
-        console.log(product.title)
-        request = await axios.get<ProductType[]>(
-          `https://api.escuelajs.co/api/v1/products/?title=${product.title}`
-        )
-      } else if (product.price) {
-        request = await axios.get<ProductType[]>(
-          `https://api.escuelajs.co/api/v1/products/?price=${product.price}`
-        )
-      } else if (product.categoryId) {
-        request = await axios.get<ProductType[]>(
-          `https://api.escuelajs.co/api/v1/products/?categoryId=${product.categoryId}`
-        )
-      } else {
-        request = await axios.get<ProductType[]>(
-          `https://api.escuelajs.co/api/v1/products/?price_min=${
-            product.range?.price_min || 1
-          }&price_max=${product.range?.price_max || 10000}`
-        )
-      }
-      return request.data
-    } catch (e) {
-      const error = e as AxiosError
-      return error
     }
   }
 )
@@ -130,10 +86,6 @@ const productSlice = createSlice({
   name: "product",
   initialState: initilState,
   reducers: {
-    // getAll: (state, action) => {
-    //   state.products
-    // },
-    // updateOne: (state, action) => {},
     clearProductStore: (state) => {
       return initilState
     },
@@ -204,20 +156,6 @@ const productSlice = createSlice({
           state.products = updatedArray
         }
         state.loading = false
-      })
-      .addCase(filterProduct.pending, (state) => {
-        state.loading = true
-      })
-      .addCase(filterProduct.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
-        } else {
-          state.products = action.payload
-        }
-        state.loading = false
-      })
-      .addCase(filterProduct.rejected, (state, action) => {
-        state.error = "Cannot fetch data"
       })
   },
 })

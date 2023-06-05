@@ -33,7 +33,8 @@ export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
 })
 
 export const createUser = createAsyncThunk(
-  "createUser", async (
+  "createUser",
+  async (
     userData: { file: FormData; user: Omit<NewUserType, "imageFile"> },
     { dispatch }
   ) => {
@@ -153,13 +154,6 @@ const userSlice = createSlice({
     clearAllUsers: (state) => {
       return initialState
     },
-    sortUserByEmail: (state, action) => {
-      if (action.payload === "asc") {
-        state.users.sort((a, b) => a.email.localeCompare(b.email))
-      } else {
-        state.users.sort((a, b) => b.email.localeCompare(a.email))
-      }
-    },
   },
   extraReducers: (build) => {
     build
@@ -236,10 +230,6 @@ const userSlice = createSlice({
 })
 
 const userReducer = userSlice.reducer
-export const {
-  sortUserByEmail,
-  clearAllUsers,
-  createUserLocally,
-  clearUserLogin,
-} = userSlice.actions
+export const { clearAllUsers, createUserLocally, clearUserLogin } =
+  userSlice.actions
 export default userReducer
