@@ -13,7 +13,7 @@ import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
 import darkLogo from "../icons/darkLogo.png"
-import { createUser, fetchAllUsers} from "../redux/reducers/userReducer"
+import { createUser, fetchAllUsers } from "../redux/reducers/userReducer"
 import { useEffect } from "react"
 
 const Registration = () => {
@@ -33,7 +33,7 @@ const Registration = () => {
   useEffect(() => {
     dispatch(fetchAllUsers())
   }, [])
-  
+
   const onSubmit: SubmitHandler<RegistrationType> = (data, e) => {
     e?.preventDefault()
     const isEmailAvailable = checkEmailAvailableHook(
@@ -48,32 +48,30 @@ const Registration = () => {
       return false
     }
 
-    const reader = new FileReader()
-    reader.onload = function (event) {
-      const binaryFile = event.target?.result
-      const userData = {
-        file: binaryFile,
-        user: {
-          name: data.userName,
-          email: data.userEmail,
-          password: data.password,
-          avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
-        },
-      }
-      dispatch(createUser(userData))
+    const imgFormData = new FormData()
+    imgFormData.append("file", data.file[0])
+
+    const userData = {
+      file: imgFormData,
+      user: {
+        name: data.userName,
+        email: data.userEmail,
+        password: data.password,
+        avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
+      },
     }
 
-    reader.readAsBinaryString(data.imageFile[0])
+    dispatch(createUser(userData))
 
-    // setTimeout(() => {
-    //   if (userStore.error) {
-    //     return false
-    //   } else {
-    //     alert("Registration Successful")
+    setTimeout(() => {
+      if (userStore.error) {
+        return false
+      } else {
+        alert("Registration Successful")
 
-    //     navigate("/login")
-    //   }
-    // },2000)
+        navigate("/login")
+      }
+    }, 2000)
   }
   const password = watch("password")
   const retryPassword = watch("retryPassword")
@@ -250,8 +248,8 @@ const Registration = () => {
         <input
           type="file"
           accept="image/*"
-          {...register("imageFile")}
-          name="imageFile"
+          {...register("file")}
+          name="file"
           required
         />
         {userStore.error && (

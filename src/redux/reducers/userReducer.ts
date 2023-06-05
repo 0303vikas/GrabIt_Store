@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
 
-import { UserType } from "../../types/User"
+import { UserLoginType, UserType } from "../../types/User"
 import { NewUserType } from "../../types/NewUser"
 
 const initialState: {
@@ -15,10 +15,9 @@ const initialState: {
 } = {
   users: [],
   loading: false,
-  error: "",  
+  error: "",
   authloading: true,
-  registered: false
-
+  registered: false,
 }
 
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
@@ -34,15 +33,16 @@ export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
 })
 
 export const createUser = createAsyncThunk(
-  "createUser",
-  async (userData: { file: string | ArrayBuffer | null | undefined; user: Omit<NewUserType, "imageFile"> },{ dispatch }  ) => {
-    console.log(userData.file)
-    
+  "createUser", async (
+    userData: { file: FormData; user: Omit<NewUserType, "imageFile"> },
+    { dispatch }
+  ) => {
     const imageString = dispatch(imageUpload(userData.file))
       .then((data) => {
+        console.log(data)
         return axios.post<UserType>("https://api.escuelajs.co/api/v1/users/", {
           ...userData.user,
-          avatar: data,
+          avatar: data.payload,
         })
       })
       .then((newUser) => newUser.data)
@@ -80,7 +80,6 @@ export const authenticateUser = createAsyncThunk(
   "authentication",
   async (token: string) => {
     try {
-      console.log('pendingworking')
       const request = await axios.get<UserType>(
         "https://api.escuelajs.co/api/v1/auth/profile",
         {
@@ -120,31 +119,25 @@ export const loginUser = createAsyncThunk(
 
 export const imageUpload = createAsyncThunk(
   "ImageUpload",
-  async (file: string | ArrayBuffer | null | undefined) => {
-   
-
+  async (file: FormData) => {
     try {
       const request = await axios.post(
         "https://api.escuelajs.co/api/v1/files/upload",
-        { body: {
-          'file': `${file as string}`,
-        },
+        file,
+        {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
-         }
+        }
       )
-      
-      return request.data
+
+      return request.data.location
     } catch (e) {
-      console.log(e)
       const error = e as AxiosError
       return error
     }
   }
 )
-
-type CreateUserAction = Omit<UserType, "id">
 
 const userSlice = createSlice({
   name: "user",
@@ -157,24 +150,6 @@ const userSlice = createSlice({
       state.currentUser = initialState.currentUser
       state.authloading = false
     },
-    // updateUser: (state, action) => {
-    //   console.log(action.payload)
-    //   const users = state.users.map((user) => {
-    //     if (user.id === action.payload.id) {
-    //       console.log(user.id)
-    //       return { ...user, ...action.payload.update }
-    //     }
-    //     return user
-    //   })
-    //   console.log({
-    //     ...state,
-    //     users,
-    //   })
-    //   return {
-    //     ...state,
-    //     users,
-    //   }
-    // },
     clearAllUsers: (state) => {
       return initialState
     },
@@ -237,7 +212,6 @@ const userSlice = createSlice({
         }
         state.loading = false
         state.authloading = true
-
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
@@ -249,8 +223,6 @@ const userSlice = createSlice({
       })
       .addCase(authenticateUser.pending, (state) => {
         state.authloading = true
-        console.log('pendingworking')
-        
       })
       .addCase(imageUpload.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
@@ -260,11 +232,14 @@ const userSlice = createSlice({
         }
         state.loading = false
       })
-      
   },
 })
 
 const userReducer = userSlice.reducer
-export const { sortUserByEmail, clearAllUsers, createUserLocally,clearUserLogin } =
-  userSlice.actions
+export const {
+  sortUserByEmail,
+  clearAllUsers,
+  createUserLocally,
+  clearUserLogin,
+} = userSlice.actions
 export default userReducer
