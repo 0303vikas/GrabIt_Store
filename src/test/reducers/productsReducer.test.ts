@@ -2,7 +2,6 @@ import store from "../shared/store"
 import {
   fetchProductData,
   updateProduct,
-  filterProduct,
   createProduct,
   clearProductStore,
   deleteProduct,

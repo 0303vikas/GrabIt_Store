@@ -1,3 +1,10 @@
+/**
+ * @file Routing Page
+ * @description Consists of Create Browser List, theme provider and change mode button
+ * @Author Vikas Singh
+ * @note
+ * - change mode button is not working yet
+ */
 import React, { createContext, useEffect, useState } from "react"
 import { ThemeProvider } from "@mui/material/styles"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
@@ -71,8 +78,6 @@ const appRouter = createBrowserRouter([
   },
 ])
 
-export const LoggedInUserContext = createContext<UserType | null | false>(null)
-
 const App = () => {
   const [darkTheme, setDarkTheme] = useState<false | true>(false)
   const changeMode = () => setDarkTheme(!darkTheme)
@@ -80,6 +85,8 @@ const App = () => {
   const accessToken = localStorage.getItem("userToken")
   const dispatch = useAppDispatch()
 
+  // if token exists in localStorage, then
+  // get user authenticated
   useEffect(() => {
     if (accessToken) {
       dispatch(authenticateUser(accessToken))

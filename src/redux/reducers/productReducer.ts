@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
 
 import { ProductType } from "../../types/Product"
@@ -74,7 +74,6 @@ export const deleteProduct = createAsyncThunk(
       )
       return id
     } catch (e) {
-      console.log(e)
       const error = e as AxiosError
       return error
     }

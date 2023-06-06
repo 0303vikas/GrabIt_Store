@@ -1,3 +1,8 @@
+/**
+ * @file Product
+ * @description product display component
+ * @Author Vikas Singh 
+ */
 import React, { useState } from "react"
 import { Pagination, IconButton, useTheme } from "@mui/material"
 import { useParams } from "react-router-dom"
@@ -12,6 +17,12 @@ import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
 import { ProductType } from "../types/Product"
 import "../style.css"
 
+/**
+ * @description Product Component with 9 products displayed each page
+ * @returns JSX.Element Product component
+ * @notes
+ * - filter product hook filters the product for sorting and price filter 
+ */
 const Product = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const theme = useTheme()
@@ -25,10 +36,7 @@ const Product = () => {
     filterItem: ProductType[]
     minValueRange: number
     maxValueRange: number
-  } = filterProduct(products, "id", id)
-
-
-  
+  } = filterProduct(products, "id", id)  
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,

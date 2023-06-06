@@ -1,3 +1,8 @@
+/**
+ * @file Registration
+ * @description User Registration Component
+ * @Author Vikas Singh
+ */
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { Input, useTheme } from "@mui/material"
 import { useNavigate } from "react-router-dom"
@@ -16,6 +21,10 @@ import darkLogo from "../icons/darkLogo.png"
 import { createUser, fetchAllUsers } from "../redux/reducers/userReducer"
 import { useEffect } from "react"
 
+/**
+ * @description For registing new users, for data consists of username, useremail, password and image upload
+ * @returns JSX.Element registration form
+ */
 const Registration = () => {
   const dispatch = useAppDispatch()
   const theme = useTheme()
@@ -36,11 +45,11 @@ const Registration = () => {
 
   const onSubmit: SubmitHandler<RegistrationType> = (data, e) => {
     e?.preventDefault()
-    const isEmailAvailable = checkEmailAvailableHook(
+    const isEmailExisting = checkEmailAvailableHook(
       userStore.users,
       data.userName
     )
-    if (isEmailAvailable) {
+    if (isEmailExisting) {
       setError("userName", {
         type: "manual",
         message: "Email is not available",
@@ -61,9 +70,7 @@ const Registration = () => {
       },
     }
 
-    dispatch(createUser(userData))
-
-    setTimeout(() => {
+    dispatch(createUser(userData)).then((res) => {
       if (userStore.error) {
         return false
       } else {
@@ -71,7 +78,7 @@ const Registration = () => {
 
         navigate("/login")
       }
-    }, 2000)
+    })
   }
   const password = watch("password")
   const retryPassword = watch("retryPassword")

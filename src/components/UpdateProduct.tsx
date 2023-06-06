@@ -1,3 +1,10 @@
+/**
+ * @file DisplayData
+ * @description DisplayArea for all the breweries on the home page + pagination handling function
+ * @Author Vikas Singh 
+ * @note
+ * - Adding image option not added yet
+ */
 import React, { useState } from "react"
 import {
   CardMedia,
@@ -175,8 +182,4 @@ const UpdateCard = ({
   )
 }
 
-// title: string
-//   price: number
-//   description: string
-//   category: CategoryType
-//   images: string[]
+

@@ -1,11 +1,23 @@
+/**
+ * @file Cart
+ * @description Layout of the cart page
+ * @Author Vikas Singh 
+ * @note
+ * - cart btn displayed on nav bar
+ * - edit quantity and remove from cart options
+ */
 import React from "react"
 import { useTheme } from "@mui/material"
 
 import { useAppSelector } from "../hooks/useAppSelector"
-import CartKingItem from "./CartItem"
+import CartItem from "./CartItem"
 import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
 
-const CartKing = () => {
+/**
+ * @description Cart outer structure, checks state from redux store and display's data is available
+ * @returns JSX.Element
+ */
+const Cart = () => {
   const cartState = useAppSelector((state) => state.cart)
   const theme = useTheme()
 
@@ -27,10 +39,14 @@ const CartKing = () => {
         </span>
         art
       </h1>
-
+        {/**
+         * check redux cart state, 
+         * if state === empty, display cart empty message
+         * else display cart data
+         */}
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(1,1fr)"}>
         {cartState.length ? (
-          cartState.map((item) => <CartKingItem item={item} />)
+          cartState.map((item) => <CartItem item={item} />)
         ) : (
           <div> No Item added to Cart</div>
         )}
@@ -39,4 +55,4 @@ const CartKing = () => {
   )
 }
 
-export default CartKing
+export default Cart

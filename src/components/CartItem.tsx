@@ -1,3 +1,8 @@
+/**
+ * @file CartItem
+ * @description Cart item display card 
+ * @Author Vikas Singh 
+ */
 import { useState } from "react"
 import { Box, CardMedia, useTheme, Button } from "@mui/material"
 
@@ -9,10 +14,14 @@ import {
   HorizontalCardBox,
 } from "../themes/horizontalCardTheme"
 
-const CartKingItem = ({ item }: { item: CartType }) => {
+/**
+ * @description: displays card Cart
+ * @param item: @type CartType
+ * @returns JSX.Element
+ */
+const CartItem = ({ item }: { item: CartType }) => {
   const [numberOfItem, setNumberOfItem] = useState(item.quantity)
   const theme = useTheme()
-
   const dispatch = useAppDispatch()
 
   return (
@@ -61,4 +70,4 @@ const CartKingItem = ({ item }: { item: CartType }) => {
   )
 }
 
-export default CartKingItem
+export default CartItem

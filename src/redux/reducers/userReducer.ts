@@ -40,7 +40,6 @@ export const createUser = createAsyncThunk(
   ) => {
     const imageString = dispatch(imageUpload(userData.file))
       .then((data) => {
-        console.log(data)
         return axios.post<UserType>("https://api.escuelajs.co/api/v1/users/", {
           ...userData.user,
           avatar: data.payload,
@@ -154,6 +153,9 @@ const userSlice = createSlice({
     clearAllUsers: (state) => {
       return initialState
     },
+    findOneUser: (state) => {
+
+    }
   },
   extraReducers: (build) => {
     build

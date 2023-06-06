@@ -1,5 +1,16 @@
 import { ProductType } from "../types/Product"
-
+/**
+ * 
+ * @param products @type ProductType[]: list of products
+ * @param type @type string: filter type
+ * @param id @type string: id 
+ * @returns {
+ *  filterItem: ProductType[],
+ * minValueRange: number,
+ * maxValueRange: number
+ * }
+ * price range = min and max
+ */
 export const filterProduct = (
   products: ProductType[],
   type?: string,
@@ -32,8 +43,7 @@ export const filterProduct = (
   const maxValueRange = Math.ceil(
     Math.max(...products.map((item) => item.price))
   )
-  console.log(products.map((item) => item.price))
-  console.log(products.map((item) => item.price))
+ 
   return {
     filterItem: products,
     minValueRange,

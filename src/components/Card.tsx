@@ -1,3 +1,8 @@
+/**
+ * @file Card
+ * @description Card for displaying product data
+ * @Author Vikas Singh
+ */
 import { useState } from "react"
 import {
   CardActionArea,
@@ -18,6 +23,12 @@ import { useAppSelector } from "../hooks/useAppSelector"
 import { addToCart } from "../redux/reducers/cartReducer"
 import { ImageChangeButtons } from "./ImageChangeButtons"
 
+/**
+ * @description Card Component
+ * @param item: @type ProductType
+ * @param imagesNo: @type number
+ * @returns JSX.Element
+ */
 export const Card = ({
   item,
   imagesNo,
@@ -41,7 +52,6 @@ export const Card = ({
       <CardActionArea
         id="displayCard--action"
         sx={{ ":hover": { transform: "roateY(180deg)" }, height: "70%" }}
-        // onClick={() => navigation(`/category/${item.id}/products`)}
       >
         <CardContent id="displayCard--action" sx={{ padding: "0px" }}>
           <CardMedia
@@ -70,6 +80,11 @@ export const Card = ({
         >
           <AddShoppingCart />
         </IconButton>
+        {/**
+         * if current user exists and role is admin, then
+         * display setting btn
+         * else return display non
+         */}
         {currentUser ? (
           currentUser.role === "admin" ? (
             <IconButton

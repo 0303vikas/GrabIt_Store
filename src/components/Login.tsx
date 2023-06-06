@@ -1,4 +1,12 @@
-import React, { useEffect } from "react"
+/**
+ * @file Login
+ * @description User Login Component
+ * @Author Vikas Singh
+ * @note
+ * - component is passed to withLoading page
+ * - after loading is finished, this display will handle data rendering on home page
+ */
+
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { Input, useTheme } from "@mui/material"
 
@@ -11,8 +19,8 @@ import ContainerLoginRegister, {
 import darkLogo from "../icons/darkLogo.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { fetchAllUsers, loginUser } from "../redux/reducers/userReducer"
-import { findOneUserHook } from "../hooks/findOneUser"
+import { loginUser } from "../redux/reducers/userReducer"
+import { findOneUser } from "../hooks/findOneUser"
 import { useNavigate } from "react-router-dom"
 
 interface LoginForm {
@@ -20,9 +28,15 @@ interface LoginForm {
   password: string
 }
 
+/**
+ * @description Login component
+ * @returns JSX.Element
+ * @notes 
+ *  - validation errors are displayed in the form 
+ *  - login rejection error are handled by error page
+ */
 const Login = () => {
   const {
-    
     handleSubmit,
     setError,
     control,
@@ -35,13 +49,9 @@ const Login = () => {
   const theme = useTheme()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    dispatch(fetchAllUsers())
-  }, [])
-
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
-    const userEmailExist = findOneUserHook(users, data.userEmail)
+    const userEmailExist = findOneUser(users, data.userEmail)
 
     if (!userEmailExist) {
       setError("userEmail", {
@@ -63,8 +73,12 @@ const Login = () => {
       password: data.password,
     }
 
-    dispatch(loginUser(loginData))
-    navigate("/")
+    dispatch(loginUser(loginData)).then((data) => {
+      if (data.type === "login/fulfilled") {
+        alert("User Logged In Successfully")
+        navigate("/")
+      }
+    })
   }
 
   return (
@@ -156,4 +170,3 @@ const Login = () => {
 }
 
 export default Login
-

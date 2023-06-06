@@ -1,14 +1,26 @@
+/**
+ * @file Home Page
+ * @description Home Page with Navigation and Outlet
+ * @Author Vikas Singh 
+ */
 import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
 
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { fetchProductData } from "../redux/reducers/productReducer"
-import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 import { HeaderContainer } from "../themes/HomePageTheme"
 import { NavigationLeft, NavigationRight } from "../components/NavigationBar"
 import { useAppSelector } from "../hooks/useAppSelector"
 import ErrorComponent from "./Error"
+import { fetchAllUsers } from "../redux/reducers/userReducer"
+import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 
+/**
+ * if error
+ * @returns JSX.Element Error
+ * else
+ * @returns JSX.Element OutLet
+ */
 const Home = () => {
   const dispatch = useAppDispatch()
   const reduxErrorState = useAppSelector((state) => state)
@@ -18,7 +30,9 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchProductData())
+    dispatch(fetchAllUsers())
     dispatch(fetchCategoryData())
+ 
   }, [])
 
   return (

@@ -1,7 +1,16 @@
+/**
+ * @file Error
+ * @description Store error handling page
+ * @Author Vikas Singh
+ */
 import { useTheme } from "@mui/material"
 import React from "react"
 import { useAppSelector } from "../hooks/useAppSelector"
 
+/**
+ * 
+ * @returns JSX.Element with error
+ */
 const ErrorComponent = () => {
   let theme = useTheme()
   const reduxState = useAppSelector((store) => store)

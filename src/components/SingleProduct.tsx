@@ -1,3 +1,8 @@
+/**
+ * @file Single Product
+ * @description Single Product Display
+ * @Author Vikas Singh
+ */
 import { useTheme } from "@mui/material"
 import { useParams } from "react-router-dom"
 
@@ -5,6 +10,12 @@ import { useAppSelector } from "../hooks/useAppSelector"
 import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
 import { Card } from "./Card"
 
+/**
+ * @description For single product display, after finding one from the search options
+ * @returns JSX.Element Single product Card
+ * @notes
+ * - check id from the params of the url and displays the corrosponding product
+ */
 export const SingleProduct = () => {
   const theme = useTheme()
   const { products } = useAppSelector((state) => state.product)

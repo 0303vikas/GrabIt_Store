@@ -1,6 +1,12 @@
 import { UserType } from "../types/User"
 
-export const findOneUserHook = (user: UserType[], email: string) => {
+/**
+ *
+ * @param user @type Usertype[] user list
+ * @param email @type string, search user email
+ * @returns false|| user( if user with email exists)
+ */
+export const findOneUser = (user: UserType[], email: string) => {
   const findUser = user.find(
     (item) => item.email.toLowerCase() === email.toLowerCase()
   )

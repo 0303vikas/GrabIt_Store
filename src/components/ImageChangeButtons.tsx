@@ -1,7 +1,22 @@
+/**
+ * @file ImageChangeButtons
+ * @description Buttons for changing image of the product card, cart card and update product cart
+ * @Author Vikas Singh
+ */
 import React from "react"
 import { IconButton, Typography } from "@mui/material"
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material"
 
+/**
+ *
+ * @param imagesNo: number = number of images
+ * @param currentImage: number = current image number
+ * @param setCurrentImage: React.Dispatch<React.SetStateAction<number>>
+ * if imagesNo === 0
+ * @returns null
+ * else
+ * @returns JSX.Element for changing image
+ */
 export const ImageChangeButtons = ({
   imagesNo,
   currentImage,
@@ -30,6 +45,7 @@ export const ImageChangeButtons = ({
           <IconButton
             onClick={moveImageRight}
             style={
+              // disable button if no image on left
               currentImage === 1
                 ? { cursor: "not-allowed", opacity: "0.4" }
                 : {}
@@ -41,6 +57,7 @@ export const ImageChangeButtons = ({
           <IconButton
             onClick={moveImageLeft}
             style={
+              // disable button if no image on right
               currentImage === imagesNo
                 ? { cursor: "not-allowed", opacity: "0.4" }
                 : {}
