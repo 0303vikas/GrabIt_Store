@@ -1,7 +1,7 @@
 /**
  * @file DisplayData
  * @description DisplayArea for all the breweries on the home page + pagination handling function
- * @Author Vikas Singh 
+ * @Author Vikas Singh
  * @note
  * - Adding image option not added yet
  */
@@ -13,6 +13,7 @@ import {
   TextField,
   MenuItem,
   Box,
+  IconButton,
 } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -27,6 +28,7 @@ import { ImageChangeButtons } from "./ImageChangeButtons"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { deleteProduct, updateProduct } from "../redux/reducers/productReducer"
+import { Delete } from "@mui/icons-material"
 
 export const UpdateProduct = () => {
   const theme = useTheme()
@@ -99,7 +101,9 @@ const UpdateCard = ({
   }
 
   const handleImageRemov = (item: string) => {
+    console.log(item)
     const newImageList = images.filter((img) => img !== item)
+    console.log(newImageList)
     setImages(newImageList)
   }
 
@@ -111,6 +115,8 @@ const UpdateCard = ({
     }, 2000)
   }
 
+  console.log(currentImage)
+
   return (
     <DisplayCardHorizontal>
       <aside>
@@ -120,12 +126,20 @@ const UpdateCard = ({
           image={images[currentImage]}
           alt={product.title + " image."}
         />
+
         {images && (
           <ImageChangeButtons
             imagesNo={images.length}
             currentImage={currentImage}
             setCurrentImage={setCurrentImage}
           />
+        )}
+        {images.length > 1 && (
+          <IconButton
+            onClick={() => handleImageRemov(images[currentImage - 1])}
+          >
+            <Delete color="error" />
+          </IconButton>
         )}
       </aside>
 
@@ -159,11 +173,22 @@ const UpdateCard = ({
                 </MenuItem>
               ))}
           </TextField>
-          {images.map((item) => (
-            <Box key={item}>
-              {item} <Button onClick={() => handleImageRemov(item)}>X</Button>
-            </Box>
-          ))}
+
+          {/* <TextField
+            id="update-Form--Category"
+            select
+            label="Categories"
+            defaultValue={currentImage}
+            onChange={(e) => setCurrentImage(e.target.value)}
+          >
+            {images.length >0 &&
+              images.map((item) => (
+                <Box key={item}>
+                  {item}{" "}
+                  <Button onClick={() => handleImageRemov(item)}>X</Button>
+                </Box>
+              ))}
+          </TextField> */}
         </div>
         <div style={{ display: "flex" }}>
           <Button variant="contained" color="primary" onClick={updateHandler}>
@@ -181,5 +206,3 @@ const UpdateCard = ({
     </DisplayCardHorizontal>
   )
 }
-
-

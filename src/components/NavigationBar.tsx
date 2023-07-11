@@ -1,11 +1,11 @@
 /**
  * @file NavigationBar
  * @description Divided into two components NavigationRight and NavigationLeft
- * @Author Vikas Singh  
- * @notes 
+ * @Author Vikas Singh
+ * @notes
  * - theme changing button not added yet
  */
-import React, {  useState } from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Avatar,
@@ -57,7 +57,7 @@ const NavigationLeft = () => {
       <IconContainer src={darkLogo} alt="Website Logo" />
       <NavigationList>
         <List onClick={() => navigate("/")}>Products</List>
-        <List onClick={() => navigate("/categories")}>Categories</List>        
+        <List onClick={() => navigate("/categories")}>Categories</List>
       </NavigationList>
     </NavigationContainer>
   )
@@ -66,7 +66,7 @@ const NavigationLeft = () => {
  * @description Contains search input, cart icon and setting icon
  * @returns JSX.Elemnet NavigationRight
  * @notes
- * - 1st dropdown list consists of two options product and categorie, selecting 
+ * - 1st dropdown list consists of two options product and categorie, selecting
  * - one of them will set the search input to search from the selected list.
  * - Search input will dropdown a list that shows the search data, it also
  * - has a button to close the search list.
@@ -95,7 +95,6 @@ const NavigationRight = () => {
     "hidden"
   )
   const debounceSearch = useDebounce(search, 1000)
-  
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
@@ -178,7 +177,11 @@ const NavigationRight = () => {
                       .includes(debounceSearch.toLowerCase())
                   )
               ).map((item, index) => (
-                <List sx={{ color: "black" }} key={item.id} onClick={() => navigate(`/single/product/${item.id}`)}>
+                <List
+                  sx={{ color: "black" }}
+                  key={item.id}
+                  onClick={() => navigate(`/single/product/${item.id}`)}
+                >
                   {item.title}
                 </List>
               ))
@@ -215,7 +218,12 @@ const NavigationRight = () => {
       <SettingContainer sx={{ marginRight: "0.5rem" }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Profile Pic" src={currentUser?currentUser.avatar:"/static/images/avatar/2.jpg"} />
+            <Avatar
+              alt="Profile Pic"
+              src={
+                currentUser ? currentUser.avatar : "/static/images/avatar/2.jpg"
+              }
+            />
           </IconButton>
         </Tooltip>
         <Menu

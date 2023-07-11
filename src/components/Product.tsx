@@ -1,7 +1,7 @@
 /**
  * @file Product
  * @description product display component
- * @Author Vikas Singh 
+ * @Author Vikas Singh
  */
 import React, { useState } from "react"
 import { Pagination, IconButton, useTheme } from "@mui/material"
@@ -21,7 +21,7 @@ import "../style.css"
  * @description Product Component with 9 products displayed each page
  * @returns JSX.Element Product component
  * @notes
- * - filter product hook filters the product for sorting and price filter 
+ * - filter product hook filters the product for sorting and price filter
  */
 const Product = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -36,7 +36,7 @@ const Product = () => {
     filterItem: ProductType[]
     minValueRange: number
     maxValueRange: number
-  } = filterProduct(products, "id", id)  
+  } = filterProduct(products, "id", id)
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -61,20 +61,31 @@ const Product = () => {
       id="product--container"
       className="productCategory--container"
     >
-      
-      <h1 id='page-heading' style={{ ...theme.typography.h2, textTransform: 'uppercase', fontSize: '4rem'}}><span id="page-heading--firstLetter" style={{fontSize: '100px'}}>P</span>roducts</h1>
+      <h1
+        id="page-heading"
+        style={{
+          ...theme.typography.h2,
+          textTransform: "uppercase",
+          fontSize: "4rem",
+        }}
+      >
+        <span id="page-heading--firstLetter" style={{ fontSize: "100px" }}>
+          P
+        </span>
+        roducts
+      </h1>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           style={{ display: "flex", flexDirection: "column", margin: "10px" }}
         >
-          <IconButton onClick={() => ascDescFunction(dispatch, sort, setSort)}>
+          <IconButton
+            onClick={() => ascDescFunction(dispatch, sort, setSort)}
+            className="productCategory--container--sortBtn"
+          >
             <SortByAlphaOutlined />
           </IconButton>
         </div>
-        <div
-          style={{ display: "flex", flexDirection: "row", margin: "10px" }}
-        >
-          
+        <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
           <input
             type="range"
             min={filterList.minValueRange}

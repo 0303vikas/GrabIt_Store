@@ -252,6 +252,9 @@ const Registration = () => {
             </div>
           )}
         />
+        
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <label htmlFor="file">Upload Image</label>
         <input
           type="file"
           accept="image/*"
@@ -259,6 +262,7 @@ const Registration = () => {
           name="file"
           required
         />
+        </div>
         {userStore.error && (
           <p
             style={{

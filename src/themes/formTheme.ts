@@ -30,7 +30,7 @@ const ContainerLoginRegister = styled("section")({
 const FormContainerLoginRegister = styled("form")(({ theme }) => ({
   background: theme.palette.common.black,
   width: "25vw",
-  height: "50vh",
+  height: "60vh",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -57,6 +57,7 @@ const SubmitBtn = styled(Button)(({ theme }) => ({
   color: "white",
   //   borderImageSlice: "1",
   padding: "0.5rem 1rem",
+  marginTop: '1rem',
   borderRadius: "4rem",
   boxShadow: "0 1px 0 0 rgba(80,183,239,1), 0 0 6px 0 rgba(9,234,172,1)",
   "&:hover": {

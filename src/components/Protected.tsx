@@ -34,9 +34,9 @@ export const Protected = ({ children }: { children: ReactNode }) => {
       </div>
     )
   }
-  if (authloading) return <div>Loading...</div>
 
   if (!currentUser) {
+    if (authloading) return <div>Loading...</div>
     return <Navigate to="/login" replace />
   } else {
     if (currentUser.role !== "admin") {

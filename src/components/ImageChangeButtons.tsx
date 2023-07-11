@@ -44,6 +44,7 @@ export const ImageChangeButtons = ({
         >
           <IconButton
             onClick={moveImageRight}
+            className="productCategory--container--imageBtn"
             style={
               // disable button if no image on left
               currentImage === 1
@@ -56,6 +57,7 @@ export const ImageChangeButtons = ({
           <div style={{ paddingTop: "0.7rem" }}>Change Image</div>
           <IconButton
             onClick={moveImageLeft}
+            className="productCategory--container--imageBtn"
             style={
               // disable button if no image on right
               currentImage === imagesNo

@@ -88,9 +88,9 @@ const App = () => {
   // if token exists in localStorage, then
   // get user authenticated
   useEffect(() => {
-    if (accessToken) {
-      dispatch(authenticateUser(accessToken))
-    }
+    // if (accessToken) {
+    //   dispatch(authenticateUser(accessToken))
+    // }
   }, [accessToken])
 
   return (

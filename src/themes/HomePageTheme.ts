@@ -127,3 +127,13 @@ export const SettingContainer = styled(Box)(({ theme }) => ({
 export const MainContainer = styled("main")(({ theme }) => ({
   background: theme.palette.secondary.main,
 }))
+
+// Footer Elements
+export const FooterContainer = styled("footer")(({ theme }) => ({
+  height: "8vh",
+  width: "100%",
+  background: theme.palette.common.black,
+  color: "white",
+  justifyContent: "center",
+  alignContent: "center",
+}))

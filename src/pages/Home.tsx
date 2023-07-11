@@ -1,19 +1,20 @@
 /**
  * @file Home Page
  * @description Home Page with Navigation and Outlet
- * @Author Vikas Singh 
+ * @Author Vikas Singh
  */
 import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
 
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { fetchProductData } from "../redux/reducers/productReducer"
-import { HeaderContainer } from "../themes/HomePageTheme"
+import { FooterContainer, HeaderContainer } from "../themes/HomePageTheme"
 import { NavigationLeft, NavigationRight } from "../components/NavigationBar"
 import { useAppSelector } from "../hooks/useAppSelector"
 import ErrorComponent from "./Error"
 import { fetchAllUsers } from "../redux/reducers/userReducer"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
+import { Footer } from "../components/Footer"
 
 /**
  * if error
@@ -32,7 +33,6 @@ const Home = () => {
     dispatch(fetchProductData())
     dispatch(fetchAllUsers())
     dispatch(fetchCategoryData())
- 
   }, [])
 
   return (
@@ -48,6 +48,9 @@ const Home = () => {
       ) : (
         <Outlet />
       )}
+      <FooterContainer>
+        <Footer />
+      </FooterContainer>
     </>
   )
 }
