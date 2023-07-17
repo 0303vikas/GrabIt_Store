@@ -23,9 +23,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material"
-
 import SearchIcon from "@mui/icons-material/Search"
 import { ShoppingCart } from "@mui/icons-material"
+
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
@@ -43,6 +43,7 @@ import {
 } from "../themes/HomePageTheme"
 import { clearUserLogin } from "../redux/reducers/userReducer"
 import darkLogo from "../icons/darkLogo.png"
+import lightLogo from "../icons/lightLogo.png"
 import { useDebounce } from "../hooks/useDebounceHook"
 
 /**
@@ -51,10 +52,14 @@ import { useDebounce } from "../hooks/useDebounceHook"
  */
 const NavigationLeft = () => {
   const navigate = useNavigate()
+  const theme = useTheme()
 
   return (
     <NavigationContainer id="navigtionContent--left">
-      <IconContainer src={darkLogo} alt="Website Logo" />
+      <IconContainer
+        src={theme.palette.mode === "light" ? lightLogo : darkLogo}
+        alt="Website Logo"
+      />
       <NavigationList>
         <List onClick={() => navigate("/")}>Products</List>
         <List onClick={() => navigate("/categories")}>Categories</List>

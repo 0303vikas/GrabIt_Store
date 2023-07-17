@@ -16,7 +16,8 @@ import ContainerLoginRegister, {
   ImageContainer,
   SubmitBtn,
 } from "../themes/formTheme"
-import darkLogo from "../icons/darkLogo.png"
+import darkLogo from "../icons/DarkImage.png"
+import lightLogo from "../icons/LightImage.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { loginUser } from "../redux/reducers/userReducer"
@@ -31,8 +32,8 @@ interface LoginForm {
 /**
  * @description Login component
  * @returns JSX.Element
- * @notes 
- *  - validation errors are displayed in the form 
+ * @notes
+ *  - validation errors are displayed in the form
  *  - login rejection error are handled by error page
  */
 const Login = () => {
@@ -83,7 +84,9 @@ const Login = () => {
 
   return (
     <ContainerLoginRegister>
-      <ImageContainer src={darkLogo} />
+      <ImageContainer
+        src={theme.palette.mode === "light" ? lightLogo : darkLogo}
+      />
       <FormContainerLoginRegister
         style={{
           display: "flex",

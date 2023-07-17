@@ -3,16 +3,6 @@ import { createTheme } from "@mui/material/styles"
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: {
-      main: "rgb(80,183,239)",
-      light: "rgba(24,255,255,0.25)",
-      dark: "rgb(33,150,243)",
-    },
-    secondary: {
-      main: "rgb(9,234,172)",
-      light: "rgb(29,233,182)",
-      dark: "rgb(100,255,218)",
-    },
     common: {
       black: "rgb(255,255,255)",
       white: "rgb(24,36,50)",
@@ -23,16 +13,6 @@ const darkTheme = createTheme({
 const lightTheme = createTheme({
   palette: {
     mode: "light",
-    primary: {
-      main: "rgb(80,183,239)",
-      light: "rgba(24,255,255,0.25)",
-      dark: "rgb(33,150,243)",
-    },
-    secondary: {
-      main: "rgb(9,234,172)",
-      light: "rgb(29,233,182)",
-      dark: "rgb(100,255,218)",
-    },
     common: {
       black: "rgb(24,36,50)",
       white: "rgb(255,255,255)",
@@ -77,69 +57,14 @@ const commonTheme = createTheme({
       white: "#fff",
     },
   },
-  typography: {
-    fontFamily: "Roboto, Arial, sans-serif",
-    fontSize: 16,
-    fontWeightLight: 300,
-    fontWeightRegular: 400,
-    fontWeightMedium: 500,
-    fontWeightBold: 700,
-    h1: {
-      fontSize: "2.5rem",
-      fontWeight: 700,
-      lineHeight: 1.2,
-      margin: "1.5rem 0",
-    },
-    h2: {
-      fontSize: "2rem",
-      fontWeight: 700,
-      lineHeight: 1.3,
-      margin: "1.3rem 0",
-    },
-    h3: {
-      fontSize: "1.8rem",
-      fontWeight: 700,
-      lineHeight: 1.4,
-      margin: "1.2rem 0",
-    },
-    h4: {
-      fontSize: "1.5rem",
-      fontWeight: 700,
-      lineHeight: 1.5,
-      margin: "1rem 0",
-    },
-    h5: {
-      fontSize: "1.3rem",
-      fontWeight: 700,
-      lineHeight: 1.6,
-      margin: "0.8rem 0",
-    },
-    h6: {
-      fontSize: "1.2rem",
-      fontWeight: 700,
-      lineHeight: 1.7,
-      margin: "0.3rem 0",
-    },
-    body1: {
-      fontSize: "1rem",
-      fontWeight: 400,
-      lineHeight: 1.6,
-      margin: "1rem 0",
-    },
-    body2: {
-      fontSize: "0.9rem",
-      fontWeight: 400,
-      lineHeight: 1.6,
-      margin: "0.8rem 0",
-    },
-  },
 })
 
 const darkMerge = createTheme({
   ...commonTheme,
   palette: {
     ...commonTheme.palette,
-    ...darkTheme.palette,
+    common: { ...darkTheme.palette.common },
+    mode: darkTheme.palette.mode,
   },
 })
 
@@ -147,7 +72,8 @@ const lightMerge = createTheme({
   ...commonTheme,
   palette: {
     ...commonTheme.palette,
-    ...lightTheme.palette,
+    common: { ...lightTheme.palette.common },
+    mode: lightTheme.palette.mode,
   },
 })
 
