@@ -6,7 +6,7 @@
  * - change mode button is not working yet
  */
 import React, { createContext, useEffect, useState } from "react"
-import { ThemeProvider } from "@mui/material/styles"
+import { ThemeProvider, useTheme } from "@mui/material/styles"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"

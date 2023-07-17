@@ -15,6 +15,7 @@ import ErrorComponent from "./Error"
 import { fetchAllUsers } from "../redux/reducers/userReducer"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 import { Footer } from "../components/Footer"
+import { useTheme } from "@mui/material"
 
 /**
  * if error
@@ -28,6 +29,9 @@ const Home = () => {
   const productsError = reduxErrorState.product.error
   const userError = reduxErrorState.user.error
   const categoryError = reduxErrorState.categories.error
+  const theme = useTheme()
+
+  console.log(theme)
 
   useEffect(() => {
     dispatch(fetchProductData())

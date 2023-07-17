@@ -30,7 +30,7 @@ export const List = styled(ListItem)(({ theme }) => ({
   borderRadius: "0.8rem",
   marginRight: "0.5rem",
   "&:hover": {
-    boxShadow: "0 1px 0 0 rgba(80,183,239,1), 0 0 6px 0 rgba(9,234,172,1)",
+    boxShadow: `0 1px 0 0 ${theme.palette.primary.main}, 0 0 6px 0 ${theme.palette.secondary.main}`,
   },
   "&:active": {
     background: theme.palette.primary.light,
