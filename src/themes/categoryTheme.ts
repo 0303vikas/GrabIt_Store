@@ -4,7 +4,7 @@ import { Box } from "@mui/system"
 
 const ContainerProductCategory = styled("section")(({ theme }) => ({
   background: alpha(theme.palette.common.white, 1),
-  width: "98.7vw",
+  width: "98.99vw",
   height: "120%",
   border: "0.3vh solid",
   display: "flex",
@@ -30,7 +30,7 @@ const DisplayGrid = styled(Box)(({ theme }) => ({
   borderColor: theme.palette.secondary.light,
   padding: "4rem",
   display: "grid",
-  marginTop: "3rem",
+  margin: "2rem 0",
 }))
 
 const DisplayCard = styled(Card)(({ theme }) => ({

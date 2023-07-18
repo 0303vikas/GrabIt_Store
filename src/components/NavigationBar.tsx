@@ -5,7 +5,7 @@
  * @notes
  * - theme changing button not added yet
  */
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Avatar,
@@ -24,7 +24,11 @@ import {
   useTheme,
 } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
-import { ShoppingCart } from "@mui/icons-material"
+import {
+  ShoppingCart,
+  LightModeRounded,
+  DarkModeRounded,
+} from "@mui/icons-material"
 
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
@@ -45,6 +49,8 @@ import { clearUserLogin } from "../redux/reducers/userReducer"
 import darkLogo from "../icons/darkLogo.png"
 import lightLogo from "../icons/lightLogo.png"
 import { useDebounce } from "../hooks/useDebounceHook"
+import { ModeContext } from "../App"
+import { getMode, changeMode } from "../redux/reducers/modeReducer"
 
 /**
  * @description Contains website logo, navigation button products and navigation button categories
@@ -83,12 +89,14 @@ const NavigationRight = () => {
   const settingOptions = ["Registration", "Login"]
   const addCustomerOptions = ["Profile", "Logout"]
   const addAdminOptions = ["CreateProduct"]
+  const changeTheme = useContext(ModeContext)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
   const reduxState = useAppSelector((state) => state) // get state of redux store
   const product = reduxState.product
   const category = reduxState.categories
+  const mode = reduxState.mode.mode
   const { currentUser } = reduxState.user
   const [openLogoutConfirm, setopenLogoutConfirm] = useState(false)
   const [searchType, setSearchType] = useState("Product")
@@ -130,9 +138,18 @@ const NavigationRight = () => {
             onChange={(event: SelectChangeEvent<unknown>) =>
               setSearchType(event.target.value as string)
             }
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  backgroundColor: theme.palette.common.white,
+                },
+              },
+            }}
           >
             <MenuItem
-              sx={{ color: theme.palette.common.black }}
+              sx={{
+                color: theme.palette.common.black,
+              }}
               value={"Category"}
               onClick={() => {
                 if (!category.category.length) {
@@ -143,7 +160,9 @@ const NavigationRight = () => {
               Category
             </MenuItem>
             <MenuItem
-              sx={{ color: theme.palette.common.black }}
+              sx={{
+                color: theme.palette.common.black,
+              }}
               value={"Product"}
             >
               Product
@@ -155,12 +174,12 @@ const NavigationRight = () => {
       <div>
         <Search>
           <SearchIconWrapper>
-            <SearchIcon style={{ color: "white" }} />
+            <SearchIcon style={{ color: theme.palette.common.black }} />
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
-            style={{ color: "white" }}
+            style={{ color: theme.palette.common.black }}
             onFocus={() => setShowSearchList("visible")}
             onChange={filterSearch}
           />
@@ -183,7 +202,9 @@ const NavigationRight = () => {
                   )
               ).map((item, index) => (
                 <List
-                  sx={{ color: "black" }}
+                  sx={{
+                    color: theme.palette.common.black,
+                  }}
                   key={item.id}
                   onClick={() => navigate(`/single/product/${item.id}`)}
                 >
@@ -201,7 +222,7 @@ const NavigationRight = () => {
                   )
               ).map((item, index) => (
                 <List
-                  sx={{ color: "black" }}
+                  sx={{ color: theme.palette.common.black }}
                   key={item.id}
                   onClick={() => navigate(`/category/${item.id}/products`)}
                 >
@@ -218,8 +239,9 @@ const NavigationRight = () => {
         color="secondary"
         sx={{ margin: "0 1rem" }}
       >
-        <ShoppingCart sx={{ color: theme.palette.common.white }} />
+        <ShoppingCart sx={{ color: theme.palette.common.black }} />
       </Badge>
+
       <SettingContainer sx={{ marginRight: "0.5rem" }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -249,11 +271,18 @@ const NavigationRight = () => {
         >
           {(currentUser
             ? currentUser.role === "admin"
-              ? [...settingOptions, ...addCustomerOptions, ...addAdminOptions]
+              ? [...addCustomerOptions, ...addAdminOptions]
               : [...settingOptions, ...addCustomerOptions]
             : settingOptions
           ).map((setting) => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+            <MenuItem
+              key={setting}
+              onClick={handleCloseUserMenu}
+              style={{
+                backgroundColor: theme.palette.common.white,
+                color: theme.palette.common.black,
+              }}
+            >
               <Typography
                 textAlign="center"
                 onClick={
@@ -282,7 +311,16 @@ const NavigationRight = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* <ThemeChangingButton>ThemeChaning button</ThemeChangingButton> */}
+      <IconButton
+        style={{ padding: "1rem" }}
+        onClick={() => dispatch(changeMode())}
+      >
+        {mode === "light" ? (
+          <DarkModeRounded color="secondary" />
+        ) : (
+          <LightModeRounded color="secondary" />
+        )}
+      </IconButton>
     </NavigationContainer>
   )
 }

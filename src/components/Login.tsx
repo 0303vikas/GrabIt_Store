@@ -110,7 +110,7 @@ const Login = () => {
                 placeholder="Email"
                 style={{
                   fontWeight: "bolder",
-                  color: "white",
+                  color: theme.palette.common.black,
                 }}
                 color={errors.userEmail ? "error" : "secondary"}
                 required
@@ -145,7 +145,7 @@ const Login = () => {
                 placeholder="Password"
                 sx={{
                   fontWeight: "bolder",
-                  color: "white",
+                  color: theme.palette.common.black,
                 }}
                 color={errors.password ? "error" : "secondary"}
                 required

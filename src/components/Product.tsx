@@ -82,7 +82,14 @@ const Product = () => {
             onClick={() => ascDescFunction(dispatch, sort, setSort)}
             className="productCategory--container--sortBtn"
           >
-            <SortByAlphaOutlined />
+            <SortByAlphaOutlined
+              style={{
+                color:
+                  theme.palette.mode === "light"
+                    ? theme.palette.primary.dark
+                    : theme.palette.secondary.main,
+              }}
+            />
           </IconButton>
         </div>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -93,7 +100,16 @@ const Product = () => {
             max={filterList.maxValueRange}
             onChange={(e) => setfilterPice(Number(e.target.value))}
           />
-          <p>€ {filterPrice}</p>
+          <p
+            style={{
+              color:
+                theme.palette.mode === "light"
+                  ? theme.palette.primary.dark
+                  : theme.palette.secondary.main,
+            }}
+          >
+            € {filterPrice}
+          </p>
         </div>
       </div>
 

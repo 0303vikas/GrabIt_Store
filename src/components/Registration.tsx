@@ -17,7 +17,8 @@ import { RegistrationType } from "../types/NewUser"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
-import darkLogo from "../icons/darkLogo.png"
+import darkLogo from "../icons/DarkImage.png"
+import lightLogo from "../icons/LightImage.png"
 import { createUser, fetchAllUsers } from "../redux/reducers/userReducer"
 import { useEffect } from "react"
 
@@ -93,7 +94,9 @@ const Registration = () => {
 
   return (
     <ContainerLoginRegister>
-      <ImageContainer src={darkLogo} />
+      <ImageContainer
+        src={theme.palette.mode === "light" ? lightLogo : darkLogo}
+      />
       <FormContainerLoginRegister
         style={{
           display: "flex",
@@ -117,8 +120,8 @@ const Registration = () => {
                 placeholder="UserName"
                 sx={{
                   fontWeight: "bolder",
-                  color: "white",
-                  backgroundColor: theme.palette.common.black,
+                  color: theme.palette.common.black,
+                  backgroundColor: theme.palette.common.white,
                 }}
                 color={errors.userName ? "error" : "secondary"}
                 required
@@ -156,8 +159,8 @@ const Registration = () => {
                 placeholder="Email"
                 sx={{
                   fontWeight: "bolder",
-                  color: "white",
-                  backgroundColor: theme.palette.common.black,
+                  color: theme.palette.common.black,
+                  backgroundColor: theme.palette.common.white,
                 }}
                 color={errors.userEmail ? "error" : "secondary"}
                 required
@@ -195,8 +198,8 @@ const Registration = () => {
                 placeholder="Password"
                 sx={{
                   fontWeight: "bolder",
-                  color: "white",
-                  backgroundColor: theme.palette.common.black,
+                  color: theme.palette.common.black,
+                  backgroundColor: theme.palette.common.white,
                 }}
                 color={errors.password ? "error" : "secondary"}
                 required
@@ -231,8 +234,8 @@ const Registration = () => {
                 placeholder="ReEnter Password"
                 sx={{
                   fontWeight: "bolder",
-                  color: "white",
-                  backgroundColor: theme.palette.common.black,
+                  color: theme.palette.common.black,
+                  backgroundColor: theme.palette.common.white,
                 }}
                 color={errors.retryPassword ? "error" : "secondary"}
                 required
@@ -252,16 +255,16 @@ const Registration = () => {
             </div>
           )}
         />
-        
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-        <label htmlFor="file">Upload Image</label>
-        <input
-          type="file"
-          accept="image/*"
-          {...register("file")}
-          name="file"
-          required
-        />
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="file">Upload Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            {...register("file")}
+            name="file"
+            required
+          />
         </div>
         {userStore.error && (
           <p

@@ -23,6 +23,7 @@ import { authenticateUser } from "./redux/reducers/userReducer"
 import { UserType } from "./types/User"
 import { SingleProduct } from "./components/SingleProduct"
 import { CreateProduct } from "./components/CreateProduct"
+import { useAppSelector } from "./hooks/useAppSelector"
 
 const appRouter = createBrowserRouter([
   {
@@ -78,10 +79,14 @@ const appRouter = createBrowserRouter([
   },
 ])
 
+interface ModeContextType {
+  changeMode: () => void
+}
+
+export const ModeContext = createContext<ModeContextType | null>(null)
+
 const App = () => {
-  const [darkTheme, setDarkTheme] = useState<false | true>(false)
-  const changeMode = () => setDarkTheme(!darkTheme)
-  const ModeContext = createContext<typeof changeMode | null>(null)
+  const modeReduxState = useAppSelector((state) => state.mode)
   const accessToken = localStorage.getItem("userToken")
   const dispatch = useAppDispatch()
 
@@ -94,17 +99,17 @@ const App = () => {
   }, [accessToken])
 
   return (
-    <ModeContext.Provider value={changeMode}>
-      {darkTheme ? (
-        <ThemeProvider theme={darkMode}>
-          <RouterProvider router={appRouter} />
-        </ThemeProvider>
-      ) : (
+    <>
+      {modeReduxState.mode === "light" ? (
         <ThemeProvider theme={lightMode}>
           <RouterProvider router={appRouter} />
         </ThemeProvider>
+      ) : (
+        <ThemeProvider theme={darkMode}>
+          <RouterProvider router={appRouter} />
+        </ThemeProvider>
       )}
-    </ModeContext.Provider>
+    </>
   )
 }
 

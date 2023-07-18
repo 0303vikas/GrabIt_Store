@@ -4,8 +4,8 @@ import { Box } from "@mui/system"
 // Navigation Bar Elements
 export const HeaderContainer = styled("header")(({ theme }) => ({
   height: "13vh",
-  width: "98.85vw",
-  background: theme.palette.common.black,
+  width: "100%",
+  background: theme.palette.common.white,
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -14,7 +14,7 @@ export const HeaderContainer = styled("header")(({ theme }) => ({
 export const IconContainer = styled("img")(({ theme }) => ({
   height: "8vh",
   width: "5vw",
-  borderRight: "1px solid white",
+  borderRight: `1px solid ${theme.palette.common.black}`,
   padding: "0 10px",
 }))
 
@@ -26,7 +26,7 @@ export const NavigationList = styled("ul")(({ theme }) => ({
 
 export const List = styled(ListItem)(({ theme }) => ({
   ...theme.typography.h6,
-  color: theme.palette.common.white,
+  color: theme.palette.common.black,
   borderRadius: "0.8rem",
   marginRight: "0.5rem",
   "&:hover": {
@@ -46,23 +46,24 @@ export const NavigationContainer = styled("div")(({ theme }) => ({
 }))
 
 export const SearchTypeList = styled(Select)(({ theme }) => ({
-  color: theme.palette.common.white,
+  color: theme.palette.common.black,
+  backgroundColor: theme.palette.common.white,
   margin: "none",
-  borderColor: "white",
+  borderColor: theme.palette.common.black,
   "& .MuiSvgIcon-root": {
-    color: theme.palette.common.white,
-    borderColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+    borderColor: theme.palette.common.black,
   },
   "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.common.white,
+    borderColor: theme.palette.common.black,
   },
 }))
 
 export const Search = styled("div")(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.black, 0.15),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.black, 0.25),
   },
   height: "6vh",
   marginLeft: 0,
@@ -130,10 +131,10 @@ export const MainContainer = styled("main")(({ theme }) => ({
 
 // Footer Elements
 export const FooterContainer = styled("footer")(({ theme }) => ({
-  height: "8vh",
+  height: "auto",
   width: "100%",
-  background: theme.palette.common.black,
-  color: "white",
+  background: theme.palette.common.white,
+  color: theme.palette.common.black,
   justifyContent: "center",
   alignContent: "center",
 }))

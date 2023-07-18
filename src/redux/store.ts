@@ -4,6 +4,7 @@ import productReducer from "./reducers/productReducer"
 import categoryReducer from "./reducers/categoryReducer"
 import cartReducer from "./reducers/cartReducer"
 import userReducer from "./reducers/userReducer"
+import modeReducer from "./reducers/modeReducer"
 
 const storedCart = localStorage.getItem("ProductCart")
 const cartData = storedCart !== null ? JSON.parse(storedCart) : []
@@ -14,6 +15,7 @@ const store = configureStore({
     categories: categoryReducer,
     cart: cartReducer,
     user: userReducer,
+    mode: modeReducer,
   },
   preloadedState: {
     product: {
@@ -33,6 +35,9 @@ const store = configureStore({
       error: "",
       authloading: true,
       registered: false,
+    },
+    mode: {
+      mode: "light",
     },
   },
 })

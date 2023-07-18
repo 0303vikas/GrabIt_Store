@@ -13,7 +13,7 @@ const borderAnimation = keyframes({
 
 const ContainerLoginRegister = styled("section")(({ theme }) => ({
   background: `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.common.white} 15%,${theme.palette.common.white} 85%, ${theme.palette.primary.main} 100%)`,
-  width: "98.7vw",
+  width: "98.99vw",
   height: "98.7vh",
   border: "0.3vh solid",
   display: "flex",
@@ -25,7 +25,7 @@ const ContainerLoginRegister = styled("section")(({ theme }) => ({
 }))
 
 const FormContainerLoginRegister = styled("form")(({ theme }) => ({
-  background: theme.palette.common.black,
+  background: theme.palette.common.white,
   width: "25vw",
   height: "60vh",
   display: "flex",
@@ -47,8 +47,8 @@ const textAnimation = keyframes({
 })
 
 const SubmitBtn = styled(Button)(({ theme }) => ({
-  background: theme.palette.common.black,
-  color: "white",
+  background: theme.palette.common.white,
+  color: theme.palette.common.black,
   //   borderImageSlice: "1",
   padding: "0.5rem 1rem",
   marginTop: "1rem",
@@ -67,8 +67,8 @@ const SubmitBtn = styled(Button)(({ theme }) => ({
   },
 }))
 
-const HeadingContainer = styled("h2")({
-  color: "white",
+const HeadingContainer = styled("h2")(({ theme }) => ({
+  color: theme.palette.common.black,
   textShadow: `0px 3px 3px rgba(255, 255, 255, 0.5)`,
   cursor: "default",
   "&:hover": {
@@ -76,7 +76,7 @@ const HeadingContainer = styled("h2")({
     textFillColor: "transparent",
     animation: `${textAnimation} 1s ease-in alternate infinite`,
   },
-})
+}))
 
 const logoAnimation = keyframes({
   from: {
