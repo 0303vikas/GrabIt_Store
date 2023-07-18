@@ -4,7 +4,13 @@
  * @Author Vikas Singh
  */
 import React, { useState } from "react"
-import { Pagination, IconButton, useTheme } from "@mui/material"
+import {
+  Pagination,
+  IconButton,
+  useTheme,
+  Box,
+  CircularProgress,
+} from "@mui/material"
 import { useParams } from "react-router-dom"
 import { SortByAlphaOutlined } from "@mui/icons-material"
 
@@ -52,7 +58,13 @@ const Product = () => {
     ).length / 9
   )
 
-  if (loading) return <p>Loading...</p>
+  if (loading)
+    return (
+      <Box sx={{ marginLeft: "50%" }}>
+        <h1 style={{ color: theme.palette.info.main }}>Loading</h1>
+        <CircularProgress style={{ color: theme.palette.info.main }} />
+      </Box>
+    )
 
   if (error) return <p>{error}</p>
 

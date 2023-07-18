@@ -5,6 +5,7 @@
  */
 import { Fragment, ReactNode } from "react"
 import { Navigate } from "react-router-dom"
+import { useTheme, Box, CircularProgress } from "@mui/material"
 
 import { useAppSelector } from "../hooks/useAppSelector"
 
@@ -22,6 +23,7 @@ import { useAppSelector } from "../hooks/useAppSelector"
  *
  */
 export const Protected = ({ children }: { children: ReactNode }) => {
+  const theme = useTheme()
   const { currentUser, error, authloading } = useAppSelector(
     (state) => state.user
   )
@@ -36,7 +38,13 @@ export const Protected = ({ children }: { children: ReactNode }) => {
   }
 
   if (!currentUser) {
-    if (authloading) return <div>Loading...</div>
+    if (authloading)
+      return (
+        <Box sx={{ marginLeft: "50%" }}>
+          <h1 style={{ color: theme.palette.info.main }}>Loading</h1>
+          <CircularProgress style={{ color: theme.palette.info.main }} />
+        </Box>
+      )
     return <Navigate to="/login" replace />
   } else {
     if (currentUser.role !== "admin") {

@@ -14,6 +14,7 @@ import {
   MenuItem,
   Box,
   IconButton,
+  CircularProgress,
 } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -81,6 +82,7 @@ const UpdateCard = ({
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { category } = useAppSelector((store) => store.categories)
+  const theme = useTheme()
 
   const updateHandler = () => {
     const newProduct: UpdateProductType = {
@@ -94,7 +96,13 @@ const UpdateCard = ({
     }
 
     dispatch(updateProduct(newProduct))
-    if (loading) return <div>loading...</div>
+    if (loading)
+      return (
+        <Box sx={{ marginLeft: "50%" }}>
+          <h1 style={{ color: theme.palette.info.main }}>Loading</h1>
+          <CircularProgress style={{ color: theme.palette.info.main }} />
+        </Box>
+      )
     if (error) return <div>{error}</div>
     alert("Product Updated")
     navigate("/")

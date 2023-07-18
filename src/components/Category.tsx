@@ -8,7 +8,7 @@
  * - error handling in the home page
  */
 
-import React, {  useState } from "react"
+import React, { useState } from "react"
 import {
   CardActionArea,
   CardContent,
@@ -16,6 +16,8 @@ import {
   Pagination,
   Typography,
   useTheme,
+  Box,
+  CircularProgress,
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
@@ -58,7 +60,13 @@ const Category = () => {
     setSlicedArray(category.slice((value - 1) * 8, value * 8))
   }
 
-  if (loading) return <p>Loading...</p>
+  if (loading)
+    return (
+      <Box sx={{ marginLeft: "50%" }}>
+        <h1 style={{ color: theme.palette.info.main }}>Loading</h1>
+        <CircularProgress style={{ color: theme.palette.info.main }} />
+      </Box>
+    )
 
   return (
     <ContainerProductCategory
