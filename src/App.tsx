@@ -7,7 +7,11 @@
  */
 import React, { createContext, useEffect, useState } from "react"
 import { ThemeProvider, useTheme } from "@mui/material/styles"
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useNavigate,
+} from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"
 import { useAppDispatch } from "./hooks/useAppDispatch"
@@ -93,9 +97,9 @@ const App = () => {
   // if token exists in localStorage, then
   // get user authenticated
   useEffect(() => {
-    // if (accessToken) {
-    //   dispatch(authenticateUser(accessToken))
-    // }
+    if (accessToken) {
+      dispatch(authenticateUser(accessToken))
+    }
   }, [accessToken])
 
   return (

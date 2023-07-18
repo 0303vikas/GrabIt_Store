@@ -153,9 +153,7 @@ const userSlice = createSlice({
     clearAllUsers: (state) => {
       return initialState
     },
-    findOneUser: (state) => {
-
-    }
+    findOneUser: (state) => {},
   },
   extraReducers: (build) => {
     build
@@ -212,6 +210,8 @@ const userSlice = createSlice({
       .addCase(authenticateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
           state.error = action.payload.message
+          clearUserLogin()
+          localStorage.clear()
         } else {
           state.currentUser = action.payload
         }
