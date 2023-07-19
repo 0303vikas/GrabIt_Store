@@ -32,9 +32,13 @@ const FormContainerLoginRegister = styled("form")(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-
   boxShadow: `0 2px 2px 0 ${theme.palette.primary.main}, 0 0 6px 0 ${theme.palette.secondary.main}, 0 0 6px 0 ${theme.palette.secondary.main} ,0 0 6px 0 ${theme.palette.secondary.main}, 0 0 80px 20px rgba(231, 222, 204, 1)`,
   borderRadius: "0 4rem",
+  [theme.breakpoints.down("md")]: {
+    width: "auto",
+    padding: "0.5rem",
+    height: "auto",
+  },
 }))
 
 const textAnimation = keyframes({
@@ -89,12 +93,15 @@ const logoAnimation = keyframes({
   },
 })
 
-const ImageContainer = styled("img")({
+const ImageContainer = styled("img")(({ theme }) => ({
   width: "25vw",
   height: "50vh",
   borderRadius: "4rem 0",
   animation: `${logoAnimation} 6s ease `,
-})
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}))
 
 export {
   FormContainerLoginRegister,

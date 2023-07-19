@@ -256,14 +256,14 @@ const Registration = () => {
           )}
         />
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label htmlFor="file">Upload Image</label>
+        <div>
           <input
             type="file"
             accept="image/*"
             {...register("file")}
             name="file"
             required
+            placeholder="Upload Image"
           />
         </div>
         {userStore.error && (
