@@ -52,6 +52,7 @@ import { useDebounce } from "../hooks/useDebounceHook"
 import { ModeContext } from "../App"
 import { getMode, changeMode } from "../redux/reducers/modeReducer"
 import { fetchProductData } from "../redux/reducers/productReducer"
+import { setThemeLocalStorage } from "../hooks/setThemeLocalStorage"
 
 /**
  * @description Contains website logo, navigation button products and navigation button categories
@@ -311,7 +312,10 @@ const NavigationRight = () => {
       </Dialog>
       <IconButton
         style={{ padding: "1rem" }}
-        onClick={() => dispatch(changeMode())}
+        onClick={() => {
+          dispatch(changeMode())
+          setThemeLocalStorage(mode === "light" ? "dark" : "light")
+        }}
       >
         {mode === "light" ? (
           <DarkModeRounded color="secondary" />
