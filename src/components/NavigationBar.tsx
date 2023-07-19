@@ -51,6 +51,7 @@ import lightLogo from "../icons/lightLogo.png"
 import { useDebounce } from "../hooks/useDebounceHook"
 import { ModeContext } from "../App"
 import { getMode, changeMode } from "../redux/reducers/modeReducer"
+import { fetchProductData } from "../redux/reducers/productReducer"
 
 /**
  * @description Contains website logo, navigation button products and navigation button categories
@@ -151,11 +152,7 @@ const NavigationRight = () => {
                 color: theme.palette.common.black,
               }}
               value={"Category"}
-              onClick={() => {
-                if (!category.category.length) {
-                  dispatch(fetchCategoryData())
-                }
-              }}
+              onClick={() => dispatch(fetchCategoryData())}
             >
               Category
             </MenuItem>
@@ -164,6 +161,7 @@ const NavigationRight = () => {
                 color: theme.palette.common.black,
               }}
               value={"Product"}
+              onClick={() => dispatch(fetchProductData())}
             >
               Product
             </MenuItem>

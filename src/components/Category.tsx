@@ -8,7 +8,7 @@
  * - error handling in the home page
  */
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   CardActionArea,
   CardContent,
@@ -28,6 +28,7 @@ import ContainerProductCategory, {
   DisplayCard,
 } from "../themes/categoryTheme"
 import { CategoryType } from "../types/Category"
+import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 
 /**
  * @description check redux store cart state and renders the element accordingly
@@ -51,6 +52,10 @@ const Category = () => {
   const [slicedArray, setSlicedArray] = useState<CategoryType[]>(
     category.slice(0, 8)
   ) // for component rerender after category state change
+
+  useEffect(() => {
+    dispatch(fetchCategoryData())
+  }, [])
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,

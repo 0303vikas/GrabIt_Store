@@ -3,7 +3,7 @@
  * @description product display component
  * @Author Vikas Singh
  */
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Pagination,
   IconButton,
@@ -22,6 +22,7 @@ import { Card } from "./Card"
 import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
 import { ProductType } from "../types/Product"
 import "../style.css"
+import { fetchProductData } from "../redux/reducers/productReducer"
 
 /**
  * @description Product Component with 9 products displayed each page
@@ -37,6 +38,10 @@ const Product = () => {
   const [filterPrice, setfilterPice] = useState(100)
   const { id } = useParams()
   const [sort, setSort] = useState("asc")
+
+  useEffect(() => {
+    dispatch(fetchProductData())
+  }, [])
 
   let filterList: {
     filterItem: ProductType[]
@@ -144,7 +149,12 @@ const Product = () => {
         onChange={handlePageChange}
         variant="outlined"
         color="primary"
-        sx={{ padding: "3rem 0rem" }}
+        sx={{
+          padding: "3rem 0rem",
+          "& .MuiPaginationItem-root": {
+            color: theme.palette.common.black,
+          },
+        }}
       />
     </ContainerProductCategory>
   )

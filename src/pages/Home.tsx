@@ -24,20 +24,10 @@ import { useTheme } from "@mui/material"
  * @returns JSX.Element OutLet
  */
 const Home = () => {
-  const dispatch = useAppDispatch()
   const reduxErrorState = useAppSelector((state) => state)
   const productsError = reduxErrorState.product.error
   const userError = reduxErrorState.user.error
   const categoryError = reduxErrorState.categories.error
-  const theme = useTheme()
-
-  console.log(theme)
-
-  useEffect(() => {
-    dispatch(fetchProductData())
-    dispatch(fetchAllUsers())
-    dispatch(fetchCategoryData())
-  }, [])
 
   return (
     <>

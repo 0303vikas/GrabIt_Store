@@ -20,9 +20,10 @@ import darkLogo from "../icons/DarkImage.png"
 import lightLogo from "../icons/LightImage.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { loginUser } from "../redux/reducers/userReducer"
+import { fetchAllUsers, loginUser } from "../redux/reducers/userReducer"
 import { findOneUser } from "../hooks/findOneUser"
 import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 interface LoginForm {
   userEmail: string
@@ -43,12 +44,14 @@ const Login = () => {
     control,
     formState: { errors },
   } = useForm<LoginForm>()
-
   const dispatch = useAppDispatch()
-
   const { users } = useAppSelector((state) => state.user)
   const theme = useTheme()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    dispatch(fetchAllUsers())
+  }, [])
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
@@ -165,7 +168,6 @@ const Login = () => {
             </div>
           )}
         />
-
         <SubmitBtn type="submit">Log In</SubmitBtn>
       </FormContainerLoginRegister>
     </ContainerLoginRegister>

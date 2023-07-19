@@ -5,9 +5,12 @@ import categoryReducer from "./reducers/categoryReducer"
 import cartReducer from "./reducers/cartReducer"
 import userReducer from "./reducers/userReducer"
 import modeReducer from "./reducers/modeReducer"
+import { checkBrowserMode } from "../hooks/reduxMediaModeCheck"
 
 const storedCart = localStorage.getItem("ProductCart")
 const cartData = storedCart !== null ? JSON.parse(storedCart) : []
+
+const modeData = checkBrowserMode()
 
 const store = configureStore({
   reducer: {
@@ -37,7 +40,7 @@ const store = configureStore({
       registered: false,
     },
     mode: {
-      mode: "light",
+      mode: modeData ? "dark" : "light",
     },
   },
 })
