@@ -31,6 +31,9 @@ const DisplayGrid = styled(Box)(({ theme }) => ({
   padding: "4rem",
   display: "grid",
   margin: "2rem 0",
+  [theme.breakpoints.down("md")]: {
+    gridTemplateColumns: "repeat(1,1fr)",
+  },
 }))
 
 const DisplayCard = styled(Card)(({ theme }) => ({

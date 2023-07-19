@@ -9,6 +9,10 @@ export const HeaderContainer = styled("header")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+    height: "auto",
+  },
 }))
 
 export const IconContainer = styled("img")(({ theme }) => ({
@@ -16,12 +20,19 @@ export const IconContainer = styled("img")(({ theme }) => ({
   width: "5vw",
   borderRight: `1px solid ${theme.palette.common.black}`,
   padding: "0 10px",
+  [theme.breakpoints.down("md")]: {
+    width: "auto",
+    border: "0",
+  },
 }))
 
 export const NavigationList = styled("ul")(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   color: "white",
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+  },
 }))
 
 export const List = styled(ListItem)(({ theme }) => ({
@@ -43,6 +54,9 @@ export const NavigationContainer = styled("div")(({ theme }) => ({
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+  },
 }))
 
 export const SearchTypeList = styled(Select)(({ theme }) => ({
