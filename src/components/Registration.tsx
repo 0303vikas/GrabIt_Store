@@ -57,10 +57,7 @@ const Registration = () => {
       })
       return false
     }
-    // console.log(data)
 
-    // const imgFile = data.file
-    // console.log(typeof data.file)
     if (
       !data.file[0] ||
       !data.file[0].type ||

@@ -5,7 +5,7 @@
  * @note
  * - Adding image option not added yet
  */
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import {
   CardMedia,
   useTheme,
@@ -16,7 +16,9 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material"
+import { AxiosError } from "axios"
 import { useNavigate, useParams } from "react-router-dom"
+import { Controller, useForm, SubmitHandler } from "react-hook-form"
 
 import { UpdateProductType } from "../types/UpdateProduct"
 import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
@@ -25,16 +27,16 @@ import {
   DisplayCardHorizontal,
   HorizontalCardBox,
 } from "../themes/horizontalCardTheme"
-import { ImageChangeButtons } from "./ImageChangeButtons"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
-import {
-  deleteProduct,
-  fetchProductData,
-  updateProduct,
-} from "../redux/reducers/productReducer"
+import { deleteProduct, updateProduct } from "../redux/reducers/productReducer"
 import { Delete } from "@mui/icons-material"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
+import { imageUpload } from "../redux/reducers/image/imageUpload"
+
+interface ImageUploadType {
+  file: FileList
+}
 
 export const UpdateProduct = () => {
   const theme = useTheme()
@@ -88,6 +90,14 @@ const UpdateCard = ({
   const navigate = useNavigate()
   const { category } = useAppSelector((store) => store.categories)
   const theme = useTheme()
+  const [newImageData, setNewImageData] = useState("")
+  const {
+    handleSubmit,
+    setError,
+    control,
+    formState: { errors },
+    register,
+  } = useForm<ImageUploadType>()
 
   useEffect(() => {
     dispatch(fetchCategoryData())
@@ -129,6 +139,54 @@ const UpdateCard = ({
     setTimeout(() => {
       setTimeout(() => navigate("/"))
     }, 2000)
+  }
+
+  const uploadImage: SubmitHandler<ImageUploadType> = (data, e) => {
+    e?.preventDefault()
+
+    if (
+      !data.file[0] ||
+      !data.file[0].type ||
+      data.file[0].type.indexOf("image") === -1
+    ) {
+      setError("file", {
+        type: "manual",
+        message: "Selected file is not an image",
+      })
+      return
+    }
+
+    const imgFormData = new FormData()
+    imgFormData.append("file", data.file[0], data.file[0].name)
+
+    dispatch(imageUpload(imgFormData))
+      .then((data) => {
+        setNewImageData(data.payload)
+        alert("Image Uploaded Successfully. Can be added to image List.")
+      })
+      .catch((e) => {
+        const error = e as AxiosError
+        if (error.response) {
+          setError("file", {
+            type: "manual",
+            message: JSON.stringify(error.response.data),
+          })
+          return
+        }
+        setError("file", {
+          type: "manual",
+          message: error.message,
+        })
+        return
+      })
+    return
+  }
+
+  const addImage = () => {
+    console.log(newImageData)
+    setImages([newImageData, ...images])
+    setNewImageData("")
+    alert("Image added Successfully.")
   }
 
   return (
@@ -200,9 +258,46 @@ const UpdateCard = ({
               ))}
           </TextField>
 
-          <TextField id="update-Form--Category" type="file"></TextField>
+          {/* <TextField id="update-Form--Category" type="file"></TextField> */}
+          <form onSubmit={handleSubmit(uploadImage)}>
+            <Controller
+              name="file"
+              control={control}
+              rules={{ required: "Image is required" }}
+              render={({ field }) => (
+                <>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    {...register("file")}
+                    name="file"
+                    required
+                    placeholder="Upload Image"
+                    style={{ width: "14rem" }}
+                  />
+                  {errors.file && (
+                    <p
+                      style={{
+                        color: theme.palette.error.main,
+                        fontSize: theme.typography.fontSize,
+                        margin: "0",
+                      }}
+                    >
+                      *{errors.file.message}
+                    </p>
+                  )}
+                </>
+              )}
+            />
+            <Button variant="contained" type="submit" color="secondary">
+              Upload
+            </Button>
+            <Button variant="contained" type="button" onClick={addImage}>
+              Add
+            </Button>
+          </form>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", marginTop: "1rem" }}>
           <Button variant="contained" color="primary" onClick={updateHandler}>
             Update
           </Button>
