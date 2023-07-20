@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios"
 
 import { UserLoginType, UserType } from "../../types/User"
 import { NewUserType } from "../../types/NewUser"
+import { imageUpload } from "./image/imageUpload"
 
 const initialState: {
   users: UserType[]
@@ -110,28 +111,6 @@ export const loginUser = createAsyncThunk(
         authenticateUser(request.data.access_token)
       )
       return authentication.payload as UserType
-    } catch (e) {
-      const error = e as AxiosError
-      return error
-    }
-  }
-)
-
-export const imageUpload = createAsyncThunk(
-  "ImageUpload",
-  async (file: FormData) => {
-    try {
-      const request = await axios.post(
-        "https://api.escuelajs.co/api/v1/files/upload",
-        file,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-
-      return request.data.location
     } catch (e) {
       const error = e as AxiosError
       return error

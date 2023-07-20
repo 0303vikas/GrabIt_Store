@@ -118,6 +118,7 @@ const Login = () => {
                 color={errors.userEmail ? "error" : "secondary"}
                 required
                 {...field}
+                autoComplete="email"
               />
               {errors.userEmail && (
                 <p
@@ -153,6 +154,7 @@ const Login = () => {
                 color={errors.password ? "error" : "secondary"}
                 required
                 {...field}
+                autoComplete="current-password"
               />
               {errors.password && (
                 <p

@@ -52,9 +52,8 @@ export const ImageChangeButtons = ({
                 : {}
             }
           >
-            <ArrowBackIos />
+            <ArrowBackIos titleAccess="Previous Image" />
           </IconButton>
-          <div style={{ paddingTop: "0.7rem" }}>Change Image</div>
           <IconButton
             onClick={moveImageLeft}
             className="productCategory--container--imageBtn"
@@ -65,7 +64,7 @@ export const ImageChangeButtons = ({
                 : {}
             }
           >
-            <ArrowForwardIos />
+            <ArrowForwardIos titleAccess="Next Image" />
           </IconButton>
         </Typography>
       )}

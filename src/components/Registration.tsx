@@ -4,7 +4,7 @@
  * @Author Vikas Singh
  */
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { Input, useTheme } from "@mui/material"
+import { Input, TextField, useTheme } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
 import ContainerLoginRegister, {
@@ -57,9 +57,24 @@ const Registration = () => {
       })
       return false
     }
+    // console.log(data)
+
+    // const imgFile = data.file
+    // console.log(typeof data.file)
+    if (
+      !data.file[0] ||
+      !data.file[0].type ||
+      data.file[0].type.indexOf("image") === -1
+    ) {
+      setError("file", {
+        type: "manual",
+        message: "Selected file is not an image",
+      })
+      return
+    }
 
     const imgFormData = new FormData()
-    imgFormData.append("file", data.file[0])
+    imgFormData.append("file", data.file[0], data.file[0].name)
 
     const userData = {
       file: imgFormData,
@@ -101,6 +116,7 @@ const Registration = () => {
         style={{
           display: "flex",
           justifyContent: "center",
+          rowGap: "1rem",
         }}
         encType="multipart/form-data"
         onSubmit={handleSubmit(onSubmit)}
@@ -113,7 +129,7 @@ const Registration = () => {
             required: "UserName is required",
           }}
           render={({ field }) => (
-            <div>
+            <>
               <Input
                 className="input--userName"
                 type="string"
@@ -138,7 +154,7 @@ const Registration = () => {
                   *{errors.userName.message}
                 </p>
               )}
-            </div>
+            </>
           )}
         />
         <Controller
@@ -152,7 +168,7 @@ const Registration = () => {
             },
           }}
           render={({ field }) => (
-            <div>
+            <>
               <Input
                 className="input--userEmail"
                 type="string"
@@ -177,7 +193,7 @@ const Registration = () => {
                   *{errors.userEmail.message}
                 </p>
               )}
-            </div>
+            </>
           )}
         />
         <Controller
@@ -191,7 +207,7 @@ const Registration = () => {
             },
           }}
           render={({ field }) => (
-            <div>
+            <>
               <Input
                 className="input--password"
                 type="password"
@@ -216,7 +232,7 @@ const Registration = () => {
                   *{errors.password.message}
                 </p>
               )}
-            </div>
+            </>
           )}
         />
         <Controller
@@ -256,16 +272,40 @@ const Registration = () => {
           )}
         />
 
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            {...register("file")}
-            name="file"
-            required
-            placeholder="Upload Image"
-          />
-        </div>
+        <Controller
+          name="file"
+          control={control}
+          rules={{ required: "Image is required" }}
+          render={({ field }) => (
+            <>
+              <input
+                type="file"
+                accept="image/*"
+                {...register("file")}
+                name="file"
+                required
+                placeholder="Upload Image"
+                style={{ width: "14rem" }}
+              />
+              {errors.file && (
+                <p
+                  style={{
+                    color: theme.palette.error.main,
+                    fontSize: theme.typography.fontSize,
+                    margin: "0",
+                  }}
+                >
+                  *{errors.file.message}
+                </p>
+              )}
+            </>
+          )}
+        />
+
+        {/* <div style={{ marginLeft: "3vw" }}>
+          
+          )}
+        </div> */}
         {userStore.error && (
           <p
             style={{

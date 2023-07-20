@@ -1,11 +1,5 @@
 import { IconButton } from "@mui/material"
-import {
-  GitHub,
-  Instagram,
-  Facebook,
-  LinkedIn,
-  Twitter,
-} from "@mui/icons-material"
+import { GitHub, Instagram, Facebook, LinkedIn } from "@mui/icons-material"
 
 export const Footer = () => {
   return (
@@ -16,7 +10,7 @@ export const Footer = () => {
         padding: "20px 20px",
       }}
     >
-      <p
+      <div
         style={{
           marginTop: 0,
           padding: "auto",
@@ -36,21 +30,21 @@ export const Footer = () => {
           <br />
           grabit@email.com
         </address>
-      </p>
+      </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <p>Follow me</p>
         <div>
           <IconButton href="https://www.github.com/0303vikas">
-            <GitHub color="primary" />
+            <GitHub color="primary" titleAccess="github link" />
           </IconButton>
           <IconButton href="https://instagram.com/vikas_0312_?igshid=ZDc4ODBmNjlmNQ==">
-            <Instagram color="error" />
+            <Instagram color="error" titleAccess="instragram link" />
           </IconButton>
           <IconButton href="https://www.facebook.com/people/Vikas-Singh/pfbid02BwUX5GtZvT31TyJD2CebqLKmu1FFyHGS5iegCUamP2mLYrTKo43n5zVMsKgaEPULl/">
-            <Facebook color="primary" />
+            <Facebook color="primary" titleAccess="facebook link" />
           </IconButton>
           <IconButton href="https://www.linkedin.com/in/vikas-singh-waraich">
-            <LinkedIn color="primary" />
+            <LinkedIn color="primary" titleAccess="linkedin link" />
           </IconButton>
         </div>
       </div>

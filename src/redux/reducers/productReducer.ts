@@ -79,7 +79,6 @@ export const deleteProduct = createAsyncThunk(
     }
   }
 )
-// type CreateProductType = Omit<ProductType, "id">
 
 const productSlice = createSlice({
   name: "product",

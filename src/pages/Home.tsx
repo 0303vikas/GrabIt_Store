@@ -3,19 +3,13 @@
  * @description Home Page with Navigation and Outlet
  * @Author Vikas Singh
  */
-import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
 
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { fetchProductData } from "../redux/reducers/productReducer"
 import { FooterContainer, HeaderContainer } from "../themes/HomePageTheme"
 import { NavigationLeft, NavigationRight } from "../components/NavigationBar"
 import { useAppSelector } from "../hooks/useAppSelector"
 import ErrorComponent from "./Error"
-import { fetchAllUsers } from "../redux/reducers/userReducer"
-import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 import { Footer } from "../components/Footer"
-import { useTheme } from "@mui/material"
 
 /**
  * if error

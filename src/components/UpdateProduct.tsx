@@ -5,7 +5,7 @@
  * @note
  * - Adding image option not added yet
  */
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   CardMedia,
   useTheme,
@@ -28,8 +28,13 @@ import {
 import { ImageChangeButtons } from "./ImageChangeButtons"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
-import { deleteProduct, updateProduct } from "../redux/reducers/productReducer"
+import {
+  deleteProduct,
+  fetchProductData,
+  updateProduct,
+} from "../redux/reducers/productReducer"
 import { Delete } from "@mui/icons-material"
+import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 
 export const UpdateProduct = () => {
   const theme = useTheme()
@@ -76,13 +81,17 @@ const UpdateCard = ({
 }) => {
   const [title, setTitle] = useState(product.title)
   const [description, setDescription] = useState(product.description)
-  const [currentCategory, setCurrentCategory] = useState(product.category?.name)
+  const [currentCategory, setCurrentCategory] = useState(product.category.name)
   const [images, setImages] = useState(product.images)
-  const [currentImage, setCurrentImage] = useState(1)
+  const [currentImage, setCurrentImage] = useState("")
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { category } = useAppSelector((store) => store.categories)
   const theme = useTheme()
+
+  useEffect(() => {
+    dispatch(fetchCategoryData())
+  }, [])
 
   const updateHandler = () => {
     const newProduct: UpdateProductType = {
@@ -109,7 +118,6 @@ const UpdateCard = ({
   }
 
   const handleImageRemov = (item: string) => {
-    console.log(item)
     const newImageList = images.filter((img) => img !== item)
     console.log(newImageList)
     setImages(newImageList)
@@ -123,36 +131,26 @@ const UpdateCard = ({
     }, 2000)
   }
 
-  console.log(currentImage)
-
   return (
-    <DisplayCardHorizontal>
+    <DisplayCardHorizontal
+      sx={{ padding: "2rem", justifyContent: "flex-start" }}
+    >
       <aside>
         <CardMedia
           component="img"
-          height="300"
-          image={images[currentImage]}
+          height="400"
+          image={currentImage}
           alt={product.title + " image."}
+          sx={{
+            [theme.breakpoints.down("md")]: {
+              display: "none",
+            },
+          }}
         />
-
-        {images && (
-          <ImageChangeButtons
-            imagesNo={images.length}
-            currentImage={currentImage}
-            setCurrentImage={setCurrentImage}
-          />
-        )}
-        {images.length > 1 && (
-          <IconButton
-            onClick={() => handleImageRemov(images[currentImage - 1])}
-          >
-            <Delete color="error" />
-          </IconButton>
-        )}
       </aside>
 
       <HorizontalCardBox>
-        <div style={{ display: "grid" }} id="update-Form">
+        <div style={{ display: "grid", rowGap: "2rem" }} id="update-Form">
           <TextField
             id="update-Form--Text"
             label="Title"
@@ -167,36 +165,42 @@ const UpdateCard = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <TextField
-            id="update-Form--Category"
-            select
-            label="Categories"
-            defaultValue={currentCategory}
-            onChange={(e) => setCurrentCategory(e.target.value)}
-          >
-            {category &&
-              category.map((item) => (
+          {category.length && (
+            <TextField
+              id="update-Form--Category"
+              select
+              label="Categories"
+              defaultValue={currentCategory}
+              onChange={(e) => setCurrentCategory(e.target.value)}
+            >
+              {category.map((item) => (
                 <MenuItem value={item.name} key={item.id}>
                   {item.name}
                 </MenuItem>
               ))}
-          </TextField>
+            </TextField>
+          )}
 
-          {/* <TextField
+          <TextField
             id="update-Form--Category"
             select
-            label="Categories"
-            defaultValue={currentImage}
+            label="Images"
+            defaultValue={images?.[0]}
             onChange={(e) => setCurrentImage(e.target.value)}
           >
-            {images.length >0 &&
+            {images &&
               images.map((item) => (
-                <Box key={item}>
-                  {item}{" "}
-                  <Button onClick={() => handleImageRemov(item)}>X</Button>
-                </Box>
+                <MenuItem value={item} key={item}>
+                  {item}
+
+                  <IconButton onClick={() => handleImageRemov(item)}>
+                    <Delete color="error" />
+                  </IconButton>
+                </MenuItem>
               ))}
-          </TextField> */}
+          </TextField>
+
+          <TextField id="update-Form--Category" type="file"></TextField>
         </div>
         <div style={{ display: "flex" }}>
           <Button variant="contained" color="primary" onClick={updateHandler}>

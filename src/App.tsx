@@ -5,13 +5,9 @@
  * @note
  * - change mode button is not working yet
  */
-import React, { createContext, useEffect, useState } from "react"
-import { ThemeProvider, useTheme } from "@mui/material/styles"
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useNavigate,
-} from "react-router-dom"
+import React, { createContext, useEffect } from "react"
+import { ThemeProvider } from "@mui/material/styles"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"
 import { useAppDispatch } from "./hooks/useAppDispatch"
@@ -24,7 +20,6 @@ import Cart from "./components/Cart"
 import { Protected } from "./components/Protected"
 import { UpdateProduct } from "./components/UpdateProduct"
 import { authenticateUser } from "./redux/reducers/userReducer"
-import { UserType } from "./types/User"
 import { SingleProduct } from "./components/SingleProduct"
 import { CreateProduct } from "./components/CreateProduct"
 import { useAppSelector } from "./hooks/useAppSelector"

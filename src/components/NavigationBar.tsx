@@ -5,7 +5,7 @@
  * @notes
  * - theme changing button not added yet
  */
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Avatar,
@@ -49,8 +49,7 @@ import { clearUserLogin } from "../redux/reducers/userReducer"
 import darkLogo from "../icons/darkLogo.png"
 import lightLogo from "../icons/lightLogo.png"
 import { useDebounce } from "../hooks/useDebounceHook"
-import { ModeContext } from "../App"
-import { getMode, changeMode } from "../redux/reducers/modeReducer"
+import { changeMode } from "../redux/reducers/modeReducer"
 import { fetchProductData } from "../redux/reducers/productReducer"
 import { setThemeLocalStorage } from "../hooks/setThemeLocalStorage"
 
@@ -89,9 +88,8 @@ const NavigationLeft = () => {
  */
 const NavigationRight = () => {
   const settingOptions = ["Registration", "Login"]
-  const addCustomerOptions = ["Profile", "Logout"]
+  const addCustomerOptions = ["Profile", "Logout", "Registration"]
   const addAdminOptions = ["CreateProduct"]
-  const changeTheme = useContext(ModeContext)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
@@ -238,7 +236,10 @@ const NavigationRight = () => {
         color="secondary"
         sx={{ margin: "0 1rem" }}
       >
-        <ShoppingCart sx={{ color: theme.palette.common.black }} />
+        <ShoppingCart
+          sx={{ color: theme.palette.common.black }}
+          titleAccess="Open Cart"
+        />
       </Badge>
 
       <SettingContainer sx={{ marginRight: "0.5rem" }}>
@@ -271,7 +272,7 @@ const NavigationRight = () => {
           {(currentUser
             ? currentUser.role === "admin"
               ? [...addCustomerOptions, ...addAdminOptions]
-              : [...settingOptions, ...addCustomerOptions]
+              : [...addCustomerOptions]
             : settingOptions
           ).map((setting) => (
             <MenuItem
@@ -300,7 +301,7 @@ const NavigationRight = () => {
         open={openLogoutConfirm}
         keepMounted
         onClose={() => setopenLogoutConfirm(false)}
-        aria-describedby="logut-confimation"
+        aria-describedby="logout-confimation"
       >
         <DialogTitle>{"Confirm Logout?"}</DialogTitle>
         <DialogActions>
@@ -318,9 +319,9 @@ const NavigationRight = () => {
         }}
       >
         {mode === "light" ? (
-          <DarkModeRounded color="secondary" />
+          <DarkModeRounded color="secondary" titleAccess="Turn of lights" />
         ) : (
-          <LightModeRounded color="secondary" />
+          <LightModeRounded color="secondary" titleAccess="Turn on lights" />
         )}
       </IconButton>
     </NavigationContainer>

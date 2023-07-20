@@ -78,7 +78,7 @@ export const Card = ({
           onClick={() => dispatch(addToCart({ ...item, quantity: 1 }))}
           color={cart.some((pro) => pro.id === item.id) ? "success" : "info"}
         >
-          <AddShoppingCart />
+          <AddShoppingCart titleAccess="Add to Cart" />
         </IconButton>
         {/**
          * if current user exists and role is admin, then
@@ -91,7 +91,7 @@ export const Card = ({
               aria-label="Edit Product"
               onClick={() => navigate(`/product/edit/${item.id}`)}
             >
-              <Settings color="info" />
+              <Settings color="info" titleAccess="Go to settings" />
             </IconButton>
           ) : null
         ) : null}

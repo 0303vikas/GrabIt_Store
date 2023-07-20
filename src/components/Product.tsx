@@ -106,6 +106,7 @@ const Product = () => {
                     ? theme.palette.primary.dark
                     : theme.palette.secondary.main,
               }}
+              titleAccess="Sort Ascending and Descending"
             />
           </IconButton>
         </div>
@@ -116,6 +117,7 @@ const Product = () => {
             step="5"
             max={filterList.maxValueRange}
             onChange={(e) => setfilterPice(Number(e.target.value))}
+            title="Set price Range"
           />
           <p
             style={{

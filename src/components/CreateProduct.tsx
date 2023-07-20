@@ -3,9 +3,9 @@
  * @description Component for creating new product
  * @Author Vikas Singh
  * @notes
- *  - photo button not created yet 
+ *  - photo button not created yet
  */
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useTheme, Button, TextField, MenuItem } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
@@ -22,10 +22,12 @@ import { useAppDispatch } from "../hooks/useAppDispatch"
 import {
   createProduct,
   deleteProduct,
+  fetchProductData,
   updateProduct,
 } from "../redux/reducers/productReducer"
 import { CategoryType } from "../types/Category"
 import { NewProductType } from "../types/NewProduct"
+import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 
 /**
  * @description Create Product page. After the product is created user is redirecd to login page
@@ -42,6 +44,10 @@ export const CreateProduct = () => {
   const { category, loading, error } = useAppSelector(
     (store) => store.categories
   )
+
+  useEffect(() => {
+    dispatch(fetchCategoryData())
+  }, [])
 
   const findCategory = category.find((item) => item.name === currentCategory)
 
