@@ -16,9 +16,8 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material"
-import { AxiosError } from "axios"
 import { useNavigate, useParams } from "react-router-dom"
-import { Controller, useForm, SubmitHandler } from "react-hook-form"
+import { Delete } from "@mui/icons-material"
 
 import { UpdateProductType } from "../types/UpdateProduct"
 import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
@@ -29,19 +28,23 @@ import {
 } from "../themes/horizontalCardTheme"
 import { ProductType } from "../types/Product"
 import { useAppDispatch } from "../hooks/useAppDispatch"
-import { deleteProduct, updateProduct } from "../redux/reducers/productReducer"
-import { Delete } from "@mui/icons-material"
+import {
+  deleteProduct,
+  fetchProductData,
+  updateProduct,
+} from "../redux/reducers/productReducer"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
-import { imageUpload } from "../redux/reducers/image/imageUpload"
-
-interface ImageUploadType {
-  file: FileList
-}
+import UploadImageForm from "./UploadImageForm"
 
 export const UpdateProduct = () => {
   const theme = useTheme()
   const { id } = useParams()
   const { products, loading, error } = useAppSelector((store) => store.product)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchProductData())
+  }, [])
 
   const findProduct = products.find((item) => item.id === Number(id))
   return (
@@ -90,14 +93,6 @@ const UpdateCard = ({
   const navigate = useNavigate()
   const { category } = useAppSelector((store) => store.categories)
   const theme = useTheme()
-  const [newImageData, setNewImageData] = useState("")
-  const {
-    handleSubmit,
-    setError,
-    control,
-    formState: { errors },
-    register,
-  } = useForm<ImageUploadType>()
 
   useEffect(() => {
     dispatch(fetchCategoryData())
@@ -113,16 +108,7 @@ const UpdateCard = ({
         images: images,
       },
     }
-
     dispatch(updateProduct(newProduct))
-    if (loading)
-      return (
-        <Box sx={{ marginLeft: "50%" }}>
-          <h1 style={{ color: theme.palette.info.main }}>Loading</h1>
-          <CircularProgress style={{ color: theme.palette.info.main }} />
-        </Box>
-      )
-    if (error) return <div>{error}</div>
     alert("Product Updated")
     navigate("/")
   }
@@ -141,53 +127,20 @@ const UpdateCard = ({
     }, 2000)
   }
 
-  const uploadImage: SubmitHandler<ImageUploadType> = (data, e) => {
-    e?.preventDefault()
-
-    if (
-      !data.file[0] ||
-      !data.file[0].type ||
-      data.file[0].type.indexOf("image") === -1
-    ) {
-      setError("file", {
-        type: "manual",
-        message: "Selected file is not an image",
-      })
-      return
-    }
-
-    const imgFormData = new FormData()
-    imgFormData.append("file", data.file[0], data.file[0].name)
-
-    dispatch(imageUpload(imgFormData))
-      .then((data) => {
-        setNewImageData(data.payload)
-        alert("Image Uploaded Successfully. Can be added to image List.")
-      })
-      .catch((e) => {
-        const error = e as AxiosError
-        if (error.response) {
-          setError("file", {
-            type: "manual",
-            message: JSON.stringify(error.response.data),
-          })
-          return
-        }
-        setError("file", {
-          type: "manual",
-          message: error.message,
-        })
-        return
-      })
-    return
-  }
-
-  const addImage = () => {
-    console.log(newImageData)
-    setImages([newImageData, ...images])
-    setNewImageData("")
+  const addImageToList = (arg: string) => {
+    setImages([arg, ...images])
     alert("Image added Successfully.")
   }
+
+  if (loading)
+    return (
+      <Box sx={{ marginLeft: "50%" }}>
+        <h1 style={{ color: theme.palette.info.main }}>Loading</h1>
+        <CircularProgress style={{ color: theme.palette.info.main }} />
+      </Box>
+    )
+
+  if (error) return <div>{error}</div>
 
   return (
     <DisplayCardHorizontal
@@ -197,7 +150,7 @@ const UpdateCard = ({
         <CardMedia
           component="img"
           height="400"
-          image={currentImage}
+          image={currentImage ? currentImage : images[0]}
           alt={product.title + " image."}
           sx={{
             [theme.breakpoints.down("md")]: {
@@ -257,45 +210,7 @@ const UpdateCard = ({
                 </MenuItem>
               ))}
           </TextField>
-
-          {/* <TextField id="update-Form--Category" type="file"></TextField> */}
-          <form onSubmit={handleSubmit(uploadImage)}>
-            <Controller
-              name="file"
-              control={control}
-              rules={{ required: "Image is required" }}
-              render={({ field }) => (
-                <>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    {...register("file")}
-                    name="file"
-                    required
-                    placeholder="Upload Image"
-                    style={{ width: "14rem" }}
-                  />
-                  {errors.file && (
-                    <p
-                      style={{
-                        color: theme.palette.error.main,
-                        fontSize: theme.typography.fontSize,
-                        margin: "0",
-                      }}
-                    >
-                      *{errors.file.message}
-                    </p>
-                  )}
-                </>
-              )}
-            />
-            <Button variant="contained" type="submit" color="secondary">
-              Upload
-            </Button>
-            <Button variant="contained" type="button" onClick={addImage}>
-              Add
-            </Button>
-          </form>
+          <UploadImageForm addImage={addImageToList} />
         </div>
         <div style={{ display: "flex", marginTop: "1rem" }}>
           <Button variant="contained" color="primary" onClick={updateHandler}>

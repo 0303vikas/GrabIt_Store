@@ -17,11 +17,11 @@ import Registration from "./components/Registration"
 import Category from "./components/Category"
 import Product from "./components/Product"
 import Cart from "./components/Cart"
+import Create from "./components/Create"
 import { Protected } from "./components/Protected"
 import { UpdateProduct } from "./components/UpdateProduct"
 import { authenticateUser } from "./redux/reducers/userReducer"
 import { SingleProduct } from "./components/SingleProduct"
-import { CreateProduct } from "./components/CreateProduct"
 import { useAppSelector } from "./hooks/useAppSelector"
 
 const appRouter = createBrowserRouter([
@@ -66,7 +66,15 @@ const appRouter = createBrowserRouter([
         path: "/createproduct",
         element: (
           <Protected>
-            <CreateProduct />
+            <Create createType="product" />
+          </Protected>
+        ),
+      },
+      {
+        path: "/createcategory",
+        element: (
+          <Protected>
+            <Create createType="category" />
           </Protected>
         ),
       },

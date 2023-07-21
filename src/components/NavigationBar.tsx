@@ -89,7 +89,7 @@ const NavigationLeft = () => {
 const NavigationRight = () => {
   const settingOptions = ["Registration", "Login"]
   const addCustomerOptions = ["Profile", "Logout", "Registration"]
-  const addAdminOptions = ["CreateProduct"]
+  const addAdminOptions = ["CreateProduct", "CreateCategory"]
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()
