@@ -1,10 +1,12 @@
+import { useEffect, useState } from "react"
 import { Button, CardMedia, TextField, useTheme } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+
 import { DisplayGrid } from "../themes/categoryTheme"
 import {
   DisplayCardHorizontal,
   HorizontalCardBox,
 } from "../themes/horizontalCardTheme"
-import { useEffect, useState } from "react"
 import UploadImageForm from "./UploadImageForm"
 import { NewCategoryType } from "../types/NewCategory"
 import { useAppDispatch } from "../hooks/useAppDispatch"
@@ -13,11 +15,12 @@ import {
   fetchCategoryData,
 } from "../redux/reducers/categoryReducer"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { useNavigate } from "react-router-dom"
 
 const CreateCategory = () => {
   const theme = useTheme()
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState(
+    "https://slp-statics.astockcdn.net/static_assets/staging/23summer/home/EMEA/curated-collections/card-1.jpg?width=580&format=webp"
+  )
   const [name, setName] = useState("")
   const dispatch = useAppDispatch()
   const navigate = useNavigate()

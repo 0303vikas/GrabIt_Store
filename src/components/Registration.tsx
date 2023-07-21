@@ -4,7 +4,7 @@
  * @Author Vikas Singh
  */
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { Input, TextField, useTheme } from "@mui/material"
+import { Input, useTheme } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
 import ContainerLoginRegister, {
@@ -298,11 +298,6 @@ const Registration = () => {
             </>
           )}
         />
-
-        {/* <div style={{ marginLeft: "3vw" }}>
-          
-          )}
-        </div> */}
         {userStore.error && (
           <p
             style={{

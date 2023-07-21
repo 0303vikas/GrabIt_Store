@@ -22,7 +22,13 @@ import { useAppSelector } from "../hooks/useAppSelector"
  * @returns to edit product/create product component
  *
  */
-export const Protected = ({ children }: { children: ReactNode }) => {
+export const Protected = ({
+  children,
+  routerType,
+}: {
+  children: ReactNode
+  routerType: string
+}) => {
   const theme = useTheme()
   const { currentUser, error, authloading } = useAppSelector(
     (state) => state.user
@@ -47,7 +53,9 @@ export const Protected = ({ children }: { children: ReactNode }) => {
       )
     return <Navigate to="/login" replace />
   } else {
-    if (currentUser.role !== "admin") {
+    if (currentUser.role !== "admin" && currentUser.role !== "customer") {
+      return <Navigate to="/login" replace />
+    } else if (currentUser.role !== "admin" && routerType !== "profile") {
       return <Navigate to="/login" replace />
     }
     return <Fragment> {children}</Fragment>

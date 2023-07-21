@@ -23,6 +23,7 @@ import { UpdateProduct } from "./components/UpdateProduct"
 import { authenticateUser } from "./redux/reducers/userReducer"
 import { SingleProduct } from "./components/SingleProduct"
 import { useAppSelector } from "./hooks/useAppSelector"
+import Profile from "./components/Profile"
 
 const appRouter = createBrowserRouter([
   {
@@ -55,9 +56,13 @@ const appRouter = createBrowserRouter([
         element: <Cart />,
       },
       {
+        path: "/single/product/:id",
+        element: <SingleProduct />,
+      },
+      {
         path: "/product/edit/:id",
         element: (
-          <Protected>
+          <Protected routerType="updateproduct">
             <UpdateProduct />
           </Protected>
         ),
@@ -65,7 +70,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/createproduct",
         element: (
-          <Protected>
+          <Protected routerType="createproduct">
             <Create createType="product" />
           </Protected>
         ),
@@ -73,24 +78,22 @@ const appRouter = createBrowserRouter([
       {
         path: "/createcategory",
         element: (
-          <Protected>
+          <Protected routerType="createcategory">
             <Create createType="category" />
           </Protected>
         ),
       },
       {
-        path: "/single/product/:id",
-        element: <SingleProduct />,
+        path: "/profile",
+        element: (
+          <Protected routerType="profile">
+            <Profile />
+          </Protected>
+        ),
       },
     ],
   },
 ])
-
-interface ModeContextType {
-  changeMode: () => void
-}
-
-export const ModeContext = createContext<ModeContextType | null>(null)
 
 const App = () => {
   const modeReduxState = useAppSelector((state) => state.mode)

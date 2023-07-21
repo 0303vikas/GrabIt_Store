@@ -14,9 +14,10 @@ import {
   CardMedia,
   IconButton,
 } from "@mui/material"
+import { Delete } from "@mui/icons-material"
 import { useNavigate } from "react-router-dom"
 
-import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
+import { DisplayGrid } from "../themes/categoryTheme"
 import { useAppSelector } from "../hooks/useAppSelector"
 import {
   DisplayCardHorizontal,
@@ -27,7 +28,6 @@ import { createProduct } from "../redux/reducers/productReducer"
 import { NewProductType } from "../types/NewProduct"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
 import UploadImageForm from "./UploadImageForm"
-import { Delete } from "@mui/icons-material"
 
 /**
  * @description Create Product page. After the product is created user is redirecd to login page
@@ -40,7 +40,9 @@ export const CreateProduct = () => {
   const [currentCategory, setCurrentCategory] = useState("")
   const [price, setPrice] = useState(0)
   const [images, setImages] = useState<string[]>([])
-  const [currentImage, setCurrentImage] = useState("")
+  const [currentImage, setCurrentImage] = useState(
+    "https://slp-statics.astockcdn.net/static_assets/staging/23summer/home/EMEA/curated-collections/card-5.jpg?width=580&format=webp"
+  )
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { category } = useAppSelector((store) => store.categories)
@@ -98,15 +100,15 @@ export const CreateProduct = () => {
         </aside>
 
         <HorizontalCardBox>
-          <div style={{ display: "grid", rowGap: "2rem" }} id="update-Form">
+          <div style={{ display: "grid", rowGap: "2rem" }} id="create-Form">
             <TextField
-              id="update-Form--Text"
+              id="create-Form--Text"
               label="Title"
               variant="filled"
               onChange={(e) => setTitle(e.target.value)}
             />
             <TextField
-              id="update-Form--Price"
+              id="create-Form--Price"
               label="Price"
               type="number"
               variant="filled"
@@ -118,14 +120,14 @@ export const CreateProduct = () => {
               onChange={(e) => setPrice(Number(e.target.value))}
             />
             <TextField
-              id="update-Form--Description"
+              id="create-Form--Description"
               label="Description"
               variant="filled"
               onChange={(e) => setDescription(e.target.value)}
             />
             {category.length && (
               <TextField
-                id="update-Form--Category"
+                id="create-Form--Category"
                 select
                 label="Categories"
                 defaultValue=""
@@ -141,7 +143,7 @@ export const CreateProduct = () => {
             )}
             {images && (
               <TextField
-                id="update-Form--Category"
+                id="create-Form--Category"
                 select
                 label="Images"
                 defaultValue=""
