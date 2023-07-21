@@ -1,29 +1,13 @@
-# Front-end Project
+# Grab It
+
+Welcome to Grabit Store, your ultimate online shopping destination for a wide range of products, from electronics and fashion to home essentials and much more. Built with cutting-edge technologies like React, Redux, TypeScript, and Sass, Grabit Store delivers a seamless and engaging shopping experience like no other.
+
+## Tech Stack
 
 ![React](https://img.shields.io/badge/React-v.18-blue)
 ![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
 ![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
 ![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
-
-This project requires implementation of TypeScript and SASS.
-
-## Requirement
-
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Home page, product page,
-profile page (only available if user logins), and cart page (cart could be a page or a modal)
-3. Create Redux store for following features:
-    - product reducer: get all products, find a single products, sort products by
-    categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp. For example, you can check if user is your admin account before let them delete product)
-    - user reducer: Register and Login
-    - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Deploy the application and rewrite README file.
-
-## Bonus
-
-1. Use context API to switch theme
-2. Implement unit testing for the reducers
 
 ## Instruction to start the project
 
@@ -48,4 +32,118 @@ Launches the test runner in the interactive watch mode
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It correctly bundles React in production mode and optimizes the build for the best performance.start
+
+```
+
+
+## Project Structure
+```
+
+├── package.json
+├── package-lock.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── README.md
+├── src
+│   ├── App.tsx
+│   ├── components
+│   │   ├── Card.tsx
+│   │   ├── CartItem.tsx
+│   │   ├── Cart.tsx
+│   │   ├── Category.tsx
+│   │   ├── CreateCategory.tsx
+│   │   ├── CreateProduct.tsx
+│   │   ├── Create.tsx
+│   │   ├── Footer.tsx
+│   │   ├── ImageChangeButtons.tsx
+│   │   ├── Login.tsx
+│   │   ├── NavigationBar.tsx
+│   │   ├── Product.tsx
+│   │   ├── Profile.tsx
+│   │   ├── Protected.tsx
+│   │   ├── Registration.tsx
+│   │   ├── SingleProduct.tsx
+│   │   ├── UpdateProduct.tsx
+│   │   └── UploadImageForm.tsx
+│   ├── hooks
+│   │   ├── checkEmailAvailibility.ts
+│   │   ├── filterProduct.ts
+│   │   ├── findOneUser.ts
+│   │   ├── reduxMediaModeCheck.ts
+│   │   ├── setThemeLocalStorage.ts
+│   │   ├── sortProduct.ts
+│   │   ├── useAppDispatch.ts
+│   │   ├── useAppSelector.ts
+│   │   └── useDebounceHook.ts
+│   ├── icons
+│   │   ├── DarkImage.png
+│   │   ├── darkLogo.png
+│   │   ├── LightImage.png
+│   │   └── lightLogo.png
+│   ├── index.css
+│   ├── index.tsx
+│   ├── pages
+│   │   ├── Error.tsx
+│   │   └── Home.tsx
+│   ├── react-app-env.d.ts
+│   ├── redux
+│   │   ├── reducers
+│   │   │   ├── cartReducer.ts
+│   │   │   ├── categoryReducer.ts
+│   │   │   ├── image
+│   │   │   │   └── imageUpload.ts
+│   │   │   ├── modeReducer.ts
+│   │   │   ├── productReducer.ts
+│   │   │   └── userReducer.ts
+│   │   └── store.ts
+│   ├── reportWebVitals.ts
+│   ├── setupTests.ts
+│   ├── style.css
+│   ├── style.css.map
+│   ├── styles
+│   │   └── style.scss
+│   ├── test
+│   │   ├── data
+│   │   │   ├── cart.ts
+│   │   │   ├── categories.ts
+│   │   │   ├── products.ts
+│   │   │   └── user.ts
+│   │   ├── reducers
+│   │   │   ├── cartReducer.test.ts
+│   │   │   ├── categoriesReducer.test.ts
+│   │   │   ├── productsReducer.test.ts
+│   │   │   └── userReducer.test.ts
+│   │   ├── servers
+│   │   │   ├── categoryServer.ts
+│   │   │   ├── productServer.ts
+│   │   │   └── userServer.ts
+│   │   └── shared
+│   │   └── store.ts
+│   ├── themes
+│   │   ├── categoryTheme.ts
+│   │   ├── formTheme.ts
+│   │   ├── HomePageTheme.ts
+│   │   ├── horizontalCardTheme.ts
+│   │   └── mainTheme.ts
+│   └── types
+│   ├── CartType.ts
+│   ├── Category.ts
+│   ├── FilterProduct.ts
+│   ├── NewCategory.ts
+│   ├── NewProduct.ts
+│   ├── NewUser.ts
+│   ├── Product.ts
+│   ├── ProtectedRouter.ts
+│   ├── UpdateProduct.ts
+│   └── User.ts
+└── tsconfig.json
+
+```
+
+```
