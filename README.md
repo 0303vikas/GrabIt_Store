@@ -7,7 +7,7 @@ Welcome to Grabit Store, your ultimate online shopping destination for a wide ra
 You can checkout the deployment at the provided link
 
 ```
-https://64bd2cc2f8ccc8000849be72--cerulean-cobbler-9025b2.netlify.app/
+https://cerulean-cobbler-9025b2.netlify.app/
 ```
 
 ## Tech Stack
