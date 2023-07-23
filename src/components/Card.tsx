@@ -39,7 +39,7 @@ export const Card = ({
   const theme = useTheme()
   const cart = useAppSelector((state) => state.cart)
   const dispatch = useAppDispatch()
-  const [currentImage, setCurrentImage] = useState(1)
+  const [currentImage, setCurrentImage] = useState(0)
   const navigate = useNavigate()
   const { currentUser } = useAppSelector((state) => state.user)
 

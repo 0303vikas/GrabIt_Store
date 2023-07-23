@@ -35,7 +35,7 @@ const Product = () => {
   const theme = useTheme()
   const { products, error, loading } = useAppSelector((state) => state.product)
   const dispatch = useAppDispatch()
-  const [filterPrice, setfilterPice] = useState(100)
+  const [filterPrice, setfilterPrice] = useState(100)
   const { id } = useParams()
   const [sort, setSort] = useState("asc")
 
@@ -114,9 +114,9 @@ const Product = () => {
           <input
             type="range"
             min={filterList.minValueRange}
-            step="5"
+            // step="5"
             max={filterList.maxValueRange}
-            onChange={(e) => setfilterPice(Number(e.target.value))}
+            onChange={(e) => setfilterPrice(Number(e.target.value))}
             title="Set price Range"
           />
           <p
@@ -137,8 +137,8 @@ const Product = () => {
           filterList.filterItem
             .filter(
               (item) =>
-                item.price > filterList.minValueRange &&
-                item.price < filterPrice
+                item.price >= filterList.minValueRange &&
+                item.price <= filterPrice
             )
             .slice(currentPage * 9 - 9, currentPage * 9)
             .map((item, index) => (

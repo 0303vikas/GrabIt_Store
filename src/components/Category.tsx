@@ -98,6 +98,7 @@ const Category = () => {
          * else
          * use slicedArray
          */}
+
         {(category.length ? category : slicedArray)
           .slice(currentPage * 8 - 8, currentPage * 8)
           .map((item, index) => {

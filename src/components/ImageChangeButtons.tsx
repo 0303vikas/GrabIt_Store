@@ -26,10 +26,10 @@ export const ImageChangeButtons = ({
   currentImage: number
   setCurrentImage: React.Dispatch<React.SetStateAction<number>>
 }) => {
-  const moveImageRight = () =>
-    currentImage > 1 ? setCurrentImage(currentImage - 1) : null
   const moveImageLeft = () =>
-    currentImage < imagesNo ? setCurrentImage(currentImage + 1) : null
+    currentImage > 0 ? setCurrentImage(currentImage - 1) : null
+  const moveImageRight = () =>
+    currentImage + 1 < imagesNo ? setCurrentImage(currentImage + 1) : null
 
   return (
     <>
@@ -43,11 +43,11 @@ export const ImageChangeButtons = ({
           }}
         >
           <IconButton
-            onClick={moveImageRight}
+            onClick={moveImageLeft}
             className="productCategory--container--imageBtn"
             style={
               // disable button if no image on left
-              currentImage === 1
+              currentImage === 0
                 ? { cursor: "not-allowed", opacity: "0.4" }
                 : {}
             }
@@ -55,11 +55,11 @@ export const ImageChangeButtons = ({
             <ArrowBackIos titleAccess="Previous Image" />
           </IconButton>
           <IconButton
-            onClick={moveImageLeft}
+            onClick={moveImageRight}
             className="productCategory--container--imageBtn"
             style={
               // disable button if no image on right
-              currentImage === imagesNo
+              currentImage + 1 === imagesNo
                 ? { cursor: "not-allowed", opacity: "0.4" }
                 : {}
             }
