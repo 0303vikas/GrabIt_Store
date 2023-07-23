@@ -2,6 +2,14 @@
 
 Welcome to Grabit Store, your ultimate online shopping destination for a wide range of products, from electronics and fashion to home essentials and much more. Built with cutting-edge technologies like React, Redux, TypeScript, and Sass, Grabit Store delivers a seamless and engaging shopping experience like no other.
 
+## Deployment
+
+You can checkout the deployment at the provided link
+
+```
+https://64bd2cc2f8ccc8000849be72--cerulean-cobbler-9025b2.netlify.app/
+```
+
 ## Tech Stack
 
 ![React](https://img.shields.io/badge/React-v.18-blue)
