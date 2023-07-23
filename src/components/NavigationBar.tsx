@@ -130,7 +130,7 @@ const NavigationRight = () => {
 
   return (
     <NavigationContainer id="navigtionContent--right">
-      <NavigationList>
+      <NavigationList title="Select Search Type">
         <FormControl sx={{ minWidth: "120" }}>
           <SearchTypeList
             id="demo-simple-select-filled"
@@ -167,12 +167,12 @@ const NavigationRight = () => {
           </SearchTypeList>
         </FormControl>
       </NavigationList>
-
       <div>
         <Search>
           <SearchIconWrapper>
             <SearchIcon style={{ color: theme.palette.common.black }} />
           </SearchIconWrapper>
+
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
