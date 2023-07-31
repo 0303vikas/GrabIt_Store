@@ -6,6 +6,7 @@ const ContainerProductCategory = styled("section")(({ theme }) => ({
   background: alpha(theme.palette.common.white, 1),
   width: "auto",
   height: "auto",
+  minHeight: "60vh",
   border: "0.3vh solid",
   display: "flex",
   flexDirection: "column",

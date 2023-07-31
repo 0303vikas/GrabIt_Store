@@ -1,7 +1,7 @@
 /**
  * @file CartItem
- * @description Cart item display card 
- * @Author Vikas Singh 
+ * @description Cart item display card
+ * @Author Vikas Singh
  */
 import { useState } from "react"
 import { Box, CardMedia, useTheme, Button } from "@mui/material"
@@ -28,21 +28,40 @@ const CartItem = ({ item }: { item: CartType }) => {
     <DisplayCardHorizontal>
       <CardMedia
         component="img"
-        height="150"
+        style={{ height: "33vh", width: "20vw" }}
         image={item.images[1]}
         alt={item.title + "image."}
       />
-      <HorizontalCardBox>
+      <HorizontalCardBox sx={{ paddingLeft: "2rem" }}>
         <Box>
           <Box sx={{ ...theme.typography.h2 }}>{item.title}</Box>
           <Box sx={{ ...theme.typography.body1 }}>{item.description}</Box>
-          <Box sx={{ display: "flex" }}>
-            <Button onClick={() => setNumberOfItem(numberOfItem + 1)}>+</Button>
-            <div>{numberOfItem}</div>
+          <Box sx={{ display: "flex", padding: "2rem 0" }}>
+            <Button
+              onClick={() => setNumberOfItem(numberOfItem + 1)}
+              title="Increase quantity"
+              style={{ border: "1px solid black" }}
+            >
+              +
+            </Button>
+            <div
+              style={{
+                borderBottom: "1px solid black",
+                padding: "0.5rem 2rem 0 2rem",
+                margin: "0 1rem",
+                fontSize: "1.5rem",
+              }}
+            >
+              {numberOfItem}
+            </div>
             <Button
               onClick={() =>
                 numberOfItem === 1 ? null : setNumberOfItem(numberOfItem - 1)
               }
+              style={{
+                border: "1px solid black",
+              }}
+              title="Reduce quantity"
             >
               -
             </Button>
@@ -54,6 +73,7 @@ const CartItem = ({ item }: { item: CartType }) => {
             onClick={() =>
               dispatch(updateCart({ id: item.id, quantity: numberOfItem }))
             }
+            title="Update Cart Product"
           >
             Update
           </Button>
@@ -61,6 +81,7 @@ const CartItem = ({ item }: { item: CartType }) => {
             variant="contained"
             color="error"
             onClick={() => dispatch(removeFromCart(item.id))}
+            title="Remove From Cart"
           >
             Remove
           </Button>
