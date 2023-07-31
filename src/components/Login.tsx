@@ -20,10 +20,15 @@ import darkLogo from "../icons/DarkImage.png"
 import lightLogo from "../icons/LightImage.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { fetchAllUsers, loginUser } from "../redux/reducers/userReducer"
+import {
+  clearUserLogin,
+  fetchAllUsers,
+  loginUser,
+} from "../redux/reducers/userReducer"
 import { findOneUser } from "../hooks/findOneUser"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import { ErrorComponent } from "./ErrorComponent"
 
 interface LoginForm {
   userEmail: string
@@ -45,7 +50,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginForm>()
   const dispatch = useAppDispatch()
-  const { users } = useAppSelector((state) => state.user)
+  const userStore = useAppSelector((state) => state.user)
   const theme = useTheme()
   const navigate = useNavigate()
 
@@ -55,7 +60,7 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
-    const userEmailExist = findOneUser(users, data.userEmail)
+    const userEmailExist = findOneUser(userStore.users, data.userEmail)
 
     if (!userEmailExist) {
       setError("userEmail", {
@@ -65,22 +70,26 @@ const Login = () => {
       return false
     }
 
-    if (data.password !== userEmailExist.password) {
-      setError("password", {
-        type: "manual",
-        message: "*Password Didn't match",
-      })
-      return false
-    }
+    // if (data.password !== userEmailExist.password) {
+    //   setError("password", {
+    //     type: "manual",
+    //     message: "*Password Didn't match",
+    //   })
+    //   return false
+    // }
     const loginData = {
       email: data.userEmail,
       password: data.password,
     }
 
     dispatch(loginUser(loginData)).then((data) => {
-      if (data.type === "login/fulfilled") {
+      if (data.type === "login/fulfilled" && userStore.error.message !== "") {
         alert("User Logged In Successfully")
         navigate("/")
+      } else {
+        setTimeout(() => {
+          dispatch(clearUserLogin())
+        }, 3000)
       }
     })
   }
@@ -170,6 +179,12 @@ const Login = () => {
             </div>
           )}
         />
+        {userStore.error.message && (
+          <ErrorComponent
+            message={userStore.error.message}
+            statusCode={userStore.error.statusCode}
+          />
+        )}
         <SubmitBtn type="submit">Log In</SubmitBtn>
       </FormContainerLoginRegister>
     </ContainerLoginRegister>

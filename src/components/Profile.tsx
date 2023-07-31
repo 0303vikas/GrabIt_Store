@@ -9,8 +9,13 @@ import {
 import UploadImageForm from "./UploadImageForm"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { fetchAllUsers, updateUser } from "../redux/reducers/userReducer"
+import {
+  clearUserError,
+  fetchAllUsers,
+  updateUser,
+} from "../redux/reducers/userReducer"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { ErrorComponent } from "./ErrorComponent"
 
 interface PasswordType {
   password: string
@@ -18,12 +23,12 @@ interface PasswordType {
 }
 
 const Profile = () => {
-  const { currentUser, users } = useAppSelector((store) => store.user)
+  const { currentUser, users, error } = useAppSelector((store) => store.user)
   const theme = useTheme()
   const [image, setImage] = useState(currentUser?.avatar)
   const [name, setName] = useState(currentUser?.name)
   const [email, setEmail] = useState(currentUser?.email)
-  const [emailerror, setEmailError] = useState("")
+  const [emailError, setEmailError] = useState("")
   const {
     handleSubmit,
     control,
@@ -69,6 +74,11 @@ const Profile = () => {
         },
       }
       dispatch(updateUser(updateData)).then(() => {
+        if (error.message !== "") {
+          setTimeout(() => {
+            dispatch(clearUserError())
+          }, 3000)
+        }
         alert("PasswordUpdated Successfully.")
       })
     }
@@ -124,6 +134,12 @@ const Profile = () => {
           </aside>
 
           <HorizontalCardBox>
+            {error.message && (
+              <ErrorComponent
+                message={error.message}
+                statusCode={error.statusCode}
+              />
+            )}
             <div style={{ display: "grid", rowGap: "2rem" }} id="create-Form">
               <TextField
                 id="create-Form--Name"
@@ -144,8 +160,8 @@ const Profile = () => {
                   setEmail(e.target.value)
                 }}
               />
-              {emailerror && (
-                <p style={{ color: theme.palette.error.main }}>{emailerror}</p>
+              {emailError && (
+                <p style={{ color: theme.palette.error.main }}>{emailError}</p>
               )}
 
               <form

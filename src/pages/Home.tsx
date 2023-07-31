@@ -29,9 +29,7 @@ const Home = () => {
         <NavigationLeft />
         <NavigationRight />
       </HeaderContainer>
-      {productsError.length > 0 ||
-      userError.length > 0 ||
-      categoryError.length > 0 ? (
+      {productsError.length > 0 || categoryError.length > 0 ? (
         <ErrorComponent />
       ) : (
         <Outlet />

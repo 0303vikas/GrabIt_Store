@@ -19,8 +19,13 @@ import { useAppSelector } from "../hooks/useAppSelector"
 import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
 import darkLogo from "../icons/DarkImage.png"
 import lightLogo from "../icons/LightImage.png"
-import { createUser, fetchAllUsers } from "../redux/reducers/userReducer"
+import {
+  clearUserLogin,
+  createUser,
+  fetchAllUsers,
+} from "../redux/reducers/userReducer"
 import { useEffect } from "react"
+import { ErrorComponent } from "./ErrorComponent"
 
 /**
  * @description For registing new users, for data consists of username, useremail, password and image upload
@@ -83,15 +88,16 @@ const Registration = () => {
       },
     }
 
-    dispatch(createUser(userData)).then((res) => {
-      if (userStore.error) {
-        return false
-      } else {
+    dispatch(createUser(userData))
+      .then((res) => {
         alert("Registration Successful")
-
         navigate("/login")
-      }
-    })
+      })
+      .catch((error) => {
+        setTimeout(() => {
+          dispatch(clearUserLogin())
+        }, 3000)
+      })
   }
   const password = watch("password")
   const retryPassword = watch("retryPassword")
@@ -298,16 +304,11 @@ const Registration = () => {
             </>
           )}
         />
-        {userStore.error && (
-          <p
-            style={{
-              color: theme.palette.error.main,
-              fontSize: theme.typography.fontSize,
-              margin: "0",
-            }}
-          >
-            {userStore.error}
-          </p>
+        {userStore.error.message && (
+          <ErrorComponent
+            message={userStore.error.message}
+            statusCode={userStore.error.statusCode}
+          />
         )}
         <SubmitBtn type="submit">Register</SubmitBtn>
       </FormContainerLoginRegister>

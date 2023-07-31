@@ -268,6 +268,11 @@ const NavigationRight = () => {
           }}
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
+          PaperProps={{
+            style: {
+              backgroundColor: theme.palette.common.white,
+            },
+          }}
         >
           {(currentUser
             ? currentUser.role === "admin"
@@ -279,7 +284,6 @@ const NavigationRight = () => {
               key={setting}
               onClick={handleCloseUserMenu}
               style={{
-                backgroundColor: theme.palette.common.white,
                 color: theme.palette.common.black,
               }}
             >

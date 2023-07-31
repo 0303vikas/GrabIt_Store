@@ -26,35 +26,32 @@ beforeEach(() => {
 
 describe("Testing User Reducer", () => {
   test("Test initial State of store", () => {
-    const state = userReducer(undefined, {type: 'unknown'})
+    const state = userReducer(undefined, { type: "unknown" })
     expect(state).toEqual({
-        users: [],
-        loading: false,
-        error: ""
+      users: [],
+      loading: false,
+      error: "",
     })
-   
   })
   test("Fetch all Users", async () => {
     await store.dispatch(fetchAllUsers())
     expect(store.getState().user.users.length).toBe(3)
   })
-  test.only('Create User', async() => {
+  test.only("Create User", async () => {
     const user: UserType = {
-        id: 1,
-        email: "test@gmail.com",
-        role: "customer",
-        password: "tester",
-        name: "Tester",
-        avatar: ""
+      id: 1,
+      email: "test@gmail.com",
+      role: "customer",
+      password: "tester",
+      name: "Tester",
+      avatar: "",
     }
     const state = userReducer(undefined, createUserLocally(user))
-    expect(state).toEqual(
-        {
-            users: [user],
-            loading: false,
-            error: ""
-        }
-    )
+    expect(state).toEqual({
+      users: [user],
+      loading: false,
+      error: "",
+    })
   })
 })
 

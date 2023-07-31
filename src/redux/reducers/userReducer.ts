@@ -4,21 +4,23 @@ import axios, { AxiosError } from "axios"
 import { UserLoginType, UserType } from "../../types/User"
 import { NewUserType } from "../../types/NewUser"
 import { imageUpload } from "./image/imageUpload"
+import { ErrorMessageType } from "../../types/ErrorType"
 
 const initialState: {
   users: UserType[]
   loading: boolean
   authloading: boolean
-  error: string
+  error: ErrorMessageType
   currentUser?: UserType
   imageString?: string
-  registered: boolean
 } = {
   users: [],
   loading: false,
-  error: "",
+  error: {
+    message: "",
+    statusCode: 200,
+  },
   authloading: true,
-  registered: false,
 }
 
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
@@ -49,10 +51,7 @@ export const createUser = createAsyncThunk(
       .then((newUser) => newUser.data)
       .catch((e) => {
         const error = e as AxiosError
-        if (error.response) {
-          return JSON.stringify(error.response.data)
-        }
-        return error.message
+        return error
       })
 
     return imageString
@@ -70,10 +69,7 @@ export const updateUser = createAsyncThunk(
       return request.data
     } catch (e) {
       const error = e as AxiosError
-      if (error.response) {
-        return JSON.stringify(error.response.data)
-      }
-      return error.message
+      return error
     }
   }
 )
@@ -125,8 +121,12 @@ const userSlice = createSlice({
     createUserLocally: (state, action: PayloadAction<UserType>) => {
       state.users.push(action.payload)
     },
+    clearUserError: (state) => {
+      state.error = initialState.error
+    },
     clearUserLogin: (state) => {
       state.currentUser = initialState.currentUser
+      state.error = initialState.error
       state.authloading = false
     },
     clearAllUsers: (state) => {
@@ -141,27 +141,25 @@ const userSlice = createSlice({
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
+          state.error = action.payload.response?.data as ErrorMessageType
         } else {
           state.users = action.payload
         }
         state.loading = false
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
-        state.error = "Cannot fetch data"
+        state.error = { message: "Cannot fetch data", statusCode: 500 }
       })
       .addCase(createUser.fulfilled, (state, action) => {
-        state.registered = true
-        if (typeof action.payload === "string") {
-          state.error = action.payload
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.response?.data as ErrorMessageType
         } else {
           state.users.push(action.payload)
         }
-        state.registered = true
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        if (typeof action.payload === "string") {
-          state.error = action.payload
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.response?.data as ErrorMessageType
         } else {
           const newdata = action.payload
           const updatedUsers = state.users.map((user) => {
@@ -179,7 +177,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
+          state.error = action.payload.response?.data as ErrorMessageType
         } else {
           state.currentUser = action.payload
         }
@@ -188,9 +186,7 @@ const userSlice = createSlice({
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
-          clearUserLogin()
-          localStorage.clear()
+          state.error = action.payload.response?.data as ErrorMessageType
         } else {
           state.currentUser = action.payload
         }
@@ -201,7 +197,7 @@ const userSlice = createSlice({
       })
       .addCase(imageUpload.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
+          state.error = action.payload.response?.data as ErrorMessageType
         } else {
           state.imageString = action.payload
         }
@@ -211,6 +207,10 @@ const userSlice = createSlice({
 })
 
 const userReducer = userSlice.reducer
-export const { clearAllUsers, createUserLocally, clearUserLogin } =
-  userSlice.actions
+export const {
+  clearAllUsers,
+  createUserLocally,
+  clearUserLogin,
+  clearUserError,
+} = userSlice.actions
 export default userReducer

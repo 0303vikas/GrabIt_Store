@@ -4,8 +4,8 @@ import { Box } from "@mui/system"
 
 const ContainerProductCategory = styled("section")(({ theme }) => ({
   background: alpha(theme.palette.common.white, 1),
-  width: "98.99vw",
-  height: "120%",
+  width: "auto",
+  height: "auto",
   border: "0.3vh solid",
   display: "flex",
   flexDirection: "column",

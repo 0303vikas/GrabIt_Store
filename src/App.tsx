@@ -7,7 +7,11 @@
  */
 import React, { createContext, useEffect } from "react"
 import { ThemeProvider } from "@mui/material/styles"
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useNavigate,
+} from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"
 import { useAppDispatch } from "./hooks/useAppDispatch"
@@ -20,7 +24,7 @@ import Cart from "./components/Cart"
 import Create from "./components/Create"
 import { Protected } from "./components/Protected"
 import { UpdateProduct } from "./components/UpdateProduct"
-import { authenticateUser } from "./redux/reducers/userReducer"
+import { authenticateUser, clearUserLogin } from "./redux/reducers/userReducer"
 import { SingleProduct } from "./components/SingleProduct"
 import { useAppSelector } from "./hooks/useAppSelector"
 import Profile from "./components/Profile"
@@ -96,7 +100,7 @@ const appRouter = createBrowserRouter([
 ])
 
 const App = () => {
-  const modeReduxState = useAppSelector((state) => state.mode)
+  const ReduxState = useAppSelector((state) => state)
   const accessToken = localStorage.getItem("userToken")
   const dispatch = useAppDispatch()
 
@@ -104,13 +108,21 @@ const App = () => {
   // get user authenticated
   useEffect(() => {
     if (accessToken) {
-      dispatch(authenticateUser(accessToken))
+      dispatch(authenticateUser(accessToken)).then((d) => {
+        if (
+          d.payload === "authenticateUser.fulfilled" &&
+          ReduxState.user.error.message !== ""
+        ) {
+          localStorage.clear()
+          dispatch(clearUserLogin())
+        }
+      })
     }
   }, [accessToken])
 
   return (
     <>
-      {modeReduxState.mode === "light" ? (
+      {ReduxState.mode.mode === "light" ? (
         <ThemeProvider theme={lightMode}>
           <RouterProvider router={appRouter} />
         </ThemeProvider>

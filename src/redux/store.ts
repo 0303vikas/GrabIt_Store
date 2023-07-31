@@ -35,9 +35,11 @@ const store = configureStore({
     user: {
       users: [],
       loading: false,
-      error: "",
+      error: {
+        message: "",
+        statusCode: 200,
+      },
       authloading: true,
-      registered: false,
     },
     mode: {
       mode: modeData ? "dark" : "light",
