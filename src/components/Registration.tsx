@@ -88,16 +88,15 @@ const Registration = () => {
       },
     }
 
-    dispatch(createUser(userData))
-      .then((res) => {
-        alert("Registration Successful")
-        navigate("/login")
-      })
-      .catch((error) => {
+    dispatch(createUser(userData)).then((res) => {
+      if (userStore.error.message !== "") {
         setTimeout(() => {
           dispatch(clearUserLogin())
         }, 3000)
-      })
+      }
+      alert("Registration Successful")
+      navigate("/login")
+    })
   }
   const password = watch("password")
   const retryPassword = watch("retryPassword")

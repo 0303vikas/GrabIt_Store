@@ -44,18 +44,20 @@ const CategoryServer = setupServer(
     }
   ),
   rest.put<CategoryType>(
-    "https://api.escuelajs.co/api/v1/categories/1",
+    "https://api.escuelajs.co/api/v1/categories/:CategoryId",
     async (req, res, ctx) => {
       const newData = (await req.json()) as UpdateCategoryType
-      const currentUrl = (await req.url).toString()
-      const urlArray = currentUrl.split("/")
-      let id = Number(urlArray.pop())
+      // const currentUrl = (await req.url).toString()
+      // const urlArray = currentUrl.split("/")
+      const { CategoryId } = req.params
 
       const error: string[] = []
-      let findCategory = Categories.find((item) => item.id === id)
+      let findCategory = Categories.find(
+        (item) => item.id === Number(CategoryId)
+      )
 
       if (!findCategory) {
-        error.push(`Category with id ${id} doesn't exist`)
+        error.push(`Category with id ${CategoryId} doesn't exist`)
       }
 
       if (error.length > 0) {
@@ -73,17 +75,17 @@ const CategoryServer = setupServer(
     }
   ),
   rest.delete<boolean>(
-    "https://api.escuelajs.co/api/v1/categories/1",
+    "https://api.escuelajs.co/api/v1/categories/:CategoryId",
     async (req, res, ctx) => {
-      // get url, turn to string, split into array and pop the last element of array, which is the id
-      const currentUrl = (await req.url).toString().split("/").pop()
-      let id = Number(currentUrl)
+      const { CategoryId } = req.params
 
       let error: string = ""
-      let findCategory = Categories.find((item) => item.id === id)
+      let findCategory = Categories.find(
+        (item) => item.id === Number(CategoryId)
+      )
 
       if (!findCategory) {
-        error = `Category with id ${id} doesn't exist`
+        error = `Category with id ${CategoryId} doesn't exist`
       }
 
       if (error !== "") {

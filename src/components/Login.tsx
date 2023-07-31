@@ -83,7 +83,7 @@ const Login = () => {
     }
 
     dispatch(loginUser(loginData)).then((data) => {
-      if (data.type === "login/fulfilled" && userStore.error.message !== "") {
+      if (data.type === "login/fulfilled" && userStore.error.message === "") {
         alert("User Logged In Successfully")
         navigate("/")
       } else {

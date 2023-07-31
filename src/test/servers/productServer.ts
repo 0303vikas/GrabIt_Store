@@ -64,22 +64,42 @@ const productServer = setupServer(
     }
   ),
   rest.put<ProductType[]>(
-    `https://api.escuelajs.co/api/v1/products/${updatedProduct4.id}`,
+    `https://api.escuelajs.co/api/v1/products/:ProductId`,
     async (req, res, ctx) => {
       const newProduct = await req.json()
+      const { ProductId } = req.params
+
+      const error: string[] = []
+
+      const findProduct = Products.find((item) => item.id === Number(ProductId))
+
+      if (!findProduct) {
+        error.push(`Category with id ${ProductId} doesn't exist`)
+      }
+
+      if (error.length > 0) {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            statusCode: 400,
+            message: error,
+            error: "Bad Request",
+          })
+        )
+      }
       const updatedProduct = { ...product4, ...newProduct }
       return res(ctx.json(updatedProduct))
     }
   ),
   rest.delete<boolean>(
-    "https://api.escuelajs.co/api/v1/products/1",
+    "https://api.escuelajs.co/api/v1/products/:ProductId",
     async (req, res, ctx) => {
-      const id = 1
+      const { ProductId } = req.params
       let error: string = ""
 
-      if (!id) {
+      if (!ProductId) {
         error = "Needs to provide Id"
-      } else if (!Products.find((item) => item.id === Number(id))) {
+      } else if (!Products.find((item) => item.id === Number(ProductId))) {
         error = "Id doesn't match any product"
       }
 
@@ -93,6 +113,7 @@ const productServer = setupServer(
           })
         )
       }
+
       return res(ctx.json(true))
     }
   )
